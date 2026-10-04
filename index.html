@@ -1222,406 +1222,617 @@ function clamp(value,min,max){
    GERADOR DE SENSIBILIDADE
 ========================================================= */
 
+<script>
+/* =========================================================
+   SENSIX — SISTEMA PRINCIPAL
+========================================================= */
+
+const models = {
+
+Samsung:[
+["Galaxy A15 5G",90,890],
+["Galaxy A16 5G",90,850],
+["Galaxy A25 5G",120,900],
+["Galaxy A26 5G",120,900],
+["Galaxy A35 5G",120,950],
+["Galaxy A36 5G",120,950],
+["Galaxy A55 5G",120,960],
+["Galaxy A56 5G",120,1000],
+["Galaxy S23",120,1100],
+["Galaxy S23 FE",120,1050],
+["Galaxy S24",120,1100],
+["Galaxy S24 FE",120,1050],
+["Galaxy S25",120,1150],
+["Galaxy S25 FE",120,1100],
+["Galaxy S25 Ultra",120,1200],
+["Galaxy Z Flip 6",120,1050]
+],
+
+Motorola:[
+["Moto G23",90,850],
+["Moto G54 5G",120,900],
+["Moto G55 5G",120,900],
+["Moto G64 5G",120,950],
+["Moto G75 5G",120,950],
+["Moto G85 5G",120,1000],
+["Moto G86 5G",120,1000],
+["Moto G67 5G",120,1000],
+["Moto G77 5G",120,1000],
+["Edge 40",144,1050],
+["Edge 40 Neo",144,1050],
+["Edge 50 Fusion",120,1050],
+["Edge 50 Pro",144,1100],
+["Edge 50 Ultra",144,1150],
+["Edge 60 Fusion",120,1100]
+],
+
+Xiaomi:[
+["Xiaomi 13",120,1050],
+["Xiaomi 13T",144,1100],
+["Xiaomi 13T Pro",144,1150],
+["Xiaomi 14",120,1100],
+["Xiaomi 14T",144,1150],
+["Xiaomi 14T Pro",144,1200],
+["Xiaomi 15",120,1200],
+["Xiaomi 15 Pro",120,1200]
+],
+
+Redmi:[
+["Redmi Note 13",120,900],
+["Redmi Note 13 5G",120,950],
+["Redmi Note 13 Pro",120,1000],
+["Redmi Note 13 Pro+",120,1050],
+["Redmi Note 14",120,950],
+["Redmi Note 14 5G",120,1000],
+["Redmi Note 14 Pro 5G",120,1050],
+["Redmi Note 14 Pro+ 5G",120,1100]
+],
+
+POCO:[
+["POCO X5 Pro 5G",120,1000],
+["POCO X6",120,1050],
+["POCO X6 Pro",120,1100],
+["POCO X7",120,1100],
+["POCO X7 Pro",120,1150],
+["POCO F5",120,1100],
+["POCO F5 Pro",120,1150],
+["POCO F6",120,1200],
+["POCO F6 Pro",120,1250]
+],
+
+Realme:[
+["Realme 11 5G",120,900],
+["Realme 12 5G",120,950],
+["Realme 12 Pro+",120,1050],
+["Realme 13 5G",120,1000],
+["Realme 13 Pro+",120,1100],
+["Realme GT 5",144,1150],
+["Realme GT 6",120,1200],
+["Realme GT 7",120,1200]
+],
+
+iPhone:[
+["iPhone 11",60,0],
+["iPhone 12",60,0],
+["iPhone 13",60,0],
+["iPhone 14",60,0],
+["iPhone 15",60,0],
+["iPhone 16",60,0],
+["iPhone 16e",60,0],
+["iPhone 13 Pro",120,0],
+["iPhone 14 Pro",120,0],
+["iPhone 15 Pro",120,0],
+["iPhone 16 Pro",120,0]
+],
+
+ASUS:[
+["ROG Phone 6",165,1200],
+["ROG Phone 7",165,1250],
+["ROG Phone 8",165,1300],
+["ROG Phone 9",185,1350],
+["Zenfone 10",144,1150],
+["Zenfone 11 Ultra",144,1200]
+],
+
+Infinix:[
+["Infinix Note 30",120,900],
+["Infinix Note 40",120,950],
+["Infinix Note 50",144,1050],
+["Infinix GT 20 Pro",144,1150],
+["Infinix GT 30 Pro",144,1200]
+],
+
+OnePlus:[
+["OnePlus 11",120,1150],
+["OnePlus 12",120,1200],
+["OnePlus 12R",120,1150],
+["OnePlus 13",120,1250],
+["OnePlus Nord 3",120,1050],
+["OnePlus Nord 4",120,1100]
+],
+
+Huawei:[
+["Huawei P60 Pro",120,1000],
+["Huawei Mate 60 Pro",120,1050],
+["Huawei Nova 12",120,950]
+],
+
+Oppo:[
+["OPPO A79 5G",90,850],
+["OPPO Reno 10",120,1000],
+["OPPO Reno 11",120,1050],
+["OPPO Reno 12",120,1050],
+["OPPO Reno 13",120,1100]
+],
+
+Vivo:[
+["Vivo V25",90,900],
+["Vivo V27",120,1000],
+["Vivo V29",120,1050],
+["Vivo V30",120,1100],
+["Vivo V40",120,1100],
+["Vivo V50",120,1150]
+],
+
+Honor:[
+["HONOR X7b",90,850],
+["HONOR X8b",90,900],
+["HONOR X8c",120,950],
+["HONOR 90",120,1050],
+["HONOR 200",120,1100],
+["HONOR 400",120,1150]
+],
+
+Nokia:[
+["Nokia G60 5G",120,900],
+["Nokia XR21",120,950]
+],
+
+Outros:[
+["Android 60Hz",60,800],
+["Android 90Hz",90,850],
+["Android 120Hz",120,950]
+]
+
+};
+
+
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const chips = document.getElementById("chips");
+
+
+/* =========================================================
+   CARREGAR MODELOS
+========================================================= */
+
+function loadModels(){
+
+    model.innerHTML = "";
+
+    const list = models[brand.value] || models.Outros;
+
+    list.forEach((item,index)=>{
+
+        const option = document.createElement("option");
+
+        option.value = index;
+
+        option.textContent = `${item[0]} — ${item[1]}Hz`;
+
+        model.appendChild(option);
+
+    });
+
+    chips.innerHTML = list
+        .slice(0,7)
+        .map(item =>
+            `<span class="chip">${item[0]} • ${item[1]}Hz</span>`
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   TROCA DE MARCA
+========================================================= */
+
+brand.addEventListener("change",loadModels);
+
+
+/* =========================================================
+   LIMITADOR
+========================================================= */
+
+function clamp(value,min,max){
+
+    return Math.max(
+        min,
+        Math.min(max,Math.round(value))
+    );
+
+}
+
+
+/* =========================================================
+   GERADOR DE SENSIBILIDADE
+========================================================= */
+
 function generate(){
 
-    const list =
-        models[brand.value] || models.Outros;
+    const list = models[brand.value] || models.Outros;
 
-    const index =
-        Number(model.value) || 0;
+    const index = Number(model.value) || 0;
 
-    const item =
-        list[index];
-
-    if(!item){
-        return;
-    }
+    const item = list[index] || list[0];
 
     const name = item[0];
     const hz = item[1];
     const maxDpi = item[2];
 
-    const style =
-        document.getElementById("style").value;
+    const style = document.getElementById("style").value;
+    const profile = document.getElementById("profile").value;
 
-    const profile =
-        document.getElementById("profile").value;
+    let base;
 
-
-    /* BASE DA SENSI */
-
-    let base = 155;
-
-
-    /* TAXA DA TELA */
+    /* Base pela taxa de atualização */
 
     if(hz >= 165){
-
         base = 165;
-
-    }else if(hz >= 144){
-
+    }
+    else if(hz >= 144){
         base = 162;
-
-    }else if(hz >= 120){
-
+    }
+    else if(hz >= 120){
         base = 158;
-
-    }else if(hz >= 90){
-
-        base = 155;
-
-    }else{
-
-        base = 150;
-
+    }
+    else if(hz >= 90){
+        base = 154;
+    }
+    else{
+        base = 149;
     }
 
 
-    /* AJUSTE POR ESTILO */
+    /* Ajuste pelo estilo */
 
-    const styleAdjust = {
+    const styleBonus = {
 
-        capa:8,
-
-        rush:12,
-
-        precisao:-7,
-
-        equilibrada:0
+        capa: 8,
+        rush: 13,
+        precisao: -5,
+        equilibrada: 2
 
     };
 
-    base +=
-        styleAdjust[style] || 0;
+    base += styleBonus[style] || 0;
 
 
-    /* AJUSTE POR PERFIL */
+    /* Ajuste pelo perfil */
 
-    const profileAdjust = {
+    const profileBonus = {
 
-        normal:0,
-
-        agressiva:7,
-
-        controlada:-5
+        normal: 0,
+        agressiva: 7,
+        controlada: -5
 
     };
 
-    base +=
-        profileAdjust[profile] || 0;
+    base += profileBonus[profile] || 0;
 
 
-    /* SENSIBILIDADES */
+    /* Sensibilidades */
 
-    const geral =
-        clamp(base,1,200);
+    const geral = clamp(base,80,200);
 
-    const redDot =
-        clamp(base-8,1,200);
+    const redDot = clamp(base + 5,80,200);
 
-    const mira2x =
-        clamp(base-15,1,200);
+    const mira2x = clamp(base + 1,75,200);
 
-    const mira4x =
-        clamp(base-25,1,200);
+    const mira4x = clamp(base - 8,70,200);
 
-    const awm =
-        clamp(base-38,1,200);
+    const awm = clamp(base - 18,50,200);
 
-    const olhadinha =
-        clamp(base-5,1,200);
+    const olhadinha = clamp(base + 4,70,200);
 
 
-    /* =====================================================
-       DPI
-    ===================================================== */
+    /* DPI */
 
-    let dpi = "Padrão iOS";
+    let dpi;
 
     if(maxDpi > 0){
 
-        const minDpi = 200;
+        const minimumDpi = 200;
 
-        let dpiPercent = 0.55;
-
-        if(style === "capa"){
-            dpiPercent = 0.88;
-        }
-
-        if(style === "rush"){
-            dpiPercent = 0.93;
-        }
-
-        if(style === "precisao"){
-            dpiPercent = 0.68;
-        }
-
-        if(style === "equilibrada"){
-            dpiPercent = 0.78;
-        }
-
-
-        if(profile === "agressiva"){
-            dpiPercent += 0.04;
-        }
-
-        if(profile === "controlada"){
-            dpiPercent -= 0.04;
-        }
-
-
-        dpiPercent =
+        const ratio = Math.min(
+            1,
             Math.max(
-                0.35,
-                Math.min(0.98,dpiPercent)
-            );
+                0,
+                (base - 130) / 45
+            )
+        );
 
+        dpi = minimumDpi +
+            ((maxDpi - minimumDpi) * ratio);
 
         dpi = clamp(
-            minDpi +
-            ((maxDpi-minDpi)*dpiPercent),
-            minDpi,
+            dpi,
+            minimumDpi,
             maxDpi
         );
 
     }
+    else{
+
+        dpi = "Padrão";
+
+    }
 
 
-    /* =====================================================
-       BOTÃO DE ATIRAR
-    ===================================================== */
+    /* Botão de atirar */
 
-    const buttonSizes = {
+    let buttonSize;
 
-        capa:"48%",
+    if(style === "capa"){
+        buttonSize = 48;
+    }
+    else if(style === "rush"){
+        buttonSize = 53;
+    }
+    else if(style === "precisao"){
+        buttonSize = 43;
+    }
+    else{
+        buttonSize = 50;
+    }
 
-        rush:"55%",
+    if(profile === "agressiva"){
+        buttonSize += 3;
+    }
 
-        precisao:"42%",
+    if(profile === "controlada"){
+        buttonSize -= 2;
+    }
 
-        equilibrada:"50%"
-
-    };
-
-    const buttonSize =
-        buttonSizes[style] || "50%";
-
-
-    /* =====================================================
-       MOSTRAR RESULTADO
-    ===================================================== */
-
-    const names = [
-
-        "Geral",
-
-        "Red Dot",
-
-        "Mira 2x",
-
-        "Mira 4x",
-
-        "AWM",
-
-        "Olhadinha"
-
-    ];
+    buttonSize = clamp(
+        buttonSize,
+       35,
+       65
+    );
 
 
-    const values = [
+    /* Mostrar resultado */
 
-        geral,
+    document.getElementById("preset").textContent =
+        `${name} • ${style.toUpperCase()}`;
 
-        redDot,
+    document.getElementById("stats").innerHTML = `
 
-        mira2x,
+        <div class="stat">
+            <small>Geral</small>
+            <strong>${geral}</strong>
+        </div>
 
-        mira4x,
+        <div class="stat">
+            <small>Ponto Vermelho</small>
+            <strong>${redDot}</strong>
+        </div>
 
-        awm,
+        <div class="stat">
+            <small>Mira 2x</small>
+            <strong>${mira2x}</strong>
+        </div>
 
-        olhadinha
+        <div class="stat">
+            <small>Mira 4x</small>
+            <strong>${mira4x}</strong>
+        </div>
 
-    ];
+        <div class="stat">
+            <small>Mira AWM</small>
+            <strong>${awm}</strong>
+        </div>
 
+        <div class="stat">
+            <small>Olhadinha</small>
+            <strong>${olhadinha}</strong>
+        </div>
 
-    document.getElementById("stats").innerHTML =
-
-        names.map((name,i)=>`
-
-            <div class="stat">
-
-                <small>${name}</small>
-
-                <strong>${values[i]}</strong>
-
-            </div>
-
-        `).join("");
+    `;
 
 
     document.getElementById("dpi").textContent =
-        dpi === "Padrão iOS"
-        ? dpi
-        : dpi;
+        dpi === "Padrão"
+        ? "Padrão"
+        : `${dpi} DPI`;
 
 
     document.getElementById("btnSize").textContent =
-        buttonSize;
+        `${buttonSize}%`;
 
 
-    let preset = "EQUILIBRADA";
-
-    if(style === "capa"){
-        preset = "HEADSHOT";
-    }
-
-    if(style === "rush"){
-        preset = "RUSH";
-    }
-
-    if(style === "precisao"){
-        preset = "PRECISÃO";
-    }
-
-
-    document.getElementById("preset").textContent =
-        preset;
-
-
-    document
-        .getElementById("result")
+    document.getElementById("result")
         .classList.add("show");
 
 
-    /* =====================================================
-       TEXTO PARA COPIAR
-    ===================================================== */
+    /* Scroll suave no celular */
 
-    window.currentSensi =
+    setTimeout(()=>{
 
-`SENSIX — ${name}
-Celular: ${name}
-Tela: ${hz}Hz
+        document.getElementById("result")
+            .scrollIntoView({
+                behavior:"smooth",
+                block:"nearest"
+            });
 
-Geral: ${geral}
-Red Dot: ${redDot}
-Mira 2x: ${mira2x}
-Mira 4x: ${mira4x}
-AWM: ${awm}
-Olhadinha: ${olhadinha}
-
-DPI: ${dpi}
-Botão de Atirar: ${buttonSize}
-
-Estilo: ${style}
-Perfil: ${profile}`;
-
+    },100);
 
 }
 
 
 /* =========================================================
-   COPIAR SENSI
+   COPIAR CONFIGURAÇÃO
 ========================================================= */
 
 function copySensi(){
 
-    if(!window.currentSensi){
+    const stats = document.getElementById("stats");
 
-        generate();
+    const values = [...stats.querySelectorAll(".stat")];
+
+    let text =
+`SENSIX — CONFIGURAÇÃO FREE FIRE
+
+`;
+
+    values.forEach(stat=>{
+
+        const name =
+            stat.querySelector("small").textContent;
+
+        const value =
+            stat.querySelector("strong").textContent;
+
+        text += `${name}: ${value}\n`;
+
+    });
+
+    text +=
+`\nDPI: ${document.getElementById("dpi").textContent}`;
+
+    text +=
+`\nBotão de atirar: ${document.getElementById("btnSize").textContent}`;
+
+
+    if(navigator.clipboard){
+
+        navigator.clipboard.writeText(text)
+        .then(()=>{
+
+            alert("✅ Configuração copiada!");
+
+        })
+        .catch(()=>{
+
+            fallbackCopy(text);
+
+        });
 
     }
+    else{
 
-    if(
-        navigator.clipboard &&
-        window.currentSensi
-    ){
-
-        navigator.clipboard.writeText(
-            window.currentSensi
-        );
-
-    }
-
-    const button =
-        document.querySelector(
-            ".actions .secondary"
-        );
-
-    if(button){
-
-        const original =
-            button.textContent;
-
-        button.textContent =
-            "✅ Copiado!";
-
-        setTimeout(()=>{
-
-            button.textContent =
-                original;
-
-        },1500);
+        fallbackCopy(text);
 
     }
 
 }
 
 
+function fallbackCopy(text){
+
+    const area =
+        document.createElement("textarea");
+
+    area.value = text;
+
+    document.body.appendChild(area);
+
+    area.select();
+
+    try{
+
+        document.execCommand("copy");
+
+        alert("✅ Configuração copiada!");
+
+    }
+    catch{
+
+        alert("Não foi possível copiar automaticamente.");
+
+    }
+
+    area.remove();
+
+}
+
+
 /* =========================================================
-   FEEDBACK
+   SISTEMA DE ESTRELAS
 ========================================================= */
 
 let selectedRating = 0;
 
-
-document
-    .querySelectorAll(".feedback-star")
-    .forEach(star=>{
-
-        star.addEventListener("click",()=>{
-
-            selectedRating =
-                Number(star.dataset.star);
+const starButtons =
+    document.querySelectorAll(".feedback-star");
 
 
-            document
-                .querySelectorAll(".feedback-star")
-                .forEach(item=>{
+starButtons.forEach(button=>{
 
-                    item.classList.toggle(
+    button.addEventListener("click",()=>{
 
-                        "active",
+        selectedRating =
+            Number(button.dataset.star);
 
-                        Number(item.dataset.star)
-                        <= selectedRating
-
-                    );
-
-                });
-
-        });
+        updateStars();
 
     });
 
+});
+
+
+function updateStars(){
+
+    starButtons.forEach(button=>{
+
+        const value =
+            Number(button.dataset.star);
+
+        button.classList.toggle(
+            "active",
+            value <= selectedRating
+        );
+
+    });
+
+}
+
 
 /* =========================================================
-   LER FEEDBACKS
+   STORAGE
 ========================================================= */
+
+const STORAGE_KEY =
+    "sensix_feedbacks_v1";
+
 
 function getFeedbacks(){
 
     try{
 
-        return JSON.parse(
-            localStorage.getItem(
-                "sensix_feedbacks"
-            ) || "[]"
-        );
+        const data =
+            localStorage.getItem(STORAGE_KEY);
 
-    }catch(e){
+        if(!data){
+
+            return [];
+
+        }
+
+        const parsed =
+            JSON.parse(data);
+
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
+
+    }
+    catch{
 
         return [];
 
@@ -1630,45 +1841,51 @@ function getFeedbacks(){
 }
 
 
+function saveFeedbacks(list){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(list)
+    );
+
+}
+
+
 /* =========================================================
-   SALVAR FEEDBACK
+   ENVIAR FEEDBACK
 ========================================================= */
 
 function sendFeedback(){
 
     const text =
-        document
-        .getElementById("feedbackText")
+        document.getElementById("feedbackText")
         .value
         .trim();
 
-
     const message =
-        document.getElementById(
-            "feedbackMessage"
-        );
+        document.getElementById("feedbackMessage");
 
 
-    if(selectedRating === 0){
+    if(selectedRating < 1){
 
         message.textContent =
             "⭐ Escolha uma nota de 1 a 5 estrelas.";
 
         message.style.color =
-            "var(--yellow)";
+            "#ff7186";
 
         return;
 
     }
 
 
-    if(text.length === 0){
+    if(text.length < 3){
 
         message.textContent =
-            "✍️ Escreva um comentário antes de enviar.";
+            "✍️ Escreva pelo menos algumas palavras.";
 
         message.style.color =
-            "var(--yellow)";
+            "#ff7186";
 
         return;
 
@@ -1681,47 +1898,254 @@ function sendFeedback(){
 
     feedbacks.unshift({
 
-        estrelas:selectedRating,
+        rating:selectedRating,
 
-        comentario:text,
+        text:text,
 
-        data:new Date().toISOString()
+        date:new Date().toLocaleDateString(
+            "pt-BR"
+        )
 
     });
 
 
-    localStorage.setItem(
+    /* Limite para não lotar o armazenamento */
 
-        "sensix_feedbacks",
+    if(feedbacks.length > 100){
 
-        JSON.stringify(feedbacks)
+        feedbacks.splice(
+            100
+        );
 
-    );
+    }
 
 
-    document
-        .getElementById("feedbackText")
+    saveFeedbacks(feedbacks);
+
+
+    document.getElementById("feedbackText")
         .value = "";
-
 
     selectedRating = 0;
 
-
-    document
-        .querySelectorAll(".feedback-star")
-        .forEach(star=>{
-
-            star.classList.remove("active");
-
-        });
-
+    updateStars();
 
     message.textContent =
-        "✅ Avaliação enviada com sucesso!";
-
+        "✅ Avaliação salva com sucesso!";
 
     message.style.color =
-        "var(--green)";
+        "#35e58b";
+
+
+    renderFeedbacks();
+
+    setTimeout(()=>{
+
+        message.textContent = "";
+
+    },3000);
+
+}
+
+
+/* =========================================================
+   ESCAPAR HTML
+========================================================= */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   ESTRELAS VISUAIS
+========================================================= */
+
+function starsHTML(rating){
+
+    let result = "";
+
+    for(let i=1;i<=5;i++){
+
+        result +=
+            i <= rating
+            ? "★"
+            : "☆";
+
+    }
+
+    return result;
+
+}
+
+
+/* =========================================================
+   PAINEL PÚBLICO LOCAL
+========================================================= */
+
+function renderFeedbacks(){
+
+    const list =
+        getFeedbacks();
+
+    const container =
+        document.getElementById("feedbackList");
+
+
+    if(list.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty-feedback">
+
+                Ainda não existem avaliações.
+                Seja o primeiro a avaliar! ⭐
+
+            </div>
+
+        `;
+
+        updateAverage([]);
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        list.map(feedback=>`
+
+            <div class="feedback-item">
+
+                <div class="feedback-item-top">
+
+                    <div class="feedback-item-stars">
+
+                        ${starsHTML(
+                            Number(feedback.rating)
+                        )}
+
+                    </div>
+
+                    <div class="feedback-date">
+
+                        ${escapeHTML(
+                            feedback.date || ""
+                        )}
+
+                    </div>
+
+                </div>
+
+                <div class="feedback-comment">
+
+                    ${escapeHTML(
+                        feedback.text
+                    )}
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+
+    updateAverage(list);
+
+}
+
+
+/* =========================================================
+   MÉDIA DAS AVALIAÇÕES
+========================================================= */
+
+function updateAverage(list){
+
+    const averageElement =
+        document.getElementById("averageRating");
+
+    const starsElement =
+        document.getElementById("averageStars");
+
+
+    if(!list.length){
+
+        averageElement.textContent =
+            "0.0";
+
+        starsElement.textContent =
+            "☆☆☆☆☆";
+
+        return;
+
+    }
+
+
+    const total =
+        list.reduce(
+            (sum,item)=>
+                sum + Number(item.rating || 0),
+            0
+        );
+
+
+    const average =
+        total / list.length;
+
+
+    averageElement.textContent =
+        average.toFixed(1);
+
+
+    const rounded =
+        Math.round(average);
+
+
+    starsElement.textContent =
+        starsHTML(rounded);
+
+}
+
+
+/* =========================================================
+   LIMPAR FEEDBACKS
+========================================================= */
+
+function clearFeedbacks(){
+
+    const list =
+        getFeedbacks();
+
+    if(!list.length){
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Tem certeza que deseja apagar todas as avaliações salvas neste dispositivo?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        STORAGE_KEY
+    );
 
 
     renderFeedbacks();
@@ -1730,32 +2154,33 @@ function sendFeedback(){
 
 
 /* =========================================================
-   MOSTRAR AVALIAÇÕES
+   INICIALIZAÇÃO
 ========================================================= */
 
-function renderFeedbacks(){
+loadModels();
 
-    const list =
-        document.getElementById(
-            "feedbackList"
+renderFeedbacks();
+
+updateStars();
+
+
+/* =========================================================
+   EVITAR ERROS CASO O NAVEGADOR TENHA ALGUM PROBLEMA
+========================================================= */
+
+window.addEventListener(
+    "error",
+    function(event){
+
+        console.error(
+            "SensiX:",
+            event.error || event.message
         );
 
+    }
+);
 
-    const feedbacks =
-        getFeedbacks();
-
-
-    if(feedbacks.length === 0){
-
-        list.innerHTML = `
-
-            <div class="empty-feedback">
-
-                Ainda não existem avaliações.
-                Seja o primeiro a avaliar o SensiX! ⭐
-
-            </div>
-
+</script>
         `;
 
         updateAverage([]);
