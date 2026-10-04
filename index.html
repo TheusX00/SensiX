@@ -1281,4 +1281,190 @@ function generateIphoneSensi(level){
 
 }
 
+<!-- RESULTADO -->
+
+<section class="card result" id="result">
+
+<div class="resultTop">
+<h2>🎯 Sua configuração</h2>
+<span class="preset" id="preset">PRESET</span>
+</div>
+
+<div class="sensi" id="stats"></div>
+
+<div class="dpi-box">
+
+<div class="dpi">
+<span>DPI recomendado</span>
+<strong id="dpi">—</strong>
+</div>
+
+<div class="dpi">
+<span>Botão de atirar</span>
+<strong id="btnSize">—</strong>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="secondary" onclick="copySensi()">
+📋 Copiar
+</button>
+
+<button class="secondary" onclick="generate()">
+🔄 Outra Sensi
+</button>
+
+</div>
+
+<p class="tip">
+💡 Os valores são sugestões iniciais. Teste no campo de treinamento
+e faça pequenos ajustes de acordo com sua jogabilidade.
+</p>
+
+</section>
+
+</div>
+
+<!-- PREMIUM -->
+
+<section class="premium-wrap">
+
+<div class="premium">
+
+<div class="premium-head">
+
+<div>
+
+<h2>
+👑 SensiX <span>PREMIUM</span>
+</h2>
+
+<p>
+Novos recursos avançados estão sendo preparados para o SensiX.
+</p>
+
+</div>
+
+<span class="premium-badge">
+PREMIUM
+</span>
+
+</div>
+
+<div class="premium-locked">
+
+<div class="lock-icon">🚧</div>
+
+<h3>PREMIUM EM DESENVOLVIMENTO</h3>
+
+<p>
+Esta área está temporariamente bloqueada.
+Nenhuma compra ou pagamento é necessário neste momento.
+</p>
+
+<span class="dev-badge">
+🔒 EM DESENVOLVIMENTO
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEEDBACK -->
+
+<section class="feedback-section">
+
+<div class="feedback-header">
+
+<div>
+
+<h2>⭐ Avalie o SensiX</h2>
+
+<p>
+Sua opinião ajuda a melhorar o site.
+</p>
+
+</div>
+
+<div class="rating-summary">
+
+<div class="rating-average" id="averageRating">
+0.0
+</div>
+
+<div class="rating-stars" id="averageStars">
+☆☆☆☆☆
+</div>
+
+</div>
+
+</div>
+
+<div class="feedback-stars">
+
+<button type="button" class="feedback-star" data-star="1">★</button>
+<button type="button" class="feedback-star" data-star="2">★</button>
+<button type="button" class="feedback-star" data-star="3">★</button>
+<button type="button" class="feedback-star" data-star="4">★</button>
+<button type="button" class="feedback-star" data-star="5">★</button>
+
+</div>
+
+<textarea
+id="feedbackText"
+maxlength="500"
+placeholder="Escreva sua opinião sobre o SensiX..."
+></textarea>
+
+<button
+class="feedback-submit"
+type="button"
+onclick="sendFeedback()">
+
+ENVIAR AVALIAÇÃO ⭐
+
+</button>
+
+<p id="feedbackMessage"></p>
+
+</section>
+
+<!-- COMUNIDADE -->
+
+<section class="community">
+
+<h2>👥 Avaliações da comunidade</h2>
+
+<p class="community-sub">
+Veja os feedbacks salvos neste navegador.
+</p>
+
+<div class="feedback-list" id="feedbackList"></div>
+
+<div class="community-actions">
+
+<button
+class="clear-feedback"
+onclick="clearFeedbacks()">
+
+🗑️ Limpar avaliações deste dispositivo
+
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+SensiX © 2026 • Ferramenta independente para configurações de Free Fire.
+
+</footer>
+
  
