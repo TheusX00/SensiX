@@ -13,7 +13,7 @@
 <style>
 
 :root{
-  --bg:#05070b;
+  --bg:#05070b; 
   --card:#0e121b;
   --card2:#111722;
   --line:#27303e;
@@ -989,5 +989,377 @@ return Math.max(
 min,
 Math.min(max,Math.round(value))
 );
+
+}
+
+/* =========================
+   GERAR SENSI
+========================= */
+
+function generate(){
+
+const list=models[brand.value] || models.Outros;
+
+const item=list[Number(model.value)||0];
+
+const name=item[0];
+const hz=item[1];
+const maxDpi=item[2];
+
+const style=document.getElementById("style").value;
+const profile=document.getElementById("profile").value;
+
+
+/* BASE */
+
+let base=155;
+
+
+/* APARELHO */
+
+if(hz>=165){
+base=165;
+}else if(hz>=144){
+base=162;
+}else if(hz>=120){
+base=158;
+}else if(hz>=90){
+base=155;
+}else{
+base=150;
+}
+
+
+/* ESTILO */
+
+if(style==="capa"){
+base+=6;
+}
+
+if(style==="rush"){
+base+=9;
+}
+
+if(style==="precisao"){
+base-=5;
+}
+
+if(style==="equilibrada"){
+base+=1;
+}
+
+
+/* PERFIL */
+
+if(profile==="agressiva"){
+base+=5;
+}
+
+if(profile==="controlada"){
+base-=5;
+}
+
+
+/* SENSIBILIDADES */
+
+const geral=clamp(base,100,200);
+
+const redDot=clamp(
+base-2,
+95,
+200
+);
+
+const mira2x=clamp(
+base-7,
+90,
+195
+);
+
+const mira4x=clamp(
+base-12,
+85,
+190
+);
+
+const awm=clamp(
+base-18,
+75,
+180
+);
+
+const olhadinha=clamp(
+base+3,
+100,
+200
+);
+
+
+/* DPI */
+
+let dpi;
+
+if(maxDpi>0){
+
+dpi=clamp(
+maxDpi-30,
+600,
+maxDpi
+);
+
+}else{
+
+dpi=800;
+
+}
+
+
+/* BOTÃO */
+
+let buttonSize=50;
+
+if(style==="capa"){
+buttonSize=48;
+}
+
+if(style==="rush"){
+buttonSize=52;
+}
+
+if(style==="precisao"){
+buttonSize=45;
+}
+
+if(profile==="agressiva"){
+buttonSize+=2;
+}
+
+if(profile==="controlada"){
+buttonSize-=2;
+}
+
+buttonSize=clamp(
+buttonSize,
+40,
+60
+);
+
+
+/* PRESET */
+
+let preset="EQUILIBRADA";
+
+if(style==="capa"){
+preset="HEADSHOT";
+}
+
+if(style==="rush"){
+preset="RUSH";
+}
+
+if(style==="precisao"){
+preset="PRECISÃO";
+}
+
+
+/* MOSTRAR RESULTADO */
+
+document.getElementById("preset").textContent=preset;
+
+document.getElementById("stats").innerHTML=`
+
+<div class="stat">
+<small>Geral</small>
+<strong>${geral}</strong>
+</div>
+
+<div class="stat">
+<small>Ponto Vermelho</small>
+<strong>${redDot}</strong>
+</div>
+
+<div class="stat">
+<small>Mira 2X</small>
+<strong>${mira2x}</strong>
+</div>
+
+<div class="stat">
+<small>Mira 4X</small>
+<strong>${mira4x}</strong>
+</div>
+
+<div class="stat">
+<small>Mira AWM</small>
+<strong>${awm}</strong>
+</div>
+
+<div class="stat">
+<small>Olhadinha</small>
+<strong>${olhadinha}</strong>
+</div>
+
+`;
+
+document.getElementById("dpi").textContent=
+dpi;
+
+document.getElementById("btnSize").textContent=
+buttonSize+"%";
+
+
+const result=
+document.getElementById("result");
+
+result.classList.add("show");
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+
+/* GUARDAR ÚLTIMA CONFIGURAÇÃO */
+
+const config={
+
+celular:name,
+hz:hz,
+estilo:style,
+perfil:profile,
+geral,
+redDot,
+mira2x,
+mira4x,
+awm,
+olhadinha,
+dpi,
+buttonSize
+
+};
+
+localStorage.setItem(
+"sensix_last_config",
+JSON.stringify(config)
+);
+
+}
+
+
+/* =========================
+   COPIAR SENSI
+========================= */
+
+function copySensi(){
+
+const list=models[brand.value] || models.Outros;
+
+const item=list[Number(model.value)||0];
+
+const style=document.getElementById("style").value;
+const profile=document.getElementById("profile").value;
+
+const text=`
+
+🔥 SensiX — CONFIGURAÇÃO
+
+📱 Celular:
+${item[0]}
+
+⚡ Tela:
+${item[1]}Hz
+
+🎮 Estilo:
+${style}
+
+👤 Perfil:
+${profile}
+
+🎯 Geral:
+${document.querySelectorAll(".stat")[0]?.textContent || "-"}
+
+🔴 Ponto Vermelho:
+${document.querySelectorAll(".stat")[1]?.textContent || "-"}
+
+🔭 Mira 2X:
+${document.querySelectorAll(".stat")[2]?.textContent || "-"}
+
+🔭 Mira 4X:
+${document.querySelectorAll(".stat")[3]?.textContent || "-"}
+
+🎯 Mira AWM:
+${document.querySelectorAll(".stat")[4]?.textContent || "-"}
+
+👀 Olhadinha:
+${document.querySelectorAll(".stat")[5]?.textContent || "-"}
+
+📲 DPI:
+${document.getElementById("dpi").textContent}
+
+🔘 Botão:
+${document.getElementById("btnSize").textContent}
+
+⚡ Gerado pelo SensiX
+`;
+
+
+if(
+navigator.clipboard &&
+window.isSecureContext
+){
+
+navigator.clipboard.writeText(text.trim())
+.then(()=>{
+
+alert("✅ Configuração copiada!");
+
+})
+.catch(()=>{
+
+fallbackCopy(text);
+
+});
+
+}else{
+
+fallbackCopy(text);
+
+}
+
+}
+
+
+/* =========================
+   COPIAR ALTERNATIVO
+========================= */
+
+function fallbackCopy(text){
+
+const textarea=
+document.createElement("textarea");
+
+textarea.value=text;
+
+textarea.style.position="fixed";
+textarea.style.opacity="0";
+
+document.body.appendChild(textarea);
+
+textarea.focus();
+
+textarea.select();
+
+try{
+
+document.execCommand("copy");
+
+alert("✅ Configuração copiada!");
+
+}catch(e){
+
+alert("❌ Não foi possível copiar automaticamente.");
+
+}
+
+textarea.remove();
 
 }
