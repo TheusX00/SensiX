@@ -4,26 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SensiX — Gerador de Sensibilidade para Free Fire</title>
+<title>SensiX — Gerador de Sensi para Free Fire</title>
 
-<meta name="description" content="SensiX é um gerador de sensibilidade para Free Fire com configurações por celular, DPI, botão de atirar, estilos de jogo e avaliações da comunidade.">
+<meta name="description" content="SensiX: gerador de sensibilidade para Free Fire com configurações por celular, DPI, botão de atirar, estilos de jogo, avaliações e área Premium.">
+<meta name="keywords" content="SensiX, sensibilidade Free Fire, sensi Free Fire, DPI Free Fire, gerador de sensi">
 <meta name="robots" content="index, follow">
+<meta name="author" content="SensiX">
+
 <link rel="canonical" href="https://theusx00.github.io/SensiX/">
+
+<meta property="og:title" content="SensiX — Gerador de Sensi para Free Fire">
+<meta property="og:description" content="Gere sua sensibilidade personalizada para Free Fire.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://theusx00.github.io/SensiX/">
 
 <style>
 :root{
-  --bg:#050507;
-  --bg2:#0b0b10;
-  --card:rgba(15,16,22,.94);
-  --card2:#191b24;
-  --line:#292b36;
+  --bg:#050609;
+  --bg2:#0b0d13;
+  --card:rgba(15,17,25,.94);
+  --card2:#151923;
+  --line:#292d3b;
   --text:#fff;
-  --muted:#a4a7b2;
-  --red:#ff3131;
-  --orange:#ff7a00;
+  --muted:#a3a8b7;
+  --red:#ff3030;
+  --orange:#ff7a18;
   --yellow:#ffc400;
-  --purple:#b84cff;
-  --green:#32e28b;
+  --green:#39e69a;
+  --purple:#bd55ff;
+  --shadow:0 20px 60px rgba(0,0,0,.55);
 }
 
 *{
@@ -36,118 +45,194 @@ html{
 
 body{
   margin:0;
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 50% -10%,rgba(255,55,20,.28),transparent 30%),
-    radial-gradient(circle at 0% 45%,rgba(255,122,0,.12),transparent 30%),
-    radial-gradient(circle at 100% 70%,rgba(255,30,30,.12),transparent 30%),
-    linear-gradient(135deg,#030305,#0b0b10 45%,#050507);
   min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%,rgba(255,48,48,.20),transparent 28%),
+    radial-gradient(circle at 85% 5%,rgba(255,122,24,.17),transparent 25%),
+    radial-gradient(circle at 50% 100%,rgba(189,85,255,.09),transparent 30%),
+    linear-gradient(145deg,#030407,#090b10 55%,#050609);
+  overflow-x:hidden;
 }
 
-/* EFEITOS DO FUNDO */
+/* FUNDO ANIMADO */
 
-body:before{
+body::before,
+body::after{
   content:"";
+  position:fixed;
+  z-index:-1;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(2px);
+}
+
+body::before{
+  width:320px;
+  height:320px;
+  left:-160px;
+  top:35%;
+  background:radial-gradient(circle,rgba(255,48,48,.13),transparent 70%);
+  animation:floatOne 9s ease-in-out infinite;
+}
+
+body::after{
+  width:360px;
+  height:360px;
+  right:-180px;
+  top:55%;
+  background:radial-gradient(circle,rgba(255,122,24,.12),transparent 70%);
+  animation:floatTwo 11s ease-in-out infinite;
+}
+
+@keyframes floatOne{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-80px)}
+}
+
+@keyframes floatTwo{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(70px)}
+}
+
+/* PARTÍCULAS */
+
+.particles{
   position:fixed;
   inset:0;
   pointer-events:none;
-  opacity:.08;
-  background-image:
-    linear-gradient(45deg,transparent 48%,#fff 49%,transparent 50%),
-    linear-gradient(-45deg,transparent 48%,#fff 49%,transparent 50%);
-  background-size:80px 80px;
+  z-index:-1;
+  overflow:hidden;
 }
 
-body:after{
-  content:"";
-  position:fixed;
-  width:350px;
-  height:350px;
-  right:-150px;
-  top:180px;
+.particle{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:#ff4b2f;
   border-radius:50%;
-  background:rgba(255,45,20,.12);
-  filter:blur(80px);
-  pointer-events:none;
+  opacity:.35;
+  animation:particleMove linear infinite;
+}
+
+@keyframes particleMove{
+  from{
+    transform:translateY(110vh) translateX(0);
+    opacity:0;
+  }
+  15%{opacity:.45}
+  85%{opacity:.35}
+  to{
+    transform:translateY(-10vh) translateX(70px);
+    opacity:0;
+  }
 }
 
 /* HEADER */
 
 header{
-  max-width:1150px;
+  width:100%;
+  max-width:1180px;
   margin:auto;
-  padding:22px 20px;
+  padding:20px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  position:relative;
-  z-index:2;
+  justify-content:space-between;
+  gap:15px;
 }
 
 .logo{
-  font-size:28px;
+  font-size:27px;
   font-weight:1000;
-  letter-spacing:-2px;
-  text-shadow:0 0 20px rgba(255,40,20,.4);
+  letter-spacing:-1.5px;
+  text-shadow:0 0 25px rgba(255,48,48,.35);
 }
 
 .logo span{
   color:var(--red);
 }
 
-.badge{
+.header-badge{
+  border:1px solid #393d4b;
+  background:rgba(10,12,17,.8);
+  backdrop-filter:blur(10px);
   padding:8px 13px;
-  border:1px solid #393b46;
   border-radius:999px;
-  background:#0c0d12;
-  color:#bbb;
+  color:#c6cad5;
   font-size:11px;
-  font-weight:bold;
+  font-weight:800;
 }
 
 /* MAIN */
 
 main{
-  max-width:1150px;
+  width:100%;
+  max-width:1180px;
   margin:auto;
-  padding:15px 20px 70px;
-  position:relative;
-  z-index:1;
+  padding:20px 20px 70px;
 }
 
 /* HERO */
 
 .hero{
   text-align:center;
-  padding:45px 0 40px;
+  padding:42px 0 40px;
+}
+
+.hero-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 13px;
+  border:1px solid rgba(255,48,48,.3);
+  border-radius:999px;
+  color:#ffaaa3;
+  background:rgba(255,48,48,.07);
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:18px;
 }
 
 .hero h1{
   margin:0;
-  font-size:clamp(42px,8vw,78px);
+  font-size:clamp(42px,8vw,82px);
+  line-height:.95;
+  letter-spacing:-4px;
   font-weight:1000;
-  letter-spacing:-5px;
-  text-transform:uppercase;
 }
 
 .hero h1 span{
   color:var(--red);
-  text-shadow:
-    0 0 15px rgba(255,40,30,.6),
-    0 0 45px rgba(255,40,30,.25);
+  text-shadow:0 0 35px rgba(255,48,48,.3);
 }
 
 .hero p{
   max-width:700px;
-  margin:18px auto 0;
+  margin:20px auto 0;
   color:var(--muted);
-  line-height:1.6;
+  line-height:1.65;
   font-size:15px;
 }
 
-/* CARDS */
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:23px;
+}
+
+.hero-stat{
+  border:1px solid var(--line);
+  background:rgba(14,16,23,.8);
+  padding:8px 12px;
+  border-radius:10px;
+  color:#d9dce5;
+  font-size:11px;
+}
+
+/* GRID */
 
 .grid{
   display:grid;
@@ -158,26 +243,50 @@ main{
 .card{
   background:var(--card);
   border:1px solid var(--line);
-  border-radius:22px;
+  border-radius:24px;
   padding:23px;
-  box-shadow:0 20px 60px rgba(0,0,0,.45);
-  backdrop-filter:blur(10px);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+}
+
+.card:hover{
+  border-color:#383d4d;
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:20px;
 }
 
 .card h2{
-  margin:0 0 20px;
+  margin:0;
   font-size:19px;
 }
 
+.card-tag{
+  font-size:10px;
+  color:#ffb5ae;
+  background:rgba(255,48,48,.08);
+  border:1px solid rgba(255,48,48,.2);
+  padding:6px 9px;
+  border-radius:999px;
+  font-weight:900;
+}
+
+/* FORM */
+
 .form{
   display:grid;
-  gap:15px;
+  gap:14px;
 }
 
 label{
   display:block;
-  color:#9da1ad;
   font-size:11px;
+  color:var(--muted);
   font-weight:900;
   text-transform:uppercase;
   letter-spacing:.6px;
@@ -185,53 +294,62 @@ label{
 
 select,
 textarea{
-  font-family:inherit;
-}
-
-select{
   width:100%;
   margin-top:7px;
-  padding:14px;
-  color:#fff;
   background:var(--card2);
-  border:1px solid #30333e;
-  border-radius:12px;
+  border:1px solid var(--line);
+  color:#fff;
+  padding:14px;
+  border-radius:13px;
   outline:none;
+  font:inherit;
 }
 
-select:focus{
+select:focus,
+textarea:focus{
   border-color:var(--red);
-  box-shadow:0 0 0 2px rgba(255,49,49,.1);
+  box-shadow:0 0 0 3px rgba(255,48,48,.08);
 }
 
 button{
   border:0;
-  border-radius:12px;
-  padding:14px 17px;
-  font-weight:900;
+  border-radius:13px;
+  padding:14px 18px;
+  font-weight:950;
   cursor:pointer;
-  transition:.15s;
+  transition:.18s ease;
 }
 
 button:hover{
-  transform:translateY(-1px);
+  transform:translateY(-2px);
+}
+
+button:active{
+  transform:scale(.98);
 }
 
 .primary{
   width:100%;
-  color:#fff;
   background:linear-gradient(135deg,var(--red),var(--orange));
-  box-shadow:0 8px 25px rgba(255,50,20,.2);
+  color:#fff;
+  font-size:14px;
+  box-shadow:0 10px 30px rgba(255,48,48,.18);
+}
+
+.primary:hover{
+  box-shadow:0 14px 35px rgba(255,48,48,.3);
 }
 
 .secondary{
+  background:#1b1f2b;
   color:#fff;
-  background:#1b1d26;
-  border:1px solid #30333e;
+  border:1px solid var(--line);
 }
 
+/* MODELOS */
+
 .models{
-  margin-top:20px;
+  margin-top:19px;
 }
 
 .chips{
@@ -242,11 +360,11 @@ button:hover{
 }
 
 .chip{
+  background:#141721;
+  border:1px solid #282c39;
+  color:#cdd1dc;
   padding:7px 9px;
   border-radius:9px;
-  background:#151720;
-  border:1px solid #292c37;
-  color:#c6c8d0;
   font-size:10px;
 }
 
@@ -258,26 +376,45 @@ button:hover{
 
 .result.show{
   display:block;
+  animation:resultIn .35s ease;
 }
 
-.resultTop{
+@keyframes resultIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.result-top{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:10px;
-  margin-bottom:15px;
+  margin-bottom:16px;
 }
 
-.resultTop h2{
+.result-top h2{
   margin:0;
 }
 
 .preset{
+  background:linear-gradient(135deg,var(--red),var(--orange));
+  color:#fff;
   padding:7px 10px;
-  background:#272a35;
   border-radius:999px;
   font-size:10px;
-  font-weight:900;
+  font-weight:1000;
+}
+
+.device-name{
+  color:#ff8f83;
+  font-size:12px;
+  margin-bottom:13px;
 }
 
 .sensi{
@@ -287,52 +424,72 @@ button:hover{
 }
 
 .stat{
-  padding:15px;
+  background:#0a0c11;
+  border:1px solid #242834;
   border-radius:14px;
-  background:#090a0f;
-  border:1px solid #292c37;
+  padding:14px;
+  position:relative;
+  overflow:hidden;
+}
+
+.stat::after{
+  content:"";
+  position:absolute;
+  right:-20px;
+  top:-20px;
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:rgba(255,48,48,.07);
 }
 
 .stat small{
   display:block;
-  color:#858996;
+  color:var(--muted);
   font-size:10px;
+  margin-bottom:4px;
 }
 
 .stat strong{
-  display:block;
-  margin-top:4px;
   font-size:27px;
 }
 
 .dpi-box{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
+  gap:9px;
+  margin-top:11px;
 }
 
 .dpi{
-  padding:15px;
-  background:#090a0f;
-  border:1px solid #292c37;
+  background:#0a0c11;
+  border:1px solid #242834;
   border-radius:14px;
+  padding:14px;
 }
 
 .dpi span{
-  color:#858996;
+  display:block;
+  color:var(--muted);
   font-size:10px;
+  margin-bottom:5px;
 }
 
 .dpi strong{
-  display:block;
-  margin-top:4px;
   font-size:20px;
+  color:#fff;
+}
+
+.dpi-info{
+  margin-top:10px;
+  font-size:10px;
+  color:#777e90;
+  line-height:1.5;
 }
 
 .actions{
   display:flex;
-  gap:10px;
+  gap:9px;
   margin-top:12px;
 }
 
@@ -341,34 +498,48 @@ button:hover{
 }
 
 .tip{
-  color:#858996;
+  color:#777e90;
   font-size:11px;
-  line-height:1.6;
+  line-height:1.55;
+  margin-top:13px;
 }
 
 /* PREMIUM */
 
 .premium-wrap{
-  margin-top:22px;
+  margin-top:20px;
 }
 
 .premium{
   position:relative;
   overflow:hidden;
-  padding:25px;
-  border-radius:24px;
-  border:1px solid #7139a0;
   background:
-    radial-gradient(circle at 90% 0%,rgba(190,70,255,.2),transparent 30%),
-    linear-gradient(145deg,#17101e,#0d0d13);
+    radial-gradient(circle at 90% 10%,rgba(189,85,255,.16),transparent 25%),
+    linear-gradient(145deg,#17101e,#0d0e15 60%,#171020);
+  border:1px solid #58366d;
+  border-radius:25px;
+  padding:24px;
   box-shadow:0 20px 70px rgba(0,0,0,.5);
 }
 
+.premium::before{
+  content:"";
+  position:absolute;
+  left:-80px;
+  bottom:-100px;
+  width:240px;
+  height:240px;
+  background:radial-gradient(circle,rgba(189,85,255,.12),transparent 70%);
+  pointer-events:none;
+}
+
 .premium-head{
+  position:relative;
+  z-index:1;
   display:flex;
+  align-items:flex-start;
   justify-content:space-between;
   gap:15px;
-  align-items:flex-start;
 }
 
 .premium h2{
@@ -382,227 +553,363 @@ button:hover{
 
 .premium p{
   margin:0;
-  color:#a9a0b2;
-  font-size:13px;
-  line-height:1.5;
+  max-width:650px;
+  color:#aaa0b7;
+  font-size:12px;
+  line-height:1.6;
 }
 
 .premium-badge{
   white-space:nowrap;
+  background:linear-gradient(135deg,#c05cff,#7028d8);
   padding:8px 12px;
   border-radius:999px;
-  color:white;
   font-size:10px;
-  font-weight:900;
-  background:linear-gradient(135deg,#c04cff,#7027d5);
+  font-weight:1000;
 }
 
 .premium-locked{
-  margin-top:20px;
-  padding:28px 20px;
+  position:relative;
+  z-index:1;
+  margin-top:19px;
   text-align:center;
+  background:rgba(8,7,12,.75);
+  border:1px solid #33263b;
   border-radius:18px;
-  background:#0b0a0f;
-  border:1px solid #302337;
+  padding:27px 18px;
 }
 
-.lock{
-  font-size:40px;
+.lock-icon{
+  font-size:39px;
   margin-bottom:8px;
 }
 
 .premium-locked h3{
   margin:0 0 8px;
+  font-size:17px;
 }
 
 .premium-locked p{
-  max-width:550px;
   margin:auto;
+  max-width:560px;
+  color:#82798b;
 }
 
 .dev-badge{
   display:inline-block;
-  margin-top:16px;
-  padding:9px 14px;
+  margin-top:15px;
+  padding:9px 15px;
   border-radius:999px;
-  background:#251a2e;
-  border:1px solid #5f3978;
-  color:#d9a5ff;
+  background:#261a30;
+  border:1px solid #664078;
+  color:#dca4ff;
   font-size:11px;
-  font-weight:900;
+  font-weight:1000;
+}
+
+/* FEATURES */
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-top:13px;
+}
+
+.feature{
+  background:rgba(12,11,17,.65);
+  border:1px solid #30243a;
+  border-radius:13px;
+  padding:12px;
+}
+
+.feature strong{
+  display:block;
+  font-size:11px;
+}
+
+.feature span{
+  display:block;
+  margin-top:4px;
+  color:#776d82;
+  font-size:9px;
 }
 
 /* FEEDBACK */
 
-.feedback{
-  margin-top:22px;
-  padding:24px;
+.feedback-section{
+  margin-top:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.feedback-card,
+.rating-panel{
   background:var(--card);
   border:1px solid var(--line);
-  border-radius:22px;
-  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  border-radius:24px;
+  padding:23px;
+  box-shadow:var(--shadow);
 }
 
-.feedback h2{
+.feedback-card h2,
+.rating-panel h2{
   margin:0 0 7px;
+  font-size:20px;
 }
 
-.feedback-intro{
+.feedback-card > p{
   color:var(--muted);
-  font-size:13px;
+  font-size:12px;
+  margin:0 0 17px;
 }
 
 .stars{
   display:flex;
-  gap:4px;
-  margin:17px 0;
+  gap:5px;
+  margin-bottom:15px;
 }
 
 .star{
+  border:0;
   background:transparent;
-  color:#4c4f59;
-  padding:2px;
+  color:#4b5060;
   font-size:34px;
+  padding:0 3px;
+  cursor:pointer;
+}
+
+.star:hover{
+  transform:scale(1.12);
 }
 
 .star.active{
   color:var(--yellow);
-  text-shadow:0 0 12px rgba(255,196,0,.35);
+  text-shadow:0 0 15px rgba(255,196,0,.25);
 }
 
 #feedbackText{
-  width:100%;
-  min-height:100px;
+  min-height:105px;
   resize:vertical;
-  padding:14px;
-  color:#fff;
-  background:#151720;
-  border:1px solid #30333e;
-  border-radius:13px;
-  outline:none;
 }
 
-#feedbackText:focus{
-  border-color:var(--red);
+.counter{
+  text-align:right;
+  color:#656b7a;
+  font-size:10px;
+  margin-top:4px;
 }
 
 .feedback-submit{
   width:100%;
-  margin-top:12px;
+  margin-top:10px;
   background:linear-gradient(135deg,var(--red),var(--orange));
   color:#fff;
 }
 
 .message{
-  min-height:20px;
-  font-size:12px;
+  min-height:18px;
+  margin:9px 0 0;
+  font-size:11px;
 }
 
-/* PAINEL PÚBLICO */
+/* PAINEL */
 
-.public-panel{
-  margin-top:20px;
-  padding:20px;
-  border-radius:18px;
-  background:#0b0c11;
-  border:1px solid #292c37;
-}
-
-.public-header{
+.rating-summary{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.public-header h3{
-  margin:0;
+  gap:18px;
+  margin:14px 0;
+  padding:15px;
+  background:#0a0c11;
+  border:1px solid #252a36;
+  border-radius:15px;
 }
 
 .average{
-  color:#ffc400;
-  font-weight:900;
+  font-size:37px;
+  font-weight:1000;
+}
+
+.summary-stars{
+  color:var(--yellow);
+  letter-spacing:1px;
+  font-size:17px;
+}
+
+.review-count{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+.reviews{
+  display:grid;
+  gap:9px;
+  max-height:300px;
+  overflow:auto;
+  padding-right:3px;
+}
+
+.review{
+  background:#0b0d13;
+  border:1px solid #242934;
+  border-radius:13px;
+  padding:12px;
+}
+
+.review-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.review-stars{
+  color:var(--yellow);
   font-size:13px;
 }
 
-.feedback-list{
-  display:grid;
-  gap:10px;
+.review-date{
+  color:#626978;
+  font-size:9px;
 }
 
-.feedback-item{
-  padding:14px;
-  border-radius:13px;
-  background:#14161e;
-  border:1px solid #292c37;
-}
-
-.feedback-item-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.feedback-stars-view{
-  color:#ffc400;
-  letter-spacing:1px;
-}
-
-.feedback-date{
-  color:#747885;
-  font-size:10px;
-}
-
-.feedback-comment{
-  margin-top:8px;
-  color:#c9cbd2;
-  font-size:12px;
+.review-text{
+  margin:7px 0 0;
+  color:#b9beca;
+  font-size:11px;
   line-height:1.5;
   word-break:break-word;
 }
 
-.empty{
-  color:#777b87;
+.empty-reviews{
   text-align:center;
-  padding:20px;
+  padding:25px 10px;
+  color:#656b7a;
+  font-size:11px;
+}
+
+/* SOBRE */
+
+.about{
+  margin-top:20px;
+  background:linear-gradient(145deg,rgba(16,18,26,.96),rgba(11,13,18,.96));
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:24px;
+}
+
+.about h2{
+  margin:0 0 10px;
+}
+
+.about p{
+  color:var(--muted);
+  line-height:1.65;
   font-size:12px;
+  margin:0;
 }
 
 /* FOOTER */
 
 footer{
   text-align:center;
-  color:#666b78;
-  font-size:11px;
-  padding:30px 20px;
+  color:#626978;
+  font-size:10px;
+  line-height:1.6;
+  padding:30px 20px 40px;
 }
 
-@media(max-width:760px){
+/* TOAST */
 
-  .grid{
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translate(-50%,20px);
+  background:#161923;
+  border:1px solid #343948;
+  color:#fff;
+  padding:11px 16px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:50;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* RESPONSIVO */
+
+@media(max-width:800px){
+
+  .grid,
+  .feedback-section{
     grid-template-columns:1fr;
   }
 
-  .premium-head{
-    flex-direction:column;
-  }
-
   .hero{
-    padding-top:20px;
+    padding-top:25px;
   }
 
   .hero h1{
     letter-spacing:-3px;
   }
 
-  .sensi{
-    grid-template-columns:repeat(2,1fr);
+  .premium-head{
+    flex-direction:column;
   }
 
-  .public-header{
-    align-items:flex-start;
+  .features{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:480px){
+
+  header{
+    padding:16px;
+  }
+
+  .header-badge{
+    font-size:9px;
+  }
+
+  main{
+    padding:10px 13px 55px;
+  }
+
+  .hero h1{
+    font-size:48px;
+  }
+
+  .hero p{
+    font-size:13px;
+  }
+
+  .card,
+  .feedback-card,
+  .rating-panel,
+  .premium,
+  .about{
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .actions{
     flex-direction:column;
+  }
+
+  .rating-summary{
+    gap:12px;
   }
 }
 </style>
@@ -610,668 +917,296 @@ footer{
 
 <body>
 
+<div class="particles" id="particles"></div>
+
 <header>
   <div class="logo">Sensi<span>X</span></div>
-  <div class="badge">🔥 FREE FIRE • GERADOR</div>
+  <div class="header-badge">🔥 FREE FIRE • GERADOR</div>
 </header>
 
 <main>
 
 <section class="hero">
-  <h1>GERE SUA <span>SENSI</span></h1>
+
+  <div class="hero-tag">⚡ CONFIGURAÇÃO INTELIGENTE PARA SEU CELULAR</div>
+
+  <h1>
+    Gere sua <span>SENSI</span>
+  </h1>
+
   <p>
-    Escolha seu aparelho, estilo e perfil.
-    O SensiX gera uma configuração personalizada com sensibilidade,
-    DPI e botão de atirar para você testar no Free Fire.
+    Escolha sua marca, modelo e estilo de jogo.
+    O SensiX cria uma configuração personalizada com sensibilidade,
+    DPI e tamanho recomendado do botão de atirar.
   </p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">📱 Vários aparelhos</div>
+    <div class="hero-stat">🎯 6 configurações de mira</div>
+    <div class="hero-stat">⚙️ DPI personalizado</div>
+    <div class="hero-stat">🔥 4 estilos de jogo</div>
+  </div>
+
 </section>
 
 <div class="grid">
 
 <section class="card">
 
-<h2>⚙️ Personalize sua configuração</h2>
+  <div class="card-title">
+    <h2>⚙️ Personalize sua Sensi</h2>
+    <span class="card-tag">GRÁTIS</span>
+  </div>
 
-<div class="form">
+  <div class="form">
 
-<div>
-<label>Marca</label>
+    <div>
+      <label>Marca do aparelho</label>
+      <select id="brand"></select>
+    </div>
 
-<select id="brand">
-<option value="Samsung">Samsung</option>
-<option value="Motorola">Motorola</option>
-<option value="Xiaomi">Xiaomi</option>
-<option value="Redmi">Redmi</option>
-<option value="POCO">POCO</option>
-<option value="Realme">Realme</option>
-<option value="iPhone">iPhone</option>
-<option value="ASUS">ASUS</option>
-<option value="Infinix">Infinix</option>
-<option value="OnePlus">OnePlus</option>
-<option value="Huawei">Huawei</option>
-<option value="Oppo">OPPO</option>
-<option value="Vivo">Vivo</option>
-<option value="Honor">HONOR</option>
-<option value="Nokia">Nokia</option>
-<option value="Outros">Outros</option>
-</select>
-</div>
+    <div>
+      <label>Modelo • taxa da tela</label>
+      <select id="model"></select>
+    </div>
 
-<div>
-<label>Modelo • taxa da tela</label>
-<select id="model"></select>
-</div>
+    <div>
+      <label>Estilo de jogo</label>
+      <select id="style">
+        <option value="capa">🔥 Capa / Headshot</option>
+        <option value="rush">⚡ Rush</option>
+        <option value="precisao">🎯 Precisão</option>
+        <option value="equilibrada">⚖️ Equilibrada</option>
+      </select>
+    </div>
 
-<div>
-<label>Estilo de jogo</label>
+    <div>
+      <label>Perfil de controle</label>
+      <select id="profile">
+        <option value="normal">Normal</option>
+        <option value="agressiva">Agressiva</option>
+        <option value="controlada">Controlada</option>
+      </select>
+    </div>
 
-<select id="style">
-<option value="capa">🔥 Capa / Headshot</option>
-<option value="rush">⚡ Rush</option>
-<option value="precisao">🎯 Precisão</option>
-<option value="equilibrada">⚖️ Equilibrada</option>
-</select>
-</div>
+    <button class="primary" onclick="generate()">
+      GERAR MINHA SENSI 🚀
+    </button>
 
-<div>
-<label>Perfil</label>
+  </div>
 
-<select id="profile">
-<option value="normal">Normal</option>
-<option value="agressiva">Agressiva</option>
-<option value="controlada">Controlada</option>
-</select>
-</div>
-
-<button class="primary" onclick="generate()">
-GERAR MINHA SENSI 🚀
-</button>
-
-</div>
-
-<div class="models">
-<label>Modelos disponíveis</label>
-<div class="chips" id="chips"></div>
-</div>
+  <div class="models">
+    <label>Alguns modelos disponíveis</label>
+    <div class="chips" id="chips"></div>
+  </div>
 
 </section>
-
 
 <section class="card result" id="result">
 
-<div class="resultTop">
-<h2>🎯 Sua configuração</h2>
-<span class="preset" id="preset">PRESET</span>
-</div>
+  <div class="result-top">
+    <h2>🎯 Sua configuração</h2>
+    <span class="preset" id="preset">PRESET</span>
+  </div>
 
-<div class="sensi" id="stats"></div>
+  <div class="device-name" id="deviceName">
+    Selecione seu aparelho
+  </div>
 
-<div class="dpi-box">
+  <div class="sensi" id="stats"></div>
 
-<div class="dpi">
-<span>DPI recomendada</span>
-<strong id="dpi">—</strong>
-</div>
+  <div class="dpi-box">
 
-<div class="dpi">
-<span>Botão de Atirar</span>
-<strong id="btnSize">—</strong>
-</div>
+    <div class="dpi">
+      <span>DPI recomendado</span>
+      <strong id="dpi">—</strong>
+    </div>
 
-</div>
+    <div class="dpi">
+      <span>Botão de Atirar</span>
+      <strong id="btnSize">—</strong>
+    </div>
 
-<div class="actions">
+  </div>
 
-<button class="secondary" onclick="copySensi()">
-📋 Copiar
-</button>
+  <div class="dpi-info" id="dpiInfo"></div>
 
-<button class="secondary" onclick="generate()">
-🔄 Outra
-</button>
+  <div class="actions">
 
-</div>
+    <button class="secondary" onclick="copySensi()">
+      📋 Copiar
+    </button>
 
-<p class="tip">
-💡 Os valores são recomendações iniciais do SensiX.
-Teste no campo de treinamento e faça pequenos ajustes conforme sua preferência.
-</p>
+    <button class="secondary" onclick="generate()">
+      🔄 Outra
+    </button>
+
+  </div>
+
+  <p class="tip">
+    💡 A configuração é uma recomendação inicial. Teste no campo
+    de treinamento e ajuste aos poucos para encontrar o melhor controle.
+  </p>
 
 </section>
 
 </div>
-
 
 <!-- PREMIUM -->
 
-<section class="premium-wrap">
+<section class="premium-wrap" id="premium">
 
-<div class="premium">
+  <div class="premium">
 
-<div class="premium-head">
+    <div class="premium-head">
 
-<div>
-<h2>
-👑 SensiX <span>PREMIUM</span>
-</h2>
+      <div>
+        <h2>
+          👑 SensiX <span>PREMIUM</span>
+        </h2>
 
-<p>
-A área Premium está sendo preparada para receber recursos avançados.
-</p>
-</div>
+        <p>
+          Uma versão avançada do SensiX está sendo preparada com
+          recursos extras para personalização e configurações mais detalhadas.
+        </p>
+      </div>
 
-<div class="premium-badge">
-PREMIUM
-</div>
+      <span class="premium-badge">
+        PREMIUM
+      </span>
 
-</div>
+    </div>
 
-<div class="premium-locked">
+    <div class="premium-locked">
 
-<div class="lock">🚧</div>
+      <div class="lock-icon">🚧</div>
 
-<h3>PREMIUM EM DESENVOLVIMENTO</h3>
+      <h3>PREMIUM EM DESENVOLVIMENTO</h3>
 
-<p>
-O Premium ainda não está disponível.
-Nenhum pagamento é solicitado nesta versão.
-Estamos trabalhando em novos recursos para o SensiX.
-</p>
+      <p>
+        Esta área ainda está bloqueada.
+        Estamos preparando novos recursos para uma futura versão do SensiX.
+      </p>
 
-<div class="dev-badge">
-🔒 ACESSO BLOQUEADO • EM DESENVOLVIMENTO
-</div>
+      <span class="dev-badge">
+        🔒 EM DESENVOLVIMENTO
+      </span>
 
-</div>
+    </div>
 
-</div>
+    <div class="features">
+
+      <div class="feature">
+        <strong>🎯 Presets avançados</strong>
+        <span>Configurações mais detalhadas.</span>
+      </div>
+
+      <div class="feature">
+        <strong>📱 Mais personalização</strong>
+        <span>Ajustes específicos por aparelho.</span>
+      </div>
+
+      <div class="feature">
+        <strong>👑 Recursos exclusivos</strong>
+        <span>Novidades planejadas para o Premium.</span>
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
-
 
 <!-- FEEDBACK -->
 
-<section class="feedback" id="feedback">
+<section class="feedback-section" id="feedback">
 
-<h2>⭐ Avalie o SensiX</h2>
+  <div class="feedback-card">
 
-<p class="feedback-intro">
-Sua opinião ajuda a melhorar o site. Escolha uma nota e escreva seu comentário.
-</p>
+    <h2>⭐ Avalie o SensiX</h2>
 
-<div class="stars">
+    <p>
+      Sua opinião ajuda a melhorar o site.
+      Escolha uma nota e escreva o que achou.
+    </p>
 
-<button class="star" type="button" data-star="1">★</button>
-<button class="star" type="button" data-star="2">★</button>
-<button class="star" type="button" data-star="3">★</button>
-<button class="star" type="button" data-star="4">★</button>
-<button class="star" type="button" data-star="5">★</button>
+    <div class="stars" id="stars">
 
-</div>
+      <button class="star" type="button" data-rating="1">★</button>
+      <button class="star" type="button" data-rating="2">★</button>
+      <button class="star" type="button" data-rating="3">★</button>
+      <button class="star" type="button" data-rating="4">★</button>
+      <button class="star" type="button" data-rating="5">★</button>
 
-<textarea
-id="feedbackText"
-maxlength="500"
-placeholder="Escreva sua opinião sobre o SensiX..."
-></textarea>
+    </div>
 
-<button class="feedback-submit" onclick="sendFeedback()">
-ENVIAR AVALIAÇÃO ⭐
-</button>
+    <textarea
+      id="feedbackText"
+      maxlength="500"
+      placeholder="Escreva sua opinião sobre o SensiX..."
+    ></textarea>
 
-<p class="message" id="feedbackMessage"></p>
+    <div class="counter">
+      <span id="charCount">0</span>/500
+    </div>
 
+    <button
+      class="feedback-submit"
+      type="button"
+      onclick="sendFeedback()"
+    >
+      ENVIAR AVALIAÇÃO ⭐
+    </button>
 
-<!-- PAINEL PÚBLICO -->
+    <p class="message" id="feedbackMessage"></p>
 
-<div class="public-panel">
+  </div>
 
-<div class="public-header">
+  <!-- PAINEL PÚBLICO LOCAL -->
 
-<h3>💬 Avaliações da comunidade</h3>
+  <div class="rating-panel">
 
-<div class="average" id="average">
-⭐ — / 5
-</div>
+    <h2>📊 Avaliações do SensiX</h2>
 
-</div>
+    <div class="rating-summary">
 
-<div class="feedback-list" id="feedbackList">
+      <div class="average" id="averageRating">
+        0,0
+      </div>
 
-<div class="empty">
-Carregando avaliações...
-</div>
+      <div>
+        <div class="summary-stars" id="summaryStars">
+          ☆☆☆☆☆
+        </div>
 
-</div>
+        <div class="review-count" id="reviewCount">
+          Nenhuma avaliação ainda
+        </div>
+      </div>
 
-</div>
+    </div>
+
+    <div class="reviews" id="reviews">
+
+      <div class="empty-reviews">
+        Ainda não existem avaliações.
+        Seja o primeiro a avaliar! ⭐
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
-</main>
+<!-- SOBRE -->
 
-<footer>
-SensiX © 2026 • Ferramenta independente de configurações para Free Fire.
-</footer>
+<section class="about">
 
+  <h2>🔥 Sobre o SensiX</h2>
 
-<script>
-
-/* =========================================================
-   MODELOS + DPI INDIVIDUAL
-   max = limite de ajuste usado pelo SensiX
-========================================================= */
-
-const models={
-
-Samsung:[
-["Galaxy A15 5G",90,890],
-["Galaxy A16 5G",90,900],
-["Galaxy A25 5G",120,950],
-["Galaxy A26 5G",120,950],
-["Galaxy A35 5G",120,950],
-["Galaxy A36 5G",120,960],
-["Galaxy A55 5G",120,960],
-["Galaxy A56 5G",120,970],
-["Galaxy S23",120,1000],
-["Galaxy S23 FE",120,980],
-["Galaxy S24",120,1000],
-["Galaxy S24 FE",120,990],
-["Galaxy S25",120,1000],
-["Galaxy S25 FE",120,1000],
-["Galaxy S25 Ultra",120,1000],
-["Galaxy Z Flip 6",120,1000]
-],
-
-Motorola:[
-["Moto G54 5G",120,900],
-["Moto G55 5G",120,910],
-["Moto G64 5G",120,920],
-["Moto G75 5G",120,930],
-["Moto G85 5G",120,940],
-["Moto G86 5G",120,950],
-["Moto G67 5G",120,930],
-["Moto G77 5G",120,940],
-["Edge 40",144,980],
-["Edge 40 Neo",144,980],
-["Edge 50 Fusion",120,960],
-["Edge 50 Pro",144,990],
-["Edge 50 Ultra",144,1000],
-["Edge 60 Fusion",120,970]
-],
-
-Xiaomi:[
-["Xiaomi 13",120,980],
-["Xiaomi 13T",144,990],
-["Xiaomi 13T Pro",144,1000],
-["Xiaomi 14",120,1000],
-["Xiaomi 14T",144,1000],
-["Xiaomi 14T Pro",144,1000],
-["Xiaomi 15",120,1000],
-["Xiaomi 15 Pro",120,1000]
-],
-
-Redmi:[
-["Redmi Note 13",120,930],
-["Redmi Note 13 5G",120,940],
-["Redmi Note 13 Pro",120,960],
-["Redmi Note 13 Pro+",120,970],
-["Redmi Note 14",120,940],
-["Redmi Note 14 5G",120,950],
-["Redmi Note 14 Pro 5G",120,980],
-["Redmi Note 14 Pro+ 5G",120,990]
-],
-
-POCO:[
-["POCO X5 Pro 5G",120,960],
-["POCO X6",120,970],
-["POCO X6 Pro",120,990],
-["POCO X7",120,980],
-["POCO X7 Pro",120,1000],
-["POCO F5",120,990],
-["POCO F5 Pro",120,1000],
-["POCO F6",120,1000],
-["POCO F6 Pro",120,1000]
-],
-
-Realme:[
-["Realme 11 5G",120,930],
-["Realme 12 5G",120,940],
-["Realme 12 Pro+",120,970],
-["Realme 13 5G",120,950],
-["Realme 13 Pro+",120,980],
-["Realme GT 5",144,1000],
-["Realme GT 6",120,1000],
-["Realme GT 7",120,1000]
-],
-
-iPhone:[
-["iPhone 11",60,850],
-["iPhone 12",60,860],
-["iPhone 13",60,870],
-["iPhone 14",60,880],
-["iPhone 15",60,890],
-["iPhone 16",60,900],
-["iPhone 16e",60,900],
-["iPhone 13 Pro",120,980],
-["iPhone 14 Pro",120,990],
-["iPhone 15 Pro",120,1000],
-["iPhone 16 Pro",120,1000]
-],
-
-ASUS:[
-["ROG Phone 6",165,1000],
-["ROG Phone 7",165,1000],
-["ROG Phone 8",165,1000],
-["ROG Phone 9",185,1000],
-["Zenfone 10",144,990],
-["Zenfone 11 Ultra",144,1000]
-],
-
-Infinix:[
-["Infinix Note 30",120,920],
-["Infinix Note 40",120,940],
-["Infinix Note 50",144,970],
-["Infinix GT 20 Pro",144,990],
-["Infinix GT 30 Pro",144,1000]
-],
-
-OnePlus:[
-["OnePlus 11",120,1000],
-["OnePlus 12",120,1000],
-["OnePlus 12R",120,990],
-["OnePlus 13",120,1000],
-["OnePlus Nord 3",120,960],
-["OnePlus Nord 4",120,970]
-],
-
-Huawei:[
-["Huawei P60 Pro",120,980],
-["Huawei Mate 60 Pro",120,990],
-["Huawei Nova 12",120,950]
-],
-
-Oppo:[
-["OPPO A79 5G",90,900],
-["OPPO Reno 10",120,960],
-["OPPO Reno 11",120,970],
-["OPPO Reno 12",120,980],
-["OPPO Reno 13",120,990]
-],
-
-Vivo:[
-["Vivo V25",90,900],
-["Vivo V27",120,950],
-["Vivo V29",120,960],
-["Vivo V30",120,970],
-["Vivo V40",120,980],
-["Vivo V50",120,990]
-],
-
-Honor:[
-["HONOR X7b",90,890],
-["HONOR X8b",90,900],
-["HONOR X8c",120,940],
-["HONOR 90",120,970],
-["HONOR 200",120,980],
-["HONOR 400",120,990]
-],
-
-Nokia:[
-["Nokia G60 5G",120,900],
-["Nokia XR21",120,920]
-],
-
-Outros:[
-["Padrão Android 60Hz",60,850],
-["Padrão Android 90Hz",90,900],
-["Padrão Android 120Hz",120,950]
-]
-
-};
-
-
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const brand=document.getElementById("brand");
-const model=document.getElementById("model");
-const chips=document.getElementById("chips");
-
-
-/* =========================================================
-   CARREGAR MODELOS
-========================================================= */
-
-function loadModels(){
-
-model.innerHTML="";
-
-const list=models[brand.value] || models.Outros;
-
-list.forEach((item,index)=>{
-
-const name=item[0];
-const hz=item[1];
-const maxDpi=item[2];
-
-const option=document.createElement("option");
-
-option.value=index;
-option.textContent=`${name} — ${hz}Hz`;
-
-model.appendChild(option);
-
-});
-
-chips.innerHTML=list
-.slice(0,6)
-.map(item=>`
-<span class="chip">
-${item[0]} • ${item[1]}Hz
-</span>
-`)
-.join("");
-
-}
-
-brand.addEventListener("change",loadModels);
-
-loadModels();
-
-
-/* =========================================================
-   LIMITADORES
-========================================================= */
-
-function clampSensi(n){
-
-return Math.max(
-1,
-Math.min(
-200,
-Math.round(n)
-)
-);
-
-}
-
-function clampDpi(n,min,max){
-
-return Math.max(
-min,
-Math.min(
-max,
-Math.round(n)
-)
-);
-
-}
-
-
-/* =========================================================
-   GERADOR
-========================================================= */
-
-function generate(){
-
-const list=models[brand.value] || models.Outros;
-
-const data=list[Number(model.value)] || list[0];
-
-const name=data[0];
-const hz=data[1];
-const maxDpi=data[2];
-
-const style=document.getElementById("style").value;
-const profile=document.getElementById("profile").value;
-
-
-/* BASE DA SENSI */
-
-let base=155;
-
-
-/* TELA */
-
-if(hz>=165){
-base-=4;
-}else if(hz>=144){
-base-=2;
-}else if(hz<=60){
-base+=5;
-}
-
-
-/* ESTILO */
-
-const styleAdj={
-capa:10,
-rush:14,
-precisao:-8,
-equilibrada:0
-}[style];
-
-
-/* PERFIL */
-
-const profileAdj={
-normal:0,
-agressiva:7,
-controlada:-6
-}[profile];
-
-
-base+=styleAdj+profileAdj;
-
-
-/* SENSIBILIDADES */
-
-const geral=clampSensi(base);
-
-const redDot=clampSensi(base-8);
-
-const mira2x=clampSensi(base-16);
-
-const mira4x=clampSensi(base-27);
-
-const awm=clampSensi(base-40);
-
-const olhadinha=clampSensi(base-5);
-
-
-/* DPI */
-
-let dpiBase=430;
-
-if(style==="capa"){
-dpiBase=570;
-}
-
-if(style==="rush"){
-dpiBase=610;
-}
-
-if(style==="precisao"){
-dpiBase=500;
-}
-
-if(style==="equilibrada"){
-dpiBase=550;
-}
-
-if(profile==="agressiva"){
-dpiBase+=45;
-}
-
-if(profile==="controlada"){
-dpiBase-=35;
-}
-
-
-/* Ajuste baseado na tela */
-
-if(hz>=165){
-dpiBase+=35;
-}else if(hz>=144){
-dpiBase+=20;
-}else if(hz<=60){
-dpiBase-=25;
-}
-
-
-/* nunca passa do limite do aparelho */
-
-const dpi=clampDpi(
-dpiBase,
-200,
-maxDpi
-);
-
-
-/* BOTÃO */
-
-const buttonMap={
-capa:"48%",
-rush:"55%",
-precisao:"42%",
-equilibrada:"50%"
-};
-
-const buttonSize=buttonMap[style];
-
-
-/* MOSTRAR */
-
-const names=[
-"Geral",
-"Red Dot",
-"Mira 2x",
-"Mira 4x",
-"AWM",
-"Olhadinha"
-];
-
-const values=[
-geral,
-redDot,
-mira2x,
-mira4x,
-awm,
-olhadinha
-];
-
-document.getElementById("stats").innerHTML=
-
-names.map((n,i)=>`
-
-<div class="stat">
-<small>${n}</small>
-<strong>${values[i]}</strong>
-</div>
-
-`).join("");
-
-
-document.getElement
+  <p>
+    O SensiX é uma ferramenta independente criada para gerar
+    configurações de sensibilidade para Free Fire de acordo com
+    diferentes aparelhos e estilos de jogo. As configurações são
+    
