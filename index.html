@@ -1363,3 +1363,337 @@ alert("❌ Não foi possível copiar automaticamente.");
 textarea.remove();
 
 }
+
+/* =========================
+   SISTEMA DE AVALIAÇÕES
+========================= */
+
+let selectedRating = 0;
+
+const stars =
+document.querySelectorAll(".feedback-star");
+
+
+stars.forEach(star => {
+
+star.addEventListener("click", () => {
+
+selectedRating =
+Number(star.dataset.star);
+
+stars.forEach(s => {
+
+s.classList.toggle(
+"active",
+Number(s.dataset.star) <= selectedRating
+);
+
+});
+
+});
+
+});
+
+
+/* =========================
+   ENVIAR AVALIAÇÃO
+========================= */
+
+function sendFeedback(){
+
+const text =
+document.getElementById("feedbackText").value.trim();
+
+const message =
+document.getElementById("feedbackMessage");
+
+
+if(selectedRating===0){
+
+message.textContent =
+"⭐ Escolha uma nota de 1 a 5.";
+
+return;
+
+}
+
+
+if(text.length<3){
+
+message.textContent =
+"✍️ Escreva uma opinião antes de enviar.";
+
+return;
+
+}
+
+
+const feedbacks =
+JSON.parse(
+localStorage.getItem("sensix_feedbacks") || "[]"
+);
+
+
+feedbacks.unshift({
+
+rating:selectedRating,
+
+comment:text,
+
+date:new Date().toLocaleDateString(
+"pt-BR"
+)
+
+});
+
+
+localStorage.setItem(
+"sensix_feedbacks",
+JSON.stringify(feedbacks)
+);
+
+
+document.getElementById(
+"feedbackText"
+).value="";
+
+
+selectedRating=0;
+
+
+stars.forEach(s =>
+s.classList.remove("active")
+);
+
+
+message.textContent =
+"✅ Avaliação enviada! Obrigado.";
+
+
+renderFeedbacks();
+
+updateAverage();
+
+
+setTimeout(() => {
+
+message.textContent="";
+
+},3000);
+
+}
+
+
+/* =========================
+   MOSTRAR AVALIAÇÕES
+========================= */
+
+function renderFeedbacks(){
+
+const list =
+document.getElementById("feedbackList");
+
+
+const feedbacks =
+JSON.parse(
+localStorage.getItem("sensix_feedbacks") || "[]"
+);
+
+
+if(feedbacks.length===0){
+
+list.innerHTML=`
+
+<div class="empty-feedback">
+
+Ainda não existem avaliações neste dispositivo.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML =
+feedbacks
+.slice(0,20)
+.map(item => {
+
+const stars =
+"★".repeat(item.rating)+
+"☆".repeat(5-item.rating);
+
+return `
+
+<div class="feedback-item">
+
+<div class="feedback-item-top">
+
+<span class="feedback-item-stars">
+${stars}
+</span>
+
+<span class="feedback-date">
+${item.date}
+</span>
+
+</div>
+
+<div class="feedback-comment">
+${escapeHTML(item.comment)}
+</div>
+
+</div>
+
+`;
+
+})
+.join("");
+
+}
+
+
+/* =========================
+   SEGURANÇA
+========================= */
+
+function escapeHTML(text){
+
+const div =
+document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+
+/* =========================
+   MÉDIA DAS AVALIAÇÕES
+========================= */
+
+function updateAverage(){
+
+const feedbacks =
+JSON.parse(
+localStorage.getItem("sensix_feedbacks") || "[]"
+);
+
+
+const average =
+feedbacks.length
+?
+feedbacks.reduce(
+(sum,item) => sum + item.rating,
+0
+) / feedbacks.length
+:
+0;
+
+
+document.getElementById(
+"averageRating"
+).textContent =
+average.toFixed(1);
+
+
+const rounded =
+Math.round(average);
+
+
+document.getElementById(
+"averageStars"
+).textContent =
+"★".repeat(rounded)+
+"☆".repeat(5-rounded);
+
+}
+
+
+/* =========================
+   LIMPAR AVALIAÇÕES
+========================= */
+
+function clearFeedbacks(){
+
+const confirmClear =
+confirm(
+"Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
+);
+
+
+if(!confirmClear){
+return;
+}
+
+
+localStorage.removeItem(
+"sensix_feedbacks"
+);
+
+
+renderFeedbacks();
+
+updateAverage();
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+renderFeedbacks();
+
+updateAverage();
+
+
+/* =========================
+   RECUPERAR ÚLTIMA CONFIGURAÇÃO
+========================= */
+
+try{
+
+const saved =
+JSON.parse(
+localStorage.getItem(
+"sensix_last_config"
+)
+);
+
+
+if(saved){
+
+const list =
+models[brand.value] || models.Outros;
+
+const index =
+list.findIndex(
+item => item[0] === saved.celular
+);
+
+
+if(index>=0){
+
+model.value=index;
+
+}
+
+}
+
+}catch(e){
+
+console.log(
+"Não foi possível recuperar a última configuração."
+);
+
+}
+
+</script>
+
+</body>
+</html>
