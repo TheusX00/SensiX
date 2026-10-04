@@ -1889,4 +1889,589 @@ navigator.clipboard.writeText(texto)
 
 </body>
 </html>
+
+/* =========================
+   FINAL DO GERADOR
+========================= */
+
+function generate(){
+
+  const list = models[brand.value] || models.Outros;
+  const item = list[Number(model.value) || 0];
+
+  const name = item[0];
+  const hz = item[1];
+  const maxDpi = item[2];
+
+  const style = document.getElementById("style").value;
+  const profile = document.getElementById("profile").value;
+
+  /* =========================
+     IPHONE
+     Usa Baixo / Médio / Alto
+  ========================= */
+
+  if(brand.value === "iPhone"){
+
+    let faixa = style;
+    let base;
+
+    if(faixa === "baixo"){
+      base = 100 + Math.floor(Math.random() * 36);
+    }
+
+    else if(faixa === "medio"){
+      base = 135 + Math.floor(Math.random() * 36);
+    }
+
+    else{
+      base = 170 + Math.floor(Math.random() * 31);
+    }
+
+    const variacao = Math.floor(Math.random() * 8);
+
+    const geral = clamp(base,100,200);
+    const redDot = clamp(base + variacao,100,200);
+    const mira2x = clamp(base - 3 + variacao,100,200);
+    const mira4x = clamp(base - 7 + variacao,100,200);
+    const awm = clamp(base - 12 + variacao,100,200);
+    const olhar = clamp(base + 5,100,200);
+
+    document.getElementById("preset").textContent =
+      faixa.toUpperCase();
+
+    document.getElementById("stats").innerHTML = `
+      <div class="stat">
+        <small>Geral</small>
+        <strong>${geral}</strong>
+      </div>
+
+      <div class="stat">
+        <small>Ponto Vermelho</small>
+        <strong>${redDot}</strong>
+      </div>
+
+      <div class="stat">
+        <small>Mira 2x</small>
+        <strong>${mira2x}</strong>
+      </div>
+
+      <div class="stat">
+        <small>Mira 4x</small>
+        <strong>${mira4x}</strong>
+      </div>
+
+      <div class="stat">
+        <small>Mira AWM</small>
+        <strong>${awm}</strong>
+      </div>
+
+      <div class="stat">
+        <small>Olhadinha</small>
+        <strong>${olhar}</strong>
+      </div>
+    `;
+
+    document.getElementById("dpi").textContent =
+      "Padrão do iPhone";
+
+    document.getElementById("btnSize").textContent =
+      clamp(48 + Math.floor(Math.random() * 13),48,60) + "%";
+
+    document.getElementById("result").classList.add("show");
+
+    window.lastConfig = {
+      name,
+      preset: faixa,
+      geral,
+      redDot,
+      mira2x,
+      mira4x,
+      awm,
+      olhar
+    };
+
+    return;
+  }
+
+
+  /* =========================
+     ANDROID
+  ========================= */
+
+  let base = 155;
+
+  if(hz >= 165){
+    base = 165;
+  }
+  else if(hz >= 144){
+    base = 162;
+  }
+  else if(hz >= 120){
+    base = 158;
+  }
+  else if(hz >= 90){
+    base = 155;
+  }
+  else{
+    base = 150;
+  }
+
+
+  /* ESTILO */
+
+  if(style === "rush"){
+    base += 7;
+  }
+
+  if(style === "precisao"){
+    base -= 5;
+  }
+
+  if(style === "equilibrada"){
+    base += 2;
+  }
+
+
+  /* PERFIL */
+
+  if(profile === "agressiva"){
+    base += 5;
+  }
+
+  if(profile === "controlada"){
+    base -= 5;
+  }
+
+
+  const geral = clamp(base,100,200);
+
+  const redDot =
+    clamp(base + 3 + Math.floor(Math.random()*5),100,200);
+
+  const mira2x =
+    clamp(base - 2 + Math.floor(Math.random()*5),100,200);
+
+  const mira4x =
+    clamp(base - 7 + Math.floor(Math.random()*5),100,200);
+
+  const awm =
+    clamp(base - 12 + Math.floor(Math.random()*5),100,200);
+
+  const olhar =
+    clamp(base + 5 + Math.floor(Math.random()*4),100,200);
+
+
+  let dpi = maxDpi || 900;
+
+  if(dpi > 0){
+    dpi += Math.floor(Math.random()*41) - 20;
+  }
+
+
+  const button =
+    clamp(
+      45 + Math.floor(Math.random()*16),
+      45,
+      60
+    );
+
+
+  document.getElementById("preset").textContent =
+    style.toUpperCase();
+
+
+  document.getElementById("stats").innerHTML = `
+
+    <div class="stat">
+      <small>Geral</small>
+      <strong>${geral}</strong>
+    </div>
+
+    <div class="stat">
+      <small>Ponto Vermelho</small>
+      <strong>${redDot}</strong>
+    </div>
+
+    <div class="stat">
+      <small>Mira 2x</small>
+      <strong>${mira2x}</strong>
+    </div>
+
+    <div class="stat">
+      <small>Mira 4x</small>
+      <strong>${mira4x}</strong>
+    </div>
+
+    <div class="stat">
+      <small>Mira AWM</small>
+      <strong>${awm}</strong>
+    </div>
+
+    <div class="stat">
+      <small>Olhadinha</small>
+      <strong>${olhar}</strong>
+    </div>
+
+  `;
+
+
+  document.getElementById("dpi").textContent =
+    dpi;
+
+  document.getElementById("btnSize").textContent =
+    button + "%";
+
+
+  document.getElementById("result").classList.add("show");
+
+
+  window.lastConfig = {
+    name,
+    style,
+    profile,
+    geral,
+    redDot,
+    mira2x,
+    mira4x,
+    awm,
+    olhar,
+    dpi,
+    button
+  };
+
+}
+
+
+/* =========================
+   COPIAR CONFIGURAÇÃO
+========================= */
+
+function copySensi(){
+
+  if(!window.lastConfig){
+    alert("⚠️ Gere uma configuração primeiro!");
+    return;
+  }
+
+  const c = window.lastConfig;
+
+  const text = `
+SensiX — Configuração
+
+Celular: ${c.name}
+
+Geral: ${c.geral}
+Ponto Vermelho: ${c.redDot}
+Mira 2x: ${c.mira2x}
+Mira 4x: ${c.mira4x}
+Mira AWM: ${c.awm}
+Olhadinha: ${c.olhar}
+
+${c.dpi ? "DPI: " + c.dpi : "DPI: Padrão do iPhone"}
+${c.button ? "Botão de atirar: " + c.button + "%" : ""}
+
+Gerado pelo SensiX.
+`.trim();
+
+
+  const textarea = document.createElement("textarea");
+
+  textarea.value = text;
+
+  document.body.appendChild(textarea);
+
+  textarea.select();
+
+  try{
+
+    document.execCommand("copy");
+
+    alert("✅ Configuração copiada!");
+
+  }
+
+  catch(e){
+
+    alert("❌ Não foi possível copiar automaticamente.");
+
+  }
+
+  textarea.remove();
+
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+let selectedRating = 0;
+
+const stars =
+  document.querySelectorAll(".feedback-star");
+
+
+stars.forEach(star => {
+
+  star.addEventListener("click",function(){
+
+    selectedRating =
+      Number(this.dataset.star);
+
+    stars.forEach(s => {
+
+      s.classList.toggle(
+        "active",
+        Number(s.dataset.star) <= selectedRating
+      );
+
+    });
+
+  });
+
+});
+
+
+function getFeedbacks(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem("sensix_feedbacks")
+    ) || [];
+
+  }
+
+  catch(e){
+
+    return [];
+
+  }
+
+}
+
+
+function saveFeedbacks(data){
+
+  localStorage.setItem(
+    "sensix_feedbacks",
+    JSON.stringify(data)
+  );
+
+}
+
+
+function sendFeedback(){
+
+  const text =
+    document.getElementById("feedbackText").value.trim();
+
+  const message =
+    document.getElementById("feedbackMessage");
+
+
+  if(selectedRating === 0){
+
+    message.textContent =
+      "⭐ Escolha uma nota antes de enviar.";
+
+    return;
+
+  }
+
+
+  if(!text){
+
+    message.textContent =
+      "✍️ Escreva uma opinião antes de enviar.";
+
+    return;
+
+  }
+
+
+  const feedbacks = getFeedbacks();
+
+
+  feedbacks.unshift({
+
+    rating:selectedRating,
+
+    text:text,
+
+    date:new Date().toLocaleDateString("pt-BR")
+
+  });
+
+
+  saveFeedbacks(feedbacks);
+
+
+  document.getElementById("feedbackText").value = "";
+
+  selectedRating = 0;
+
+
+  stars.forEach(s =>
+    s.classList.remove("active")
+  );
+
+
+  message.textContent =
+    "✅ Avaliação enviada com sucesso!";
+
+
+  renderFeedbacks();
+
+  updateAverage();
+
+}
+
+
+function renderFeedbacks(){
+
+  const list =
+    document.getElementById("feedbackList");
+
+  const feedbacks =
+    getFeedbacks();
+
+
+  if(feedbacks.length === 0){
+
+    list.innerHTML =
+      `<div class="empty-feedback">
+        Ainda não existem avaliações neste dispositivo.
+      </div>`;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    feedbacks.map(item => `
+
+      <div class="feedback-item">
+
+        <div class="feedback-item-top">
+
+          <div class="feedback-item-stars">
+            ${"★".repeat(item.rating)}
+            ${"☆".repeat(5-item.rating)}
+          </div>
+
+          <div class="feedback-date">
+            ${item.date}
+          </div>
+
+        </div>
+
+        <div class="feedback-comment">
+          ${escapeHTML(item.text)}
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+function updateAverage(){
+
+  const feedbacks =
+    getFeedbacks();
+
+
+  if(feedbacks.length === 0){
+
+    document.getElementById("averageRating").textContent =
+      "0.0";
+
+    document.getElementById("averageStars").textContent =
+      "☆☆☆☆☆";
+
+    return;
+
+  }
+
+
+  const total =
+    feedbacks.reduce(
+      (sum,item) => sum + item.rating,
+      0
+    );
+
+
+  const average =
+    total / feedbacks.length;
+
+
+  document.getElementById("averageRating").textContent =
+    average.toFixed(1);
+
+
+  const rounded =
+    Math.round(average);
+
+
+  document.getElementById("averageStars").textContent =
+    "★".repeat(rounded) +
+    "☆".repeat(5-rounded);
+
+}
+
+
+function clearFeedbacks(){
+
+  if(
+    !confirm(
+      "Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    "sensix_feedbacks"
+  );
+
+
+  renderFeedbacks();
+
+  updateAverage();
+
+}
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+renderFeedbacks();
+
+updateAverage();
+
+
+</script>
+
+</body>
+</html>
  
