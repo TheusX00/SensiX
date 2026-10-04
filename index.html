@@ -1112,20 +1112,23 @@ base+3,
 
 let dpi;
 
-if(maxDpi>0){
+if(brand.value==="iPhone"){
 
-dpi=clamp(
-maxDpi-30,
-600,
-maxDpi
-);
+  dpi="Nativo";
+
+}else if(maxDpi>0){
+
+  dpi=clamp(
+    maxDpi-30,
+    600,
+    maxDpi
+  );
 
 }else{
 
-dpi=800;
+  dpi=800;
 
 }
-
 
 /* BOTÃO */
 
