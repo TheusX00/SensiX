@@ -1626,3 +1626,443 @@ footer{
 }
 
 </style>
+
+<!-- PARTE 4/5 -->
+
+<script>
+
+/* =========================
+   MODELOS DOS CELULARES
+========================= */
+
+const models = {
+
+  Samsung: [
+    ["Galaxy A15",60],
+    ["Galaxy A25",120],
+    ["Galaxy A35",120],
+    ["Galaxy A55",120],
+    ["Galaxy S21",120],
+    ["Galaxy S22",120],
+    ["Galaxy S23",120],
+    ["Galaxy S24",120],
+    ["Galaxy S25",120]
+  ],
+
+  Motorola: [
+    ["Moto G23",90],
+    ["Moto G54",120],
+    ["Moto G84",120],
+    ["Edge 30",144],
+    ["Edge 40",144],
+    ["Edge 50",120]
+  ],
+
+  Xiaomi: [
+    ["Redmi Note 12",120],
+    ["Redmi Note 13",120],
+    ["Xiaomi 13",120],
+    ["Xiaomi 14",120],
+    ["POCO X5",120],
+    ["POCO X6",120]
+  ],
+
+  Redmi: [
+    ["Redmi 12",90],
+    ["Redmi Note 12",120],
+    ["Redmi Note 13",120],
+    ["Redmi Note 14",120]
+  ],
+
+  POCO: [
+    ["POCO X3",120],
+    ["POCO X5",120],
+    ["POCO X6",120],
+    ["POCO F5",120],
+    ["POCO F6",120]
+  ],
+
+  Realme: [
+    ["Realme C55",90],
+    ["Realme 11",120],
+    ["Realme 12",120],
+    ["Realme GT",120]
+  ],
+
+  iPhone: [
+    ["iPhone SE",60],
+    ["iPhone 11",60],
+    ["iPhone 12",60],
+    ["iPhone 13",60],
+    ["iPhone 14",60],
+    ["iPhone 15",60],
+    ["iPhone 16",60],
+    ["iPhone 17",120]
+  ],
+
+  ASUS: [
+    ["ROG Phone 5",144],
+    ["ROG Phone 6",165],
+    ["ROG Phone 7",165],
+    ["ROG Phone 8",165]
+  ],
+
+  Infinix: [
+    ["Hot 30",90],
+    ["Hot 40",90],
+    ["Note 30",120],
+    ["GT 20 Pro",144]
+  ],
+
+  OnePlus: [
+    ["OnePlus 9",120],
+    ["OnePlus 10",120],
+    ["OnePlus 11",120],
+    ["OnePlus 12",120]
+  ],
+
+  Huawei: [
+    ["Nova 10",120],
+    ["Nova 11",120],
+    ["P50",90],
+    ["P60",120]
+  ],
+
+  Oppo: [
+    ["A78",90],
+    ["Reno 8",90],
+    ["Reno 10",120],
+    ["Find X5",120]
+  ],
+
+  Vivo: [
+    ["V25",90],
+    ["V27",120],
+    ["V29",120],
+    ["X90",120]
+  ],
+
+  Honor: [
+    ["HONOR 90",120],
+    ["HONOR 200",120],
+    ["Magic 5",120],
+    ["Magic 6",120]
+  ],
+
+  Nokia: [
+    ["Nokia G60",120],
+    ["Nokia X30",90],
+    ["Nokia XR21",120]
+  ],
+
+  Outros: [
+    ["Celular 60Hz",60],
+    ["Celular 90Hz",90],
+    ["Celular 120Hz",120]
+  ]
+
+};
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const brand =
+  document.getElementById("brand");
+
+const model =
+  document.getElementById("model");
+
+const chips =
+  document.getElementById("chips");
+
+const style =
+  document.getElementById("style");
+
+const profile =
+  document.getElementById("profile");
+
+
+/* =========================
+   CARREGAR MODELOS
+========================= */
+
+function loadModels(){
+
+  const list =
+    models[brand.value] || models.Outros;
+
+  model.innerHTML = "";
+
+  list.forEach((item,index)=>{
+
+    const option =
+      document.createElement("option");
+
+    option.value = index;
+
+    option.textContent =
+      `${item[0]} — ${item[1]}Hz`;
+
+    model.appendChild(option);
+
+  });
+
+
+  chips.innerHTML =
+    list
+      .map(item =>
+        `<span class="chip">
+          ${item[0]} • ${item[1]}Hz
+        </span>`
+      )
+      .join("");
+
+
+  /* =========================
+     IPHONE
+  ========================= */
+
+  if(brand.value === "iPhone"){
+
+    style.innerHTML = `
+
+      <option value="baixo">
+        Baixo
+      </option>
+
+      <option value="medio">
+        Médio
+      </option>
+
+      <option value="alto">
+        Alto
+      </option>
+
+    `;
+
+  }else{
+
+    style.innerHTML = `
+
+      <option value="capa">
+        🔥 Capa / Headshot
+      </option>
+
+      <option value="rush">
+        ⚡ Rush
+      </option>
+
+      <option value="precisao">
+        🎯 Precisão
+      </option>
+
+      <option value="equilibrada">
+        ⚖️ Equilibrada
+      </option>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   TROCA DE MARCA
+========================= */
+
+brand.addEventListener(
+  "change",
+  loadModels
+);
+
+
+/* =========================
+   INICIALIZAR
+========================= */
+
+loadModels();
+
+
+/* =========================
+   UTILITÁRIOS
+========================= */
+
+function clamp(value,min,max){
+
+  return Math.max(
+    min,
+    Math.min(
+      max,
+      Math.round(value)
+    )
+  );
+
+}
+
+
+function randomBetween(min,max){
+
+  return Math.floor(
+    Math.random() *
+    (max - min + 1)
+  ) + min;
+
+}
+
+
+/* =========================
+   SENSI IPHONE
+========================= */
+
+function generateIphoneSensi(level){
+
+  let min;
+  let max;
+
+  if(level === "baixo"){
+
+    min = 100;
+    max = 135;
+
+  }else if(level === "medio"){
+
+    min = 135;
+    max = 170;
+
+  }else{
+
+    min = 170;
+    max = 200;
+
+  }
+
+
+  const geral =
+    randomBetween(min,max);
+
+
+  return {
+
+    geral: geral,
+
+    redDot:
+      clamp(
+        geral + randomBetween(-3,3),
+        min,
+        max
+      ),
+
+    mira2x:
+      clamp(
+        geral + randomBetween(-5,5),
+        min,
+        max
+      ),
+
+    mira4x:
+      clamp(
+        geral + randomBetween(-7,7),
+        min,
+        max
+      ),
+
+    miraSniper:
+      clamp(
+        geral + randomBetween(-9,9),
+        min,
+        max
+      ),
+
+    olhadinha:
+      clamp(
+        geral + randomBetween(-4,4),
+        min,
+        max
+      )
+
+  };
+
+}
+
+
+/* =========================
+   SENSI ANDROID
+========================= */
+
+function generateAndroidSensi(type){
+
+  let base;
+
+  if(type === "capa"){
+
+    base =
+      randomBetween(85,100);
+
+  }else if(type === "rush"){
+
+    base =
+      randomBetween(80,95);
+
+  }else if(type === "precisao"){
+
+    base =
+      randomBetween(70,88);
+
+  }else{
+
+    base =
+      randomBetween(75,92);
+
+  }
+
+
+  return {
+
+    geral:
+      clamp(
+        base,
+        1,
+        200
+      ),
+
+    redDot:
+      clamp(
+        base + randomBetween(-4,4),
+        1,
+        200
+      ),
+
+    mira2x:
+      clamp(
+        base + randomBetween(-6,6),
+        1,
+        200
+      ),
+
+    mira4x:
+      clamp(
+        base + randomBetween(-8,8),
+        1,
+        200
+      ),
+
+    miraSniper:
+      clamp(
+        base + randomBetween(-12,8),
+        1,
+        200
+      ),
+
+    olhadinha:
+      clamp(
+        base + randomBetween(-5,5),
+        1,
+        200
+      )
+
+  };
+
+}
