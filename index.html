@@ -465,3 +465,149 @@ button:active{
 
 </style>
 </head>
+<body>
+
+<header>
+  <div class="logo">Sensi<span>X</span></div>
+  <div class="badge">🔥 FREE FIRE • GERADOR</div>
+</header>
+
+<main>
+
+<section class="hero">
+
+<div class="hero-tag">⚡ CONFIGURAÇÃO INTELIGENTE</div>
+
+<h1>
+GERE SUA <span>SENSI</span>
+</h1>
+
+<p>
+Escolha seu celular, estilo de jogo e perfil.
+O SensiX cria uma configuração personalizada de sensibilidade,
+DPI e botão de atirar para você testar no Free Fire.
+</p>
+
+</section>
+
+<div class="grid">
+
+<section class="card">
+
+<h2>🎮 Personalize sua configuração</h2>
+
+<div class="form">
+
+<div>
+<label>Marca do celular</label>
+
+<select id="brand">
+<option value="Samsung">Samsung</option>
+<option value="Motorola">Motorola</option>
+<option value="Xiaomi">Xiaomi</option>
+<option value="Redmi">Redmi</option>
+<option value="POCO">POCO</option>
+<option value="Realme">Realme</option>
+<option value="iPhone">iPhone</option>
+<option value="ASUS">ASUS</option>
+<option value="Infinix">Infinix</option>
+<option value="OnePlus">OnePlus</option>
+<option value="Huawei">Huawei</option>
+<option value="Oppo">OPPO</option>
+<option value="Vivo">Vivo</option>
+<option value="Honor">HONOR</option>
+<option value="Nokia">Nokia</option>
+<option value="Outros">Outros</option>
+</select>
+</div>
+
+<div>
+<label>Modelo • taxa da tela</label>
+<select id="model"></select>
+</div>
+
+<div>
+<label>Estilo de jogo</label>
+
+<select id="style">
+<option value="capa">🔥 Capa / Headshot</option>
+<option value="rush">⚡ Rush</option>
+<option value="precisao">🎯 Precisão</option>
+<option value="equilibrada">⚖️ Equilibrada</option>
+</select>
+</div>
+
+<div>
+<label>Perfil</label>
+
+<select id="profile">
+<option value="normal">Normal</option>
+<option value="agressiva">Agressiva</option>
+<option value="controlada">Controlada</option>
+</select>
+</div>
+
+<button class="primary" onclick="generate()">
+GERAR MINHA SENSI 🚀
+</button>
+
+</div>
+
+<div class="models">
+
+<label>Modelos disponíveis</label>
+
+<div class="chips" id="chips"></div>
+
+</div>
+
+</section>
+
+<section class="card result" id="result">
+
+<div class="resultTop">
+
+<h2>🎯 Sua configuração</h2>
+
+<span class="preset" id="preset">
+PRESET
+</span>
+
+</div>
+
+<div class="sensi" id="stats"></div>
+
+<div class="dpi-box">
+
+<div class="dpi">
+<span>DPI recomendado</span>
+<strong id="dpi">—</strong>
+</div>
+
+<div class="dpi">
+<span>Botão de atirar</span>
+<strong id="btnSize">—</strong>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="secondary" onclick="copySensi()">
+📋 Copiar
+</button>
+
+<button class="secondary" onclick="generate()">
+🔄 Outra Sensi
+</button>
+
+</div>
+
+<p class="tip">
+💡 Os valores são sugestões iniciais. Teste no campo de treinamento
+e faça pequenos ajustes de acordo com sua jogabilidade.
+</p>
+
+</section>
+
+</div>
