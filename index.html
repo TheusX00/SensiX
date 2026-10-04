@@ -2012,3 +2012,669 @@ function generateIphoneSensi(
   };
 
 }
+<script>
+
+/* =========================
+   MODELOS DOS CELULARES
+========================= */
+
+const models = {
+
+  Samsung: [
+    ["Galaxy A15 5G",90],
+    ["Galaxy A25 5G",120],
+    ["Galaxy A35 5G",120],
+    ["Galaxy A55 5G",120],
+    ["Galaxy S23",120],
+    ["Galaxy S24",120],
+    ["Galaxy S24 Ultra",120],
+    ["Galaxy S25",120]
+  ],
+
+  Motorola: [
+    ["Moto G23",90],
+    ["Moto G54",120],
+    ["Moto G84",120],
+    ["Moto Edge 40",144],
+    ["Moto Edge 50",120]
+  ],
+
+  Xiaomi: [
+    ["Xiaomi 13",120],
+    ["Xiaomi 14",120],
+    ["Xiaomi 14 Ultra",120]
+  ],
+
+  Redmi: [
+    ["Redmi Note 12",120],
+    ["Redmi Note 13",120],
+    ["Redmi Note 13 Pro",120],
+    ["Redmi Note 13 Pro+",120]
+  ],
+
+  POCO: [
+    ["POCO X5 Pro",120],
+    ["POCO X6",120],
+    ["POCO X6 Pro",120],
+    ["POCO F5",120],
+    ["POCO F6",120]
+  ],
+
+  Realme: [
+    ["Realme C55",90],
+    ["Realme 11",120],
+    ["Realme 12",120],
+    ["Realme GT Neo",120]
+  ],
+
+  iPhone: [
+    ["iPhone 11",60],
+    ["iPhone 11 Pro",60],
+    ["iPhone 11 Pro Max",60],
+    ["iPhone 12",60],
+    ["iPhone 12 Pro",60],
+    ["iPhone 12 Pro Max",60],
+    ["iPhone 13",60],
+    ["iPhone 13 Pro",120],
+    ["iPhone 13 Pro Max",120],
+    ["iPhone 14",60],
+    ["iPhone 14 Pro",120],
+    ["iPhone 14 Pro Max",120],
+    ["iPhone 15",60],
+    ["iPhone 15 Pro",120],
+    ["iPhone 15 Pro Max",120],
+    ["iPhone 16",60],
+    ["iPhone 16 Pro",120],
+    ["iPhone 16 Pro Max",120]
+  ],
+
+  ASUS: [
+    ["ROG Phone 6",165],
+    ["ROG Phone 7",165],
+    ["ROG Phone 8",165]
+  ],
+
+  Infinix: [
+    ["Hot 30",90],
+    ["Hot 40",90],
+    ["Note 30",120],
+    ["GT 20 Pro",144]
+  ],
+
+  OnePlus: [
+    ["OnePlus 10 Pro",120],
+    ["OnePlus 11",120],
+    ["OnePlus 12",120]
+  ],
+
+  Huawei: [
+    ["Nova 10",120],
+    ["Nova 11",120],
+    ["P50 Pro",120]
+  ],
+
+  Oppo: [
+    ["Reno 10",120],
+    ["Reno 11",120],
+    ["Find X5 Pro",120]
+  ],
+
+  Vivo: [
+    ["V25",90],
+    ["V27",120],
+    ["V30",120],
+    ["X90",120]
+  ],
+
+  Honor: [
+    ["HONOR 90",120],
+    ["HONOR 200",120],
+    ["Magic 6 Pro",120]
+  ],
+
+  Nokia: [
+    ["Nokia G22",90],
+    ["Nokia G42",90],
+    ["Nokia X30",90]
+  ],
+
+  Outros: [
+    ["Celular genérico",60],
+    ["Outro modelo",90],
+    ["Outro modelo 120Hz",120]
+  ]
+
+};
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const chips = document.getElementById("chips");
+
+const style = document.getElementById("style");
+const profile = document.getElementById("profile");
+
+const result = document.getElementById("result");
+const stats = document.getElementById("stats");
+
+const preset = document.getElementById("preset");
+const dpi = document.getElementById("dpi");
+const btnSize = document.getElementById("btnSize");
+
+
+/* =========================
+   CARREGAR MODELOS
+========================= */
+
+function loadModels(){
+
+  model.innerHTML = "";
+
+  const list =
+    models[brand.value] || models.Outros;
+
+
+  list.forEach((item,index)=>{
+
+    const name = item[0];
+    const hz = item[1];
+
+    const option =
+      document.createElement("option");
+
+    option.value = index;
+
+    option.textContent =
+      hz
+        ? `${name} — ${hz}Hz`
+        : name;
+
+    model.appendChild(option);
+
+  });
+
+
+  chips.innerHTML =
+    list
+      .slice(0,7)
+      .map(item =>
+        `<span class="chip">
+          ${item[0]} • ${item[1]}Hz
+        </span>`
+      )
+      .join("");
+
+
+  /* =========================
+     ESTILO EXCLUSIVO IPHONE
+  ========================= */
+
+  if(brand.value === "iPhone"){
+
+    style.innerHTML = `
+
+      <option value="baixo">
+        Baixo
+      </option>
+
+      <option value="medio">
+        Médio
+      </option>
+
+      <option value="alto">
+        Alto
+      </option>
+
+    `;
+
+  }else{
+
+    style.innerHTML = `
+
+      <option value="capa">
+        🔥 Capa / Headshot
+      </option>
+
+      <option value="rush">
+        ⚡ Rush
+      </option>
+
+      <option value="precisao">
+        🎯 Precisão
+      </option>
+
+      <option value="equilibrada">
+        ⚖️ Equilibrada
+      </option>
+
+    `;
+
+  }
+
+}
+
+
+brand.addEventListener(
+  "change",
+  loadModels
+);
+
+
+loadModels();
+
+
+/* =========================
+   UTILITÁRIOS
+========================= */
+
+function clamp(value,min,max){
+
+  return Math.max(
+    min,
+    Math.min(
+      max,
+      Math.round(value)
+    )
+  );
+
+}
+
+
+function randomBetween(min,max){
+
+  return Math.floor(
+    Math.random() *
+    (max - min + 1)
+  ) + min;
+
+}
+
+
+/* =========================
+   SENSI IPHONE
+========================= */
+
+function generateIphoneSensi(level){
+
+  let min;
+  let max;
+
+
+  if(level === "baixo"){
+
+    min = 100;
+    max = 135;
+
+  }
+
+  else if(level === "medio"){
+
+    min = 135;
+    max = 170;
+
+  }
+
+  else{
+
+    min = 170;
+    max = 200;
+
+  }
+
+
+  return {
+
+    geral:
+      randomBetween(min,max),
+
+    redDot:
+      randomBetween(min,max),
+
+    mira2x:
+      randomBetween(min,max),
+
+    mira4x:
+      randomBetween(min,max),
+
+    miraSniper:
+      randomBetween(min,max),
+
+    olhadinha:
+      randomBetween(min,max)
+
+  };
+
+}
+
+
+/* =========================
+   SENSI ANDROID
+========================= */
+
+function generateAndroidSensi(
+  gameStyle,
+  gameProfile
+){
+
+  let base;
+
+
+  switch(gameStyle){
+
+    case "capa":
+      base = randomBetween(175,200);
+      break;
+
+    case "rush":
+      base = randomBetween(165,195);
+      break;
+
+    case "precisao":
+      base = randomBetween(130,165);
+      break;
+
+    default:
+      base = randomBetween(145,180);
+      break;
+
+  }
+
+
+  if(gameProfile === "agressiva"){
+
+    base += 5;
+
+  }
+
+  if(gameProfile === "controlada"){
+
+    base -= 5;
+
+  }
+
+
+  base = clamp(base,100,200);
+
+
+  return {
+
+    geral:
+      clamp(
+        base + randomBetween(-5,5),
+        100,
+        200
+      ),
+
+    redDot:
+      clamp(
+        base + randomBetween(-7,7),
+        100,
+        200
+      ),
+
+    mira2x:
+      clamp(
+        base + randomBetween(-10,5),
+        100,
+        200
+      ),
+
+    mira4x:
+      clamp(
+        base + randomBetween(-12,3),
+        100,
+        200
+      ),
+
+    miraSniper:
+      clamp(
+        base + randomBetween(-18,0),
+        80,
+        180
+      ),
+
+    olhadinha:
+      clamp(
+        base + randomBetween(-5,5),
+        100,
+        200
+      )
+
+  };
+
+}
+
+
+/* =========================
+   DPI IPHONE
+========================= */
+
+function iphoneDpi(){
+
+  return "Padrão";
+
+}
+
+
+/* =========================
+   DPI ANDROID
+========================= */
+
+function androidDpi(){
+
+  return randomBetween(
+    400,
+    650
+  );
+
+}
+
+
+/* =========================
+   BOTÃO DE ATIRAR
+========================= */
+
+function generateButton(){
+
+  return randomBetween(
+    42,
+    58
+  ) + "%";
+
+}
+
+
+/* =========================
+   MOSTRAR RESULTADO
+========================= */
+
+function showResult(
+  sensi,
+  deviceType,
+  selectedStyle
+){
+
+  result.classList.add("show");
+
+
+  const names = {
+
+    geral:
+      "Geral",
+
+    redDot:
+      "Ponto Vermelho",
+
+    mira2x:
+      "Mira 2x",
+
+    mira4x:
+      "Mira 4x",
+
+    miraSniper:
+      "Mira AWM",
+
+    olhadinha:
+      "Olhadinha"
+
+  };
+
+
+  stats.innerHTML =
+    Object.entries(sensi)
+      .map(([key,value]) => `
+
+        <div class="stat">
+
+          <small>
+            ${names[key]}
+          </small>
+
+          <strong>
+            ${value}
+          </strong>
+
+        </div>
+
+      `)
+      .join("");
+
+
+  if(deviceType === "iphone"){
+
+    preset.textContent =
+      selectedStyle.toUpperCase();
+
+    dpi.textContent =
+      iphoneDpi();
+
+  }else{
+
+    preset.textContent =
+      selectedStyle
+        .replace("capa","CAPA")
+        .replace("rush","RUSH")
+        .replace("precisao","PRECISÃO")
+        .replace("equilibrada","EQUILIBRADA");
+
+    dpi.textContent =
+      androidDpi();
+
+  }
+
+
+  btnSize.textContent =
+    generateButton();
+
+}
+
+
+/* =========================
+   GERAR SENSI
+========================= */
+
+function generate(){
+
+  const selectedBrand =
+    brand.value;
+
+  const selectedStyle =
+    style.value;
+
+  const selectedProfile =
+    profile.value;
+
+
+  let sensi;
+
+  let deviceType;
+
+
+  if(selectedBrand === "iPhone"){
+
+    deviceType = "iphone";
+
+    sensi =
+      generateIphoneSensi(
+        selectedStyle
+      );
+
+  }else{
+
+    deviceType = "android";
+
+    sensi =
+      generateAndroidSensi(
+        selectedStyle,
+        selectedProfile
+      );
+
+  }
+
+
+  showResult(
+    sensi,
+    deviceType,
+    selectedStyle
+  );
+
+
+  result.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+
+
+/* =========================
+   COPIAR CONFIGURAÇÃO
+========================= */
+
+function copySensi(){
+
+  const text =
+    stats.innerText +
+    "\nDPI: " +
+    dpi.innerText +
+    "\nBotão: " +
+    btnSize.innerText;
+
+
+  if(
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ){
+
+    navigator.clipboard
+      .writeText(text)
+      .then(()=>{
+
+        alert(
+          "✅ Configuração copiada!"
+        );
+
+      })
+      .catch(()=>{
+
+        alert(
+          "❌ Não foi possível copiar automaticamente."
+        );
+
+      });
+
+  }else{
+
+    alert(
+      "❌ Seu navegador não permite copiar automaticamente."
+    );
+
+  }
+
+}
+
+</script>
