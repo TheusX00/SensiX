@@ -984,9 +984,11 @@ SensiX © 2026 • Ferramenta independente para configurações de Free Fire.
 
 <script>
 
-/* =========================
-   MODELOS
-========================= */
+<script>
+
+/* =========================================================
+   SENSIX — SISTEMA PRINCIPAL
+========================================================= */
 
 const models = {
 
@@ -1158,50 +1160,44 @@ Outros:[
 };
 
 
-/* =========================
+/* =========================================================
    ELEMENTOS
-========================= */
+========================================================= */
 
 const brand = document.getElementById("brand");
 const model = document.getElementById("model");
 const chips = document.getElementById("chips");
 
 
-/* =========================
+/* =========================================================
    CARREGAR MODELOS
-========================= */
+========================================================= */
 
 function loadModels(){
 
-model.innerHTML="";
+    model.innerHTML = "";
 
-const list=models[brand.value] || models.Outros;
+    const list = models[brand.value] || models.Outros;
 
-list.forEach((item,index)=>{
+    list.forEach((item,index)=>{
 
-const name=item[0];
-const hz=item[1];
-const maxDpi=item[2];
+        const option = document.createElement("option");
 
-const option=document.createElement("option");
+        option.value = index;
 
-option.value=index;
-option.textContent=
-hz ?
-`${name} — ${hz}Hz`
-:
-name;
+        option.textContent =
+            `${item[0]} — ${item[1]}Hz`;
 
-model.appendChild(option);
+        model.appendChild(option);
 
-});
+    });
 
-chips.innerHTML=list
-.slice(0,7)
-.map(item=>
-`<span class="chip">${item[0]} • ${item[1]}Hz</span>`
-)
-.join("");
+    chips.innerHTML = list
+        .slice(0,7)
+        .map(item =>
+            `<span class="chip">${item[0]} • ${item[1]}Hz</span>`
+        )
+        .join("");
 
 }
 
@@ -1210,54 +1206,780 @@ brand.addEventListener("change",loadModels);
 loadModels();
 
 
-/* =========================
-   UTILITÁRIO
-========================= */
+/* =========================================================
+   LIMITADOR
+========================================================= */
 
 function clamp(value,min,max){
 
-return Math.max(
-min,
-Math.min(max,Math.round(value))
-);
+    return Math.max(
+        min,
+        Math.min(max,Math.round(value))
+    );
 
 }
 
 
-/* =========================
-   GERAR SENSI
-========================= */
+/* =========================================================
+   GERADOR DE SENSIBILIDADE
+========================================================= */
 
 function generate(){
 
-const list=models[brand.value] || models.Outros;
+    const list =
+        models[brand.value] || models.Outros;
 
-const item=list[Number(model.value)||0];
+    const index =
+        Number(model.value) || 0;
 
-const name=item[0];
-const hz=item[1];
-const maxDpi=item[2];
+    const item =
+        list[index];
 
-const style=document.getElementById("style").value;
-const profile=document.getElementById("profile").value;
+    if(!item){
+        return;
+    }
+
+    const name = item[0];
+    const hz = item[1];
+    const maxDpi = item[2];
+
+    const style =
+        document.getElementById("style").value;
+
+    const profile =
+        document.getElementById("profile").value;
 
 
-/* BASE */
+    /* BASE DA SENSI */
 
-let base=155;
+    let base = 155;
 
 
-/* APARELHO */
+    /* TAXA DA TELA */
 
-if(hz>=165){
-base=165;
-}else if(hz>=144){
-base=162;
-}else if(hz>=120){
-base=158;
-}else if(hz>=90){
-base=155;
-}else{
-base=150;
+    if(hz >= 165){
+
+        base = 165;
+
+    }else if(hz >= 144){
+
+        base = 162;
+
+    }else if(hz >= 120){
+
+        base = 158;
+
+    }else if(hz >= 90){
+
+        base = 155;
+
+    }else{
+
+        base = 150;
+
+    }
+
+
+    /* AJUSTE POR ESTILO */
+
+    const styleAdjust = {
+
+        capa:8,
+
+        rush:12,
+
+        precisao:-7,
+
+        equilibrada:0
+
+    };
+
+    base +=
+        styleAdjust[style] || 0;
+
+
+    /* AJUSTE POR PERFIL */
+
+    const profileAdjust = {
+
+        normal:0,
+
+        agressiva:7,
+
+        controlada:-5
+
+    };
+
+    base +=
+        profileAdjust[profile] || 0;
+
+
+    /* SENSIBILIDADES */
+
+    const geral =
+        clamp(base,1,200);
+
+    const redDot =
+        clamp(base-8,1,200);
+
+    const mira2x =
+        clamp(base-15,1,200);
+
+    const mira4x =
+        clamp(base-25,1,200);
+
+    const awm =
+        clamp(base-38,1,200);
+
+    const olhadinha =
+        clamp(base-5,1,200);
+
+
+    /* =====================================================
+       DPI
+    ===================================================== */
+
+    let dpi = "Padrão iOS";
+
+    if(maxDpi > 0){
+
+        const minDpi = 200;
+
+        let dpiPercent = 0.55;
+
+        if(style === "capa"){
+            dpiPercent = 0.88;
+        }
+
+        if(style === "rush"){
+            dpiPercent = 0.93;
+        }
+
+        if(style === "precisao"){
+            dpiPercent = 0.68;
+        }
+
+        if(style === "equilibrada"){
+            dpiPercent = 0.78;
+        }
+
+
+        if(profile === "agressiva"){
+            dpiPercent += 0.04;
+        }
+
+        if(profile === "controlada"){
+            dpiPercent -= 0.04;
+        }
+
+
+        dpiPercent =
+            Math.max(
+                0.35,
+                Math.min(0.98,dpiPercent)
+            );
+
+
+        dpi = clamp(
+            minDpi +
+            ((maxDpi-minDpi)*dpiPercent),
+            minDpi,
+            maxDpi
+        );
+
+    }
+
+
+    /* =====================================================
+       BOTÃO DE ATIRAR
+    ===================================================== */
+
+    const buttonSizes = {
+
+        capa:"48%",
+
+        rush:"55%",
+
+        precisao:"42%",
+
+        equilibrada:"50%"
+
+    };
+
+    const buttonSize =
+        buttonSizes[style] || "50%";
+
+
+    /* =====================================================
+       MOSTRAR RESULTADO
+    ===================================================== */
+
+    const names = [
+
+        "Geral",
+
+        "Red Dot",
+
+        "Mira 2x",
+
+        "Mira 4x",
+
+        "AWM",
+
+        "Olhadinha"
+
+    ];
+
+
+    const values = [
+
+        geral,
+
+        redDot,
+
+        mira2x,
+
+        mira4x,
+
+        awm,
+
+        olhadinha
+
+    ];
+
+
+    document.getElementById("stats").innerHTML =
+
+        names.map((name,i)=>`
+
+            <div class="stat">
+
+                <small>${name}</small>
+
+                <strong>${values[i]}</strong>
+
+            </div>
+
+        `).join("");
+
+
+    document.getElementById("dpi").textContent =
+        dpi === "Padrão iOS"
+        ? dpi
+        : dpi;
+
+
+    document.getElementById("btnSize").textContent =
+        buttonSize;
+
+
+    let preset = "EQUILIBRADA";
+
+    if(style === "capa"){
+        preset = "HEADSHOT";
+    }
+
+    if(style === "rush"){
+        preset = "RUSH";
+    }
+
+    if(style === "precisao"){
+        preset = "PRECISÃO";
+    }
+
+
+    document.getElementById("preset").textContent =
+        preset;
+
+
+    document
+        .getElementById("result")
+        .classList.add("show");
+
+
+    /* =====================================================
+       TEXTO PARA COPIAR
+    ===================================================== */
+
+    window.currentSensi =
+
+`SENSIX — ${name}
+Celular: ${name}
+Tela: ${hz}Hz
+
+Geral: ${geral}
+Red Dot: ${redDot}
+Mira 2x: ${mira2x}
+Mira 4x: ${mira4x}
+AWM: ${awm}
+Olhadinha: ${olhadinha}
+
+DPI: ${dpi}
+Botão de Atirar: ${buttonSize}
+
+Estilo: ${style}
+Perfil: ${profile}`;
+
+
 }
 
+
+/* =========================================================
+   COPIAR SENSI
+========================================================= */
+
+function copySensi(){
+
+    if(!window.currentSensi){
+
+        generate();
+
+    }
+
+    if(
+        navigator.clipboard &&
+        window.currentSensi
+    ){
+
+        navigator.clipboard.writeText(
+            window.currentSensi
+        );
+
+    }
+
+    const button =
+        document.querySelector(
+            ".actions .secondary"
+        );
+
+    if(button){
+
+        const original =
+            button.textContent;
+
+        button.textContent =
+            "✅ Copiado!";
+
+        setTimeout(()=>{
+
+            button.textContent =
+                original;
+
+        },1500);
+
+    }
+
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+let selectedRating = 0;
+
+
+document
+    .querySelectorAll(".feedback-star")
+    .forEach(star=>{
+
+        star.addEventListener("click",()=>{
+
+            selectedRating =
+                Number(star.dataset.star);
+
+
+            document
+                .querySelectorAll(".feedback-star")
+                .forEach(item=>{
+
+                    item.classList.toggle(
+
+                        "active",
+
+                        Number(item.dataset.star)
+                        <= selectedRating
+
+                    );
+
+                });
+
+        });
+
+    });
+
+
+/* =========================================================
+   LER FEEDBACKS
+========================================================= */
+
+function getFeedbacks(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "sensix_feedbacks"
+            ) || "[]"
+        );
+
+    }catch(e){
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   SALVAR FEEDBACK
+========================================================= */
+
+function sendFeedback(){
+
+    const text =
+        document
+        .getElementById("feedbackText")
+        .value
+        .trim();
+
+
+    const message =
+        document.getElementById(
+            "feedbackMessage"
+        );
+
+
+    if(selectedRating === 0){
+
+        message.textContent =
+            "⭐ Escolha uma nota de 1 a 5 estrelas.";
+
+        message.style.color =
+            "var(--yellow)";
+
+        return;
+
+    }
+
+
+    if(text.length === 0){
+
+        message.textContent =
+            "✍️ Escreva um comentário antes de enviar.";
+
+        message.style.color =
+            "var(--yellow)";
+
+        return;
+
+    }
+
+
+    const feedbacks =
+        getFeedbacks();
+
+
+    feedbacks.unshift({
+
+        estrelas:selectedRating,
+
+        comentario:text,
+
+        data:new Date().toISOString()
+
+    });
+
+
+    localStorage.setItem(
+
+        "sensix_feedbacks",
+
+        JSON.stringify(feedbacks)
+
+    );
+
+
+    document
+        .getElementById("feedbackText")
+        .value = "";
+
+
+    selectedRating = 0;
+
+
+    document
+        .querySelectorAll(".feedback-star")
+        .forEach(star=>{
+
+            star.classList.remove("active");
+
+        });
+
+
+    message.textContent =
+        "✅ Avaliação enviada com sucesso!";
+
+
+    message.style.color =
+        "var(--green)";
+
+
+    renderFeedbacks();
+
+}
+
+
+/* =========================================================
+   MOSTRAR AVALIAÇÕES
+========================================================= */
+
+function renderFeedbacks(){
+
+    const list =
+        document.getElementById(
+            "feedbackList"
+        );
+
+
+    const feedbacks =
+        getFeedbacks();
+
+
+    if(feedbacks.length === 0){
+
+        list.innerHTML = `
+
+            <div class="empty-feedback">
+
+                Ainda não existem avaliações.
+                Seja o primeiro a avaliar o SensiX! ⭐
+
+            </div>
+
+        `;
+
+        updateAverage([]);
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        feedbacks
+        .slice(0,50)
+        .map(feedback=>{
+
+            const stars =
+                "★".repeat(
+                    Number(feedback.estrelas)
+                ) +
+                "☆".repeat(
+                    5-Number(feedback.estrelas)
+                );
+
+
+            const date =
+                new Date(feedback.data);
+
+
+            const formatted =
+                isNaN(date.getTime())
+                ? ""
+                : date.toLocaleDateString(
+                    "pt-BR"
+                );
+
+
+            return `
+
+                <div class="feedback-item">
+
+                    <div class="feedback-item-top">
+
+                        <span class="feedback-item-stars">
+                            ${stars}
+                        </span>
+
+                        <span class="feedback-date">
+                            ${formatted}
+                        </span>
+
+                    </div>
+
+                    <div class="feedback-comment">
+                        ${escapeHTML(
+                            feedback.comentario
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+
+    updateAverage(feedbacks);
+
+}
+
+
+/* =========================================================
+   MÉDIA
+========================================================= */
+
+function updateAverage(feedbacks){
+
+    const average =
+        document.getElementById(
+            "averageRating"
+        );
+
+    const stars =
+        document.getElementById(
+            "averageStars"
+        );
+
+
+    if(!feedbacks.length){
+
+        average.textContent =
+            "0.0";
+
+        stars.textContent =
+            "☆☆☆☆☆";
+
+        return;
+
+    }
+
+
+    const total =
+        feedbacks.reduce(
+
+            (sum,item)=>
+                sum + Number(item.estrelas),
+
+            0
+
+        );
+
+
+    const avg =
+        total / feedbacks.length;
+
+
+    average.textContent =
+        avg.toFixed(1);
+
+
+    const rounded =
+        Math.round(avg);
+
+
+    stars.textContent =
+        "★".repeat(rounded) +
+        "☆".repeat(5-rounded);
+
+}
+
+
+/* =========================================================
+   SEGURANÇA DO COMENTÁRIO
+========================================================= */
+
+function escapeHTML(text){
+
+    return String(text)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   LIMPAR FEEDBACKS
+========================================================= */
+
+function clearFeedbacks(){
+
+    const feedbacks =
+        getFeedbacks();
+
+
+    if(!feedbacks.length){
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "sensix_feedbacks"
+    );
+
+
+    renderFeedbacks();
+
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        loadModels();
+
+        renderFeedbacks();
+
+    }
+);
+
+
+/* =========================================================
+   GERAR UMA SENSI INICIAL AUTOMATICAMENTE
+========================================================= */
+
+setTimeout(()=>{
+
+    if(
+        model &&
+        model.options.length
+    ){
+
+        generate();
+
+    }
+
+},100);
+
+</script>
