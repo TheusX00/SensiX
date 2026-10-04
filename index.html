@@ -2066,3 +2066,297 @@ function generateAndroidSensi(type){
   };
 
 }
+
+<script>
+
+/* =========================
+   INICIALIZAÇÃO FINAL
+========================= */
+
+loadModels();
+
+
+// =========================
+// FEEDBACK
+// =========================
+
+let selectedRating = 0;
+
+const stars = document.querySelectorAll(".feedback-star");
+
+stars.forEach(star => {
+
+  star.addEventListener("click", () => {
+
+    selectedRating = Number(star.dataset.star);
+
+    stars.forEach(item => {
+
+      item.classList.toggle(
+        "active",
+        Number(item.dataset.star) <= selectedRating
+      );
+
+    });
+
+  });
+
+});
+
+
+// =========================
+// ENVIAR FEEDBACK
+// =========================
+
+function sendFeedback(){
+
+  const text =
+    document.getElementById("feedbackText").value.trim();
+
+  const message =
+    document.getElementById("feedbackMessage");
+
+  if(selectedRating === 0){
+
+    message.textContent =
+      "⭐ Escolha uma nota de 1 a 5.";
+
+    message.style.color = "#ff7a18";
+
+    return;
+
+  }
+
+  if(!text){
+
+    message.textContent =
+      "✍️ Escreva uma opinião antes de enviar.";
+
+    message.style.color = "#ff7a18";
+
+    return;
+
+  }
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem("sensix_feedbacks") || "[]"
+    );
+
+  feedbacks.push({
+
+    rating:selectedRating,
+
+    text:text,
+
+    date:new Date().toLocaleDateString("pt-BR")
+
+  });
+
+  localStorage.setItem(
+    "sensix_feedbacks",
+    JSON.stringify(feedbacks)
+  );
+
+  document.getElementById("feedbackText").value = "";
+
+  selectedRating = 0;
+
+  stars.forEach(star => {
+    star.classList.remove("active");
+  });
+
+  message.textContent =
+    "✅ Avaliação enviada! Obrigado.";
+
+  message.style.color = "#35e58b";
+
+  renderFeedbacks();
+
+  updateAverage();
+
+}
+
+
+// =========================
+// MOSTRAR FEEDBACKS
+// =========================
+
+function renderFeedbacks(){
+
+  const container =
+    document.getElementById("feedbackList");
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem("sensix_feedbacks") || "[]"
+    );
+
+  if(feedbacks.length === 0){
+
+    container.innerHTML = `
+      <div class="empty-feedback">
+        Nenhuma avaliação ainda.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  container.innerHTML =
+    feedbacks
+      .slice()
+      .reverse()
+      .map(feedback => {
+
+        const stars =
+          "★".repeat(feedback.rating) +
+          "☆".repeat(5 - feedback.rating);
+
+        return `
+
+          <div class="feedback-item">
+
+            <div class="feedback-item-top">
+
+              <div class="feedback-item-stars">
+                ${stars}
+              </div>
+
+              <div class="feedback-date">
+                ${feedback.date}
+              </div>
+
+            </div>
+
+            <div class="feedback-comment">
+              ${escapeHTML(feedback.text)}
+            </div>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+}
+
+
+// =========================
+// ESCAPAR TEXTO
+// =========================
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+// =========================
+// MÉDIA DAS AVALIAÇÕES
+// =========================
+
+function updateAverage(){
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem("sensix_feedbacks") || "[]"
+    );
+
+  const averageElement =
+    document.getElementById("averageRating");
+
+  const starsElement =
+    document.getElementById("averageStars");
+
+  if(feedbacks.length === 0){
+
+    averageElement.textContent = "0.0";
+
+    starsElement.textContent = "☆☆☆☆☆";
+
+    return;
+
+  }
+
+  const total =
+    feedbacks.reduce(
+      (sum,item) => sum + Number(item.rating),
+      0
+    );
+
+  const average =
+    total / feedbacks.length;
+
+  averageElement.textContent =
+    average.toFixed(1);
+
+  const rounded =
+    Math.round(average);
+
+  starsElement.textContent =
+    "★".repeat(rounded) +
+    "☆".repeat(5 - rounded);
+
+}
+
+
+// =========================
+// LIMPAR AVALIAÇÕES
+// =========================
+
+function clearFeedbacks(){
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem("sensix_feedbacks") || "[]"
+    );
+
+  if(feedbacks.length === 0){
+
+    return;
+
+  }
+
+  const confirmDelete =
+    confirm(
+      "Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
+    );
+
+  if(!confirmDelete){
+
+    return;
+
+  }
+
+  localStorage.removeItem(
+    "sensix_feedbacks"
+  );
+
+  renderFeedbacks();
+
+  updateAverage();
+
+}
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+renderFeedbacks();
+
+updateAverage();
+
+</script>
+
+</body>
+</html>
