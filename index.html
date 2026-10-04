@@ -996,3 +996,594 @@ footer{
 </style>
 
 </head>
+<body>
+
+<header>
+
+  <div class="logo">
+    Sensi<span>X</span>
+  </div>
+
+  <div class="badge">
+    🔥 FREE FIRE • GERADOR
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+  <div class="hero-tag">
+    ⚡ CONFIGURAÇÃO INTELIGENTE
+  </div>
+
+  <h1>
+    GERE SUA <span>SENSI</span>
+  </h1>
+
+  <p>
+    Escolha seu celular, estilo de jogo e perfil.
+    O SensiX cria uma configuração personalizada
+    de sensibilidade, DPI e botão de atirar
+    para você testar no Free Fire.
+  </p>
+
+</section>
+
+
+<!-- =========================
+     CONFIGURAÇÃO + RESULTADO
+========================= -->
+
+<div class="grid">
+
+
+<!-- CONFIGURAÇÃO -->
+
+<section class="card">
+
+  <h2>
+    🎮 Personalize sua configuração
+  </h2>
+
+
+  <div class="form">
+
+
+    <!-- MARCA -->
+
+    <div>
+
+      <label>
+        Marca do celular
+      </label>
+
+      <select id="brand">
+
+        <option value="Samsung">
+          Samsung
+        </option>
+
+        <option value="Motorola">
+          Motorola
+        </option>
+
+        <option value="Xiaomi">
+          Xiaomi
+        </option>
+
+        <option value="Redmi">
+          Redmi
+        </option>
+
+        <option value="POCO">
+          POCO
+        </option>
+
+        <option value="Realme">
+          Realme
+        </option>
+
+        <option value="iPhone">
+          iPhone
+        </option>
+
+        <option value="ASUS">
+          ASUS
+        </option>
+
+        <option value="Infinix">
+          Infinix
+        </option>
+
+        <option value="OnePlus">
+          OnePlus
+        </option>
+
+        <option value="Huawei">
+          Huawei
+        </option>
+
+        <option value="Oppo">
+          OPPO
+        </option>
+
+        <option value="Vivo">
+          Vivo
+        </option>
+
+        <option value="Honor">
+          HONOR
+        </option>
+
+        <option value="Nokia">
+          Nokia
+        </option>
+
+        <option value="Outros">
+          Outros
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- MODELO -->
+
+    <div>
+
+      <label>
+        Modelo • taxa da tela
+      </label>
+
+      <select id="model"></select>
+
+    </div>
+
+
+    <!-- ESTILO -->
+
+    <div>
+
+      <label>
+        Estilo de jogo
+      </label>
+
+      <select id="style">
+
+        <option value="capa">
+          🔥 Capa / Headshot
+        </option>
+
+        <option value="rush">
+          ⚡ Rush
+        </option>
+
+        <option value="precisao">
+          🎯 Precisão
+        </option>
+
+        <option value="equilibrada">
+          ⚖️ Equilibrada
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- PERFIL -->
+
+    <div>
+
+      <label>
+        Perfil
+      </label>
+
+      <select id="profile">
+
+        <option value="normal">
+          Normal
+        </option>
+
+        <option value="agressiva">
+          Agressiva
+        </option>
+
+        <option value="controlada">
+          Controlada
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- BOTÃO -->
+
+    <button
+      class="primary"
+      onclick="generate()"
+    >
+
+      GERAR MINHA SENSI 🚀
+
+    </button>
+
+
+  </div>
+
+
+  <!-- MODELOS DISPONÍVEIS -->
+
+  <div class="models">
+
+    <label>
+      Modelos disponíveis
+    </label>
+
+    <div
+      class="chips"
+      id="chips"
+    ></div>
+
+  </div>
+
+
+</section>
+
+
+<!-- RESULTADO -->
+
+<section
+  class="card result"
+  id="result"
+>
+
+  <div class="resultTop">
+
+    <h2>
+      🎯 Sua configuração
+    </h2>
+
+    <span
+      class="preset"
+      id="preset"
+    >
+      PRESET
+    </span>
+
+  </div>
+
+
+  <div
+    class="sensi"
+    id="stats"
+  ></div>
+
+
+  <div class="dpi-box">
+
+
+    <div class="dpi">
+
+      <span>
+        DPI recomendado
+      </span>
+
+      <strong id="dpi">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="dpi">
+
+      <span>
+        Botão de atirar
+      </span>
+
+      <strong id="btnSize">
+        —
+      </strong>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="actions">
+
+
+    <button
+      class="secondary"
+      onclick="copySensi()"
+    >
+
+      📋 Copiar
+
+    </button>
+
+
+    <button
+      class="secondary"
+      onclick="generate()"
+    >
+
+      🔄 Outra Sensi
+
+    </button>
+
+
+  </div>
+
+
+  <p class="tip">
+
+    💡 Os valores são sugestões iniciais.
+    Teste no campo de treinamento e faça
+    pequenos ajustes de acordo com sua jogabilidade.
+
+  </p>
+
+
+</section>
+
+
+</div>
+
+
+<!-- =========================
+     PREMIUM
+========================= -->
+
+<section class="premium-wrap">
+
+
+  <div class="premium">
+
+
+    <div class="premium-head">
+
+
+      <div>
+
+        <h2>
+          👑 SensiX <span>PREMIUM</span>
+        </h2>
+
+        <p>
+          Novos recursos avançados estão sendo
+          preparados para o SensiX.
+        </p>
+
+      </div>
+
+
+      <span class="premium-badge">
+        PREMIUM
+      </span>
+
+
+    </div>
+
+
+    <div class="premium-locked">
+
+
+      <div class="lock-icon">
+        🚧
+      </div>
+
+
+      <h3>
+        PREMIUM EM DESENVOLVIMENTO
+      </h3>
+
+
+      <p>
+        Esta área está temporariamente bloqueada.
+        Nenhuma compra ou pagamento é necessário
+        neste momento.
+      </p>
+
+
+      <span class="dev-badge">
+        🔒 EM DESENVOLVIMENTO
+      </span>
+
+
+    </div>
+
+
+  </div>
+
+
+</section>
+
+
+<!-- =========================
+     AVALIAÇÃO
+========================= -->
+
+<section class="feedback-section">
+
+
+  <div class="feedback-header">
+
+
+    <div>
+
+      <h2>
+        ⭐ Avalie o SensiX
+      </h2>
+
+      <p>
+        Sua opinião ajuda a melhorar o site.
+      </p>
+
+    </div>
+
+
+    <div class="rating-summary">
+
+      <div
+        class="rating-average"
+        id="averageRating"
+      >
+        0.0
+      </div>
+
+      <div
+        class="rating-stars"
+        id="averageStars"
+      >
+        ☆☆☆☆☆
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="feedback-stars">
+
+
+    <button
+      type="button"
+      class="feedback-star"
+      data-star="1"
+    >
+      ★
+    </button>
+
+
+    <button
+      type="button"
+      class="feedback-star"
+      data-star="2"
+    >
+      ★
+    </button>
+
+
+    <button
+      type="button"
+      class="feedback-star"
+      data-star="3"
+    >
+      ★
+    </button>
+
+
+    <button
+      type="button"
+      class="feedback-star"
+      data-star="4"
+    >
+      ★
+    </button>
+
+
+    <button
+      type="button"
+      class="feedback-star"
+      data-star="5"
+    >
+      ★
+    </button>
+
+
+  </div>
+
+
+  <textarea
+    id="feedbackText"
+    maxlength="500"
+    placeholder="Escreva sua opinião sobre o SensiX..."
+  ></textarea>
+
+
+  <button
+    class="feedback-submit"
+    type="button"
+    onclick="sendFeedback()"
+  >
+
+    ENVIAR AVALIAÇÃO ⭐
+
+  </button>
+
+
+  <p id="feedbackMessage"></p>
+
+
+</section>
+
+
+<!-- =========================
+     COMUNIDADE
+========================= -->
+
+<section class="community">
+
+
+  <h2>
+    👥 Avaliações da comunidade
+  </h2>
+
+
+  <p class="community-sub">
+    Veja os feedbacks salvos neste navegador.
+  </p>
+
+
+  <div
+    class="feedback-list"
+    id="feedbackList"
+  ></div>
+
+
+  <div class="community-actions">
+
+
+    <button
+      class="clear-feedback"
+      onclick="clearFeedbacks()"
+    >
+
+      🗑️ Limpar avaliações deste dispositivo
+
+    </button>
+
+
+  </div>
+
+
+</section>
+
+
+</main>
+
+
+<!-- =========================
+     RODAPÉ
+========================= -->
+
+<footer>
+
+  SensiX © 2026 • Ferramenta independente
+  para configurações de Free Fire.
+
+</footer>
