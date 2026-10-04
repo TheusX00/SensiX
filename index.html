@@ -1009,7 +1009,6 @@ const maxDpi=item[2];
 const style=document.getElementById("style").value;
 const profile=document.getElementById("profile").value;
 
-
 /* BASE */
 
 let base=155;
@@ -1017,16 +1016,30 @@ let base=155;
 
 /* APARELHO */
 
-if(hz>=165){
-base=165;
-}else if(hz>=144){
-base=162;
-}else if(hz>=120){
-base=158;
-}else if(hz>=90){
-base=155;
+if(brand.value==="iPhone"){
+
+  /* iPhone não usa DPI configurável como Android */
+  
+  if(hz>=120){
+    base=175;
+  }else{
+    base=170;
+  }
+
 }else{
-base=150;
+
+  if(hz>=165){
+    base=165;
+  }else if(hz>=144){
+    base=162;
+  }else if(hz>=120){
+    base=158;
+  }else if(hz>=90){
+    base=155;
+  }else{
+    base=150;
+  }
+
 }
 
 
