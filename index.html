@@ -1,730 +1,763 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SensiX — Gerador de Sensibilidade para Free Fire</title><meta
-name="description"
-content="SensiX — gerador de sensibilidade, DPI e botão de atirar para Free Fire."
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-«»
+<title>SensiX — Gerador de Sensibilidade para Free Fire</title>
+
+<meta name="description" content="SensiX — gerador de sensibilidade, DPI e botão de atirar para Free Fire.">
 
 <style>
-
 :root{
-
   --bg:#05070b;
   --card:#0e121b;
   --card2:#111722;
   --line:#27303e;
-
   --text:#f8fafc;
   --muted:#9aa5b5;
-
   --red:#ff304f;
   --orange:#ff7a18;
-
   --yellow:#ffc400;
   --purple:#b85cff;
-
 }
 
 *{
-
   box-sizing:border-box;
   margin:0;
   padding:0;
-
-}
-
-html{
-
-  scroll-behavior:smooth;
-
 }
 
 body{
-
   min-height:100vh;
-
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color:var(--text);
-
   background:
-
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(255,48,79,.30),
-      transparent 30%
-    ),
-
-    radial-gradient(
-      circle at 100% 20%,
-      rgba(255,122,24,.16),
-      transparent 25%
-    ),
-
-    linear-gradient(
-      180deg,
-      #05070b,
-      #080b11 55%,
-      #05070b
-    );
-
+    radial-gradient(circle at 50% -10%,rgba(255,48,79,.30),transparent 30%),
+    radial-gradient(circle at 100% 20%,rgba(255,122,24,.16),transparent 25%),
+    linear-gradient(180deg,#05070b,#080b11 55%,#05070b);
   overflow-x:hidden;
-
 }
 
 body::before{
-
   content:"";
-
   position:fixed;
-
   inset:0;
-
   pointer-events:none;
-
   opacity:.16;
-
   background-image:
-
-    linear-gradient(
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    ),
-
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    );
-
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
   background-size:45px 45px;
-
 }
 
-
-/* =========================
-   HEADER
-========================= */
-
 header{
-
-  position:relative;
-
-  z-index:2;
-
   max-width:1150px;
-
   margin:auto;
-
   padding:22px 20px;
-
   display:flex;
-
   align-items:center;
-
   justify-content:space-between;
-
 }
 
 .logo{
-
   font-size:27px;
-
   font-weight:1000;
-
   letter-spacing:-1.5px;
-
   text-transform:uppercase;
-
 }
 
 .logo span{
-
   color:var(--red);
-
-  text-shadow:
-    0 0 20px
-    rgba(255,48,79,.6);
-
+  text-shadow:0 0 20px rgba(255,48,79,.6);
 }
 
 .badge{
-
   border:1px solid var(--line);
-
   background:rgba(12,15,22,.85);
-
   padding:8px 13px;
-
   border-radius:999px;
-
   color:#c6ceda;
-
   font-size:11px;
-
   font-weight:800;
-
 }
-
-
-/* =========================
-   MAIN
-========================= */
 
 main{
-
-  position:relative;
-
-  z-index:1;
-
   max-width:1150px;
-
   margin:auto;
-
   padding:15px 20px 70px;
-
 }
 
-
-/* =========================
-   HERO
-========================= */
-
 .hero{
-
   text-align:center;
-
   padding:45px 0 40px;
-
 }
 
 .hero-tag{
-
   display:inline-block;
-
   padding:7px 13px;
-
   border-radius:999px;
-
-  border:
-    1px solid
-    rgba(255,48,79,.35);
-
-  background:
-    rgba(255,48,79,.08);
-
+  border:1px solid rgba(255,48,79,.35);
+  background:rgba(255,48,79,.08);
   color:#ff7186;
-
   font-size:11px;
-
   font-weight:900;
-
   margin-bottom:18px;
-
 }
 
 .hero h1{
-
-  font-size:
-    clamp(43px,8vw,78px);
-
+  font-size:clamp(43px,8vw,78px);
   line-height:.95;
-
   letter-spacing:-4px;
-
   font-weight:1000;
-
 }
 
 .hero h1 span{
-
   color:var(--red);
-
-  text-shadow:
-    0 0 35px
-    rgba(255,48,79,.35);
-
+  text-shadow:0 0 35px rgba(255,48,79,.35);
 }
 
 .hero p{
-
   max-width:690px;
-
   margin:18px auto 0;
-
   color:var(--muted);
-
   line-height:1.65;
-
   font-size:15px;
-
 }
-
-
-/* =========================
-   GRID
-========================= */
 
 .grid{
-
   display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns:1fr 1fr;
   gap:18px;
-
 }
 
-.card{
-
-  background:
-    rgba(14,18,27,.94);
-
+.card,
+.premium,
+.feedback-section,
+.community{
+  background:rgba(14,18,27,.94);
   border:1px solid var(--line);
-
   border-radius:22px;
-
   padding:23px;
-
-  box-shadow:
-    0 20px 60px
-    rgba(0,0,0,.38);
-
+  box-shadow:0 20px 60px rgba(0,0,0,.38);
 }
 
 .card h2{
-
   font-size:19px;
-
   margin-bottom:19px;
-
 }
 
-
-/* =========================
-   FORM
-========================= */
-
 .form{
-
   display:grid;
-
   gap:14px;
-
 }
 
 label{
-
   display:block;
-
   color:#929dae;
-
   font-size:10px;
-
   font-weight:900;
-
   text-transform:uppercase;
-
   letter-spacing:.8px;
-
 }
 
-select{
-
+select,
+textarea{
   width:100%;
-
   margin-top:7px;
-
   padding:14px;
-
   border:1px solid var(--line);
-
   border-radius:12px;
-
   background:var(--card2);
-
   color:white;
-
   outline:none;
-
 }
 
-select:focus{
-
+select:focus,
+textarea:focus{
   border-color:var(--red);
-
-  box-shadow:
-    0 0 0 3px
-    rgba(255,48,79,.08);
-
+  box-shadow:0 0 0 3px rgba(255,48,79,.08);
 }
 
 button{
-
   border:0;
-
   border-radius:13px;
-
   padding:14px 17px;
-
   font-weight:900;
-
   cursor:pointer;
-
   transition:.18s ease;
-
 }
 
 button:hover{
-
   transform:translateY(-1px);
-
 }
 
 button:active{
-
   transform:scale(.98);
-
 }
 
-.primary{
-
+.primary,
+.feedback-submit{
   width:100%;
-
   color:white;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--red),
-      var(--orange)
-    );
-
-  box-shadow:
-    0 8px 25px
-    rgba(255,48,79,.18);
-
+  background:linear-gradient(135deg,var(--red),var(--orange));
+  box-shadow:0 8px 25px rgba(255,48,79,.18);
 }
 
-
-/* =========================
-   MODELOS
-========================= */
+.secondary{
+  color:white;
+  background:#181e29;
+  border:1px solid var(--line);
+}
 
 .models{
-
   margin-top:20px;
-
 }
 
 .chips{
-
   display:flex;
-
   flex-wrap:wrap;
-
   gap:7px;
-
   margin-top:9px;
-
 }
 
 .chip{
-
   color:#b9c1ce;
-
   background:#111620;
-
   border:1px solid var(--line);
-
   border-radius:9px;
-
   padding:7px 9px;
-
   font-size:10px;
-
 }
 
+/* RESULTADO */
 
-/* =========================
-   MOBILE
-========================= */
+.result{
+  display:none;
+}
+
+.result.show{
+  display:block;
+}
+
+.resultTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.preset{
+  padding:7px 10px;
+  border-radius:999px;
+  background:#242b37;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.sensi{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.stat{
+  padding:15px;
+  background:#090c12;
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+
+.stat small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:4px;
+}
+
+.stat strong{
+  font-size:27px;
+}
+
+.dpi-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:10px;
+}
+
+.dpi{
+  padding:15px;
+  border-radius:14px;
+  background:#090c12;
+  border:1px solid var(--line);
+}
+
+.dpi span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:4px;
+}
+
+.dpi strong{
+  font-size:19px;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  margin-top:11px;
+}
+
+.actions button{
+  flex:1;
+}
+
+.tip{
+  margin-top:14px;
+  color:#7f8999;
+  font-size:11px;
+  line-height:1.55;
+}
+
+/* PREMIUM */
+
+.premium-wrap{
+  margin-top:20px;
+}
+
+.premium{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(184,92,255,.45);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(184,92,255,.16),transparent 35%),
+    linear-gradient(145deg,#17111f,#0e1119);
+}
+
+.premium-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.premium h2{
+  font-size:23px;
+  margin-bottom:7px;
+}
+
+.premium h2 span{
+  color:var(--purple);
+}
+
+.premium p{
+  color:#a59caf;
+  font-size:12px;
+  line-height:1.55;
+}
+
+.premium-badge{
+  padding:8px 12px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#b85cff,#6d28d9);
+  font-size:10px;
+  font-weight:900;
+}
+
+.premium-locked{
+  margin-top:19px;
+  padding:25px 18px;
+  text-align:center;
+  border-radius:17px;
+  background:#0a090e;
+  border:1px solid #30233b;
+}
+
+.lock-icon{
+  font-size:38px;
+  margin-bottom:9px;
+}
+
+.premium-locked h3{
+  font-size:17px;
+  margin-bottom:7px;
+}
+
+.premium-locked p{
+  max-width:550px;
+  margin:auto;
+}
+
+.dev-badge{
+  display:inline-block;
+  margin-top:15px;
+  padding:9px 14px;
+  border-radius:999px;
+  background:#21182a;
+  border:1px solid #68427d;
+  color:#d29aff;
+  font-size:10px;
+  font-weight:900;
+}
+
+/* FEEDBACK */
+
+.feedback-section{
+  margin-top:20px;
+}
+
+.feedback-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+}
+
+.feedback-section h2{
+  font-size:20px;
+}
+
+.feedback-section p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.rating-summary{
+  text-align:right;
+}
+
+.rating-average{
+  font-size:27px;
+  font-weight:1000;
+}
+
+.rating-stars{
+  color:var(--yellow);
+  letter-spacing:1px;
+}
+
+.feedback-stars{
+  display:flex;
+  gap:3px;
+  margin:20px 0 10px;
+}
+
+.feedback-star{
+  padding:2px;
+  background:none;
+  color:#4b5260;
+  font-size:34px;
+}
+
+.feedback-star.active{
+  color:var(--yellow);
+}
+
+#feedbackText{
+  min-height:105px;
+  resize:vertical;
+  font-family:inherit;
+  font-size:13px;
+}
+
+#feedbackMessage{
+  min-height:18px;
+  margin-top:9px;
+}
+
+/* COMUNIDADE */
+
+.community{
+  margin-top:20px;
+}
+
+.community h2{
+  font-size:20px;
+}
+
+.community-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.feedback-list{
+  display:grid;
+  gap:10px;
+  margin-top:17px;
+}
+
+.feedback-item{
+  background:#090c12;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+}
+
+.feedback-item-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.feedback-item-stars{
+  color:var(--yellow);
+  letter-spacing:1px;
+}
+
+.feedback-date{
+  color:#687181;
+  font-size:9px;
+}
+
+.feedback-comment{
+  color:#c5ccd7;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:8px;
+  word-break:break-word;
+}
+
+.empty-feedback{
+  color:#737d8d;
+  padding:22px 5px;
+  text-align:center;
+  font-size:12px;
+  border:1px dashed var(--line);
+  border-radius:13px;
+}
+
+.community-actions{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:12px;
+}
+
+.clear-feedback{
+  color:#8993a3;
+  background:#141923;
+  border:1px solid var(--line);
+  padding:9px 12px;
+  font-size:10px;
+}
+
+footer{
+  text-align:center;
+  color:#687181;
+  font-size:11px;
+  padding:30px 20px 40px;
+}
 
 @media(max-width:760px){
 
   header{
-
     padding:18px 15px;
-
   }
 
   .logo{
-
     font-size:23px;
-
   }
 
   .badge{
-
     font-size:9px;
-
     padding:7px 9px;
-
   }
 
   main{
-
     padding:5px 14px 50px;
-
   }
 
   .hero{
-
     padding:35px 0;
-
   }
 
   .hero h1{
-
     letter-spacing:-2.5px;
-
   }
 
   .hero p{
-
     font-size:13px;
-
   }
 
   .grid{
-
     grid-template-columns:1fr;
-
   }
 
-  .card{
-
+  .card,
+  .premium,
+  .feedback-section,
+  .community{
     padding:18px;
-
     border-radius:18px;
-
   }
 
+  .premium-head,
+  .feedback-header{
+    flex-direction:column;
+  }
+
+  .rating-summary{
+    text-align:left;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
 }
+</style>
+</head>
 
-</style></head><body><header>  <div class="logo">Sensi<span>X</span>
+<body>
 
-  </div>  <div class="badge">🔥 FREE FIRE • GERADOR
+<header>
 
-  </div></header><main><section class="hero">  <div class="hero-tag">⚡ CONFIGURAÇÃO INTELIGENTE
+  <div class="logo">
+    Sensi<span>X</span>
+  </div>
 
-  </div>  <h1>GERE SUA <span>SENSI</span>
+  <div class="badge">
+    🔥 FREE FIRE • GERADOR
+  </div>
 
-  </h1>  <p>Escolha seu celular, estilo de jogo e perfil.
-O SensiX cria uma configuração personalizada
-de sensibilidade, DPI e botão de atirar
-para você testar no Free Fire.
+</header>
 
-  </p></section><div class="grid"><section class="card">  <h2>🎮 Personalize sua configuração
+<main>
 
-  </h2>  <div class="form"><div>
+<section class="hero">
 
-  <label>
+  <div class="hero-tag">
+    ⚡ CONFIGURAÇÃO INTELIGENTE
+  </div>
 
-    Marca do celular
+  <h1>
+    GERE SUA <span>SENSI</span>
+  </h1>
 
-  </label>
+  <p>
+    Escolha seu celular, estilo de jogo e perfil.
+    O SensiX cria uma configuração personalizada
+    de sensibilidade, DPI e botão de atirar
+    para você testar no Free Fire.
+  </p>
 
-  <select id="brand">
+</section>
 
-    <option value="Samsung">
-      Samsung
-    </option>
+<div class="grid">
 
-    <option value="Motorola">
-      Motorola
-    </option>
+<section class="card">
 
-    <option value="Xiaomi">
-      Xiaomi
-    </option>
+  <h2>🎮 Personalize sua configuração</h2>
 
-    <option value="Redmi">
-      Redmi
-    </option>
+  <div class="form">
 
-    <option value="POCO">
-      POCO
-    </option>
+    <div>
 
-    <option value="Realme">
-      Realme
-    </option>
+      <label>Marca do celular</label>
 
-    <option value="iPhone">
-      iPhone
-    </option>
+      <select id="brand">
 
-    <option value="ASUS">
-      ASUS
-    </option>
+        <option value="Samsung">Samsung</option>
+        <option value="Motorola">Motorola</option>
+        <option value="Xiaomi">Xiaomi</option>
+        <option value="Redmi">Redmi</option>
+        <option value="POCO">POCO</option>
+        <option value="Realme">Realme</option>
+        <option value="iPhone">iPhone</option>
+        <option value="ASUS">ASUS</option>
+        <option value="Infinix">Infinix</option>
+        <option value="OnePlus">OnePlus</option>
+        <option value="Huawei">Huawei</option>
+        <option value="Oppo">OPPO</option>
+        <option value="Vivo">Vivo</option>
+        <option value="Honor">HONOR</option>
+        <option value="Nokia">Nokia</option>
+        <option value="Outros">Outros</option>
 
-    <option value="Infinix">
-      Infinix
-    </option>
+      </select>
 
-    <option value="OnePlus">
-      OnePlus
-    </option>
+    </div>
 
-    <option value="Huawei">
-      Huawei
-    </option>
+    <div>
 
-    <option value="Oppo">
-      OPPO
-    </option>
+      <label>Modelo • taxa da tela</label>
 
-    <option value="Vivo">
-      Vivo
-    </option>
+      <select id="model"></select>
 
-    <option value="Honor">
-      HONOR
-    </option>
+    </div>
 
-    <option value="Nokia">
-      Nokia
-    </option>
+    <div>
 
-    <option value="Outros">
-      Outros
-    </option>
+      <label>Estilo de jogo</label>
 
-  </select>
+      <select id="style"></select>
 
-</div>
+    </div>
 
+    <div>
 
-<div>
+      <label>Perfil</label>
 
-  <label>
+      <select id="profile">
 
-    Modelo • taxa da tela
+        <option value="normal">Normal</option>
+        <option value="agressiva">Agressiva</option>
+        <option value="controlada">Controlada</option>
 
-  </label>
+      </select>
 
-  <select id="model">
+    </div>
 
-  </select>
+    <button
+      class="primary"
+      type="button"
+      onclick="generate()"
+    >
+      GERAR MINHA SENSI 🚀
+    </button>
 
-</div>
+  </div>
 
+  <div class="models">
 
-<div>
+    <label>Modelos disponíveis</label>
 
-  <label>
-
-    Estilo de jogo
-
-  </label>
-
-  <select id="style">
-
-    <option value="capa">
-      🔥 Capa / Headshot
-    </option>
-
-    <option value="rush">
-      ⚡ Rush
-    </option>
-
-    <option value="precisao">
-      🎯 Precisão
-    </option>
-
-    <option value="equilibrada">
-      ⚖️ Equilibrada
-    </option>
-
-  </select>
-
-</div>
-
-
-<div>
-
-  <label>
-
-    Perfil
-
-  </label>
-
-  <select id="profile">
-
-    <option value="normal">
-      Normal
-    </option>
-
-    <option value="agressiva">
-      Agressiva
-    </option>
-
-    <option value="controlada">
-      Controlada
-    </option>
-
-  </select>
-
-</div>
-
-
-<button
-  class="primary"
-  id="generateButton"
-  type="button"
->
-
-  GERAR MINHA SENSI 🚀
-
-</button>
-
-  </div>  <div class="models"><label>
-
-  Modelos disponíveis
-
-</label>
-
-<div
-  class="chips"
-  id="chips"
-></div>
+    <div
+      class="chips"
+      id="chips"
+    ></div>
 
   </div>
 
 </section>
 
-<!-- PARTE 2/5 -->
-
-<section class="card result" id="result">
+<section
+  class="card result"
+  id="result"
+>
 
   <div class="resultTop">
 
     <h2>🎯 Sua configuração</h2>
 
-    <span class="preset" id="preset">
+    <span
+      class="preset"
+      id="preset"
+    >
       PRESET
     </span>
 
   </div>
 
-  <div class="sensi" id="stats"></div>
+  <div
+    class="sensi"
+    id="stats"
+  ></div>
 
   <div class="dpi-box">
 
@@ -750,6 +783,7 @@ para você testar no Free Fire.
 
     <button
       class="secondary"
+      type="button"
       onclick="copySensi()"
     >
       📋 Copiar
@@ -757,6 +791,7 @@ para você testar no Free Fire.
 
     <button
       class="secondary"
+      type="button"
       onclick="generate()"
     >
       🔄 Outra Sensi
@@ -772,11 +807,7 @@ para você testar no Free Fire.
 
 </section>
 
-
 </div>
-
-
-<!-- PREMIUM -->
 
 <section class="premium-wrap">
 
@@ -805,13 +836,9 @@ para você testar no Free Fire.
 
     <div class="premium-locked">
 
-      <div class="lock-icon">
-        🚧
-      </div>
+      <div class="lock-icon">🚧</div>
 
-      <h3>
-        PREMIUM EM DESENVOLVIMENTO
-      </h3>
+      <h3>PREMIUM EM DESENVOLVIMENTO</h3>
 
       <p>
         Esta área está temporariamente bloqueada.
@@ -828,9 +855,6 @@ para você testar no Free Fire.
   </div>
 
 </section>
-
-
-<!-- FEEDBACK -->
 
 <section class="feedback-section">
 
@@ -868,35 +892,11 @@ para você testar no Free Fire.
 
   <div class="feedback-stars">
 
-    <button
-      type="button"
-      class="feedback-star"
-      data-star="1"
-    >★</button>
-
-    <button
-      type="button"
-      class="feedback-star"
-      data-star="2"
-    >★</button>
-
-    <button
-      type="button"
-      class="feedback-star"
-      data-star="3"
-    >★</button>
-
-    <button
-      type="button"
-      class="feedback-star"
-      data-star="4"
-    >★</button>
-
-    <button
-      type="button"
-      class="feedback-star"
-      data-star="5"
-    >★</button>
+    <button type="button" class="feedback-star" data-star="1">★</button>
+    <button type="button" class="feedback-star" data-star="2">★</button>
+    <button type="button" class="feedback-star" data-star="3">★</button>
+    <button type="button" class="feedback-star" data-star="4">★</button>
+    <button type="button" class="feedback-star" data-star="5">★</button>
 
   </div>
 
@@ -918,9 +918,6 @@ para você testar no Free Fire.
 
 </section>
 
-
-<!-- COMUNIDADE -->
-
 <section class="community">
 
   <h2>👥 Avaliações da comunidade</h2>
@@ -938,6 +935,7 @@ para você testar no Free Fire.
 
     <button
       class="clear-feedback"
+      type="button"
       onclick="clearFeedbacks()"
     >
       🗑️ Limpar avaliações deste dispositivo
@@ -947,698 +945,23 @@ para você testar no Free Fire.
 
 </section>
 
-
 </main>
 
-
-<!-- RODAPÉ -->
-
 <footer>
-
   SensiX © 2026 • Ferramenta independente
   para configurações de Free Fire.
-
 </footer>
-
-<!-- PARTE 3/5 -->
-
-<style>
-
-/* =========================
-   RESULTADO
-========================= */
-
-.result{
-
-  display:none;
-
-}
-
-.result.show{
-
-  display:block;
-
-}
-
-.resultTop{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  margin-bottom:15px;
-
-}
-
-.preset{
-
-  padding:7px 10px;
-
-  border-radius:999px;
-
-  background:#242b37;
-
-  color:#fff;
-
-  font-size:10px;
-
-  font-weight:900;
-
-}
-
-.sensi{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:9px;
-
-}
-
-.stat{
-
-  padding:15px;
-
-  background:#090c12;
-
-  border:1px solid var(--line);
-
-  border-radius:14px;
-
-}
-
-.stat small{
-
-  display:block;
-
-  color:var(--muted);
-
-  font-size:10px;
-
-  margin-bottom:4px;
-
-}
-
-.stat strong{
-
-  font-size:27px;
-
-}
-
-.dpi-box{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:9px;
-
-  margin-top:10px;
-
-}
-
-.dpi{
-
-  padding:15px;
-
-  border-radius:14px;
-
-  background:#090c12;
-
-  border:1px solid var(--line);
-
-}
-
-.dpi span{
-
-  display:block;
-
-  color:var(--muted);
-
-  font-size:10px;
-
-  margin-bottom:4px;
-
-}
-
-.dpi strong{
-
-  font-size:19px;
-
-}
-
-.actions{
-
-  display:flex;
-
-  gap:9px;
-
-  margin-top:11px;
-
-}
-
-.actions button{
-
-  flex:1;
-
-}
-
-.tip{
-
-  margin-top:14px;
-
-  color:#7f8999;
-
-  font-size:11px;
-
-  line-height:1.55;
-
-}
-
-
-/* =========================
-   PREMIUM
-========================= */
-
-.premium-wrap{
-
-  margin-top:20px;
-
-}
-
-.premium{
-
-  position:relative;
-
-  overflow:hidden;
-
-  border:
-    1px solid
-    rgba(184,92,255,.45);
-
-  border-radius:23px;
-
-  padding:24px;
-
-  background:
-
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(184,92,255,.16),
-      transparent 35%
-    ),
-
-    linear-gradient(
-      145deg,
-      #17111f,
-      #0e1119
-    );
-
-}
-
-.premium-head{
-
-  display:flex;
-
-  align-items:flex-start;
-
-  justify-content:space-between;
-
-  gap:15px;
-
-}
-
-.premium h2{
-
-  font-size:23px;
-
-  margin-bottom:7px;
-
-}
-
-.premium h2 span{
-
-  color:var(--purple);
-
-}
-
-.premium p{
-
-  color:#a59caf;
-
-  font-size:12px;
-
-  line-height:1.55;
-
-}
-
-.premium-badge{
-
-  flex-shrink:0;
-
-  padding:8px 12px;
-
-  border-radius:999px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #b85cff,
-      #6d28d9
-    );
-
-  font-size:10px;
-
-  font-weight:900;
-
-}
-
-.premium-locked{
-
-  margin-top:19px;
-
-  padding:25px 18px;
-
-  text-align:center;
-
-  border-radius:17px;
-
-  background:#0a090e;
-
-  border:1px solid #30233b;
-
-}
-
-.lock-icon{
-
-  font-size:38px;
-
-  margin-bottom:9px;
-
-}
-
-.premium-locked h3{
-
-  font-size:17px;
-
-  margin-bottom:7px;
-
-}
-
-.premium-locked p{
-
-  max-width:550px;
-
-  margin:auto;
-
-}
-
-.dev-badge{
-
-  display:inline-block;
-
-  margin-top:15px;
-
-  padding:9px 14px;
-
-  border-radius:999px;
-
-  background:#21182a;
-
-  border:1px solid #68427d;
-
-  color:#d29aff;
-
-  font-size:10px;
-
-  font-weight:900;
-
-}
-
-
-/* =========================
-   FEEDBACK
-========================= */
-
-.feedback-section{
-
-  margin-top:20px;
-
-  background:var(--card);
-
-  border:1px solid var(--line);
-
-  border-radius:22px;
-
-  padding:23px;
-
-}
-
-.feedback-header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:flex-start;
-
-  gap:15px;
-
-}
-
-.feedback-section h2{
-
-  font-size:20px;
-
-}
-
-.feedback-section p{
-
-  color:var(--muted);
-
-  font-size:12px;
-
-  margin-top:5px;
-
-}
-
-.rating-summary{
-
-  text-align:right;
-
-}
-
-.rating-average{
-
-  font-size:27px;
-
-  font-weight:1000;
-
-}
-
-.rating-stars{
-
-  color:var(--yellow);
-
-  letter-spacing:1px;
-
-}
-
-.feedback-stars{
-
-  display:flex;
-
-  gap:3px;
-
-  margin:20px 0 10px;
-
-}
-
-.feedback-star{
-
-  padding:2px;
-
-  background:none;
-
-  color:#4b5260;
-
-  font-size:34px;
-
-  border:0;
-
-}
-
-.feedback-star.active{
-
-  color:var(--yellow);
-
-}
-
-#feedbackText{
-
-  width:100%;
-
-  min-height:105px;
-
-  resize:vertical;
-
-  padding:13px;
-
-  font-family:inherit;
-
-  font-size:13px;
-
-  color:white;
-
-  background:var(--card2);
-
-  border:1px solid var(--line);
-
-  border-radius:12px;
-
-}
-
-.feedback-submit{
-
-  width:100%;
-
-  margin-top:10px;
-
-  color:white;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--red),
-      var(--orange)
-    );
-
-}
-
-#feedbackMessage{
-
-  min-height:18px;
-
-  margin-top:9px;
-
-}
-
-
-/* =========================
-   COMUNIDADE
-========================= */
-
-.community{
-
-  margin-top:20px;
-
-  background:var(--card);
-
-  border:1px solid var(--line);
-
-  border-radius:22px;
-
-  padding:23px;
-
-}
-
-.community h2{
-
-  font-size:20px;
-
-}
-
-.community-sub{
-
-  color:var(--muted);
-
-  font-size:12px;
-
-  margin-top:5px;
-
-}
-
-.feedback-list{
-
-  display:grid;
-
-  gap:10px;
-
-  margin-top:17px;
-
-}
-
-.feedback-item{
-
-  background:#090c12;
-
-  border:1px solid var(--line);
-
-  border-radius:14px;
-
-  padding:14px;
-
-}
-
-.feedback-item-top{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  align-items:center;
-
-}
-
-.feedback-item-stars{
-
-  color:var(--yellow);
-
-  font-size:14px;
-
-}
-
-.feedback-date{
-
-  color:#687181;
-
-  font-size:9px;
-
-}
-
-.feedback-comment{
-
-  color:#c5ccd7;
-
-  font-size:12px;
-
-  line-height:1.5;
-
-  margin-top:8px;
-
-  word-break:break-word;
-
-}
-
-.empty-feedback{
-
-  color:#737d8d;
-
-  padding:22px 5px;
-
-  text-align:center;
-
-  font-size:12px;
-
-  border:1px dashed var(--line);
-
-  border-radius:13px;
-
-}
-
-.community-actions{
-
-  display:flex;
-
-  justify-content:flex-end;
-
-  margin-top:12px;
-
-}
-
-.clear-feedback{
-
-  color:#8993a3;
-
-  background:#141923;
-
-  border:1px solid var(--line);
-
-  padding:9px 12px;
-
-  font-size:10px;
-
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-
-  position:relative;
-
-  z-index:1;
-
-  text-align:center;
-
-  color:#687181;
-
-  font-size:11px;
-
-  padding:30px 20px 40px;
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:760px){
-
-  .premium-head,
-  .feedback-header{
-
-    flex-direction:column;
-
-  }
-
-  .rating-summary{
-
-    text-align:left;
-
-  }
-
-  .sensi{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-  .actions{
-
-    flex-direction:column;
-
-  }
-
-}
-
-</style>
-
-<!-- PARTE 4/5 -->
 
 <script>
 
 /* =========================
-   MODELOS DOS CELULARES
+   MODELOS
 ========================= */
 
 const models = {
 
-  Samsung: [
-    ["Galaxy A15",60],
+  Samsung:[
+    ["Galaxy A15",90],
     ["Galaxy A25",120],
     ["Galaxy A35",120],
     ["Galaxy A55",120],
@@ -1649,48 +972,51 @@ const models = {
     ["Galaxy S25",120]
   ],
 
-  Motorola: [
+  Motorola:[
     ["Moto G23",90],
+    ["Moto G24",90],
+    ["Moto G34",120],
     ["Moto G54",120],
     ["Moto G84",120],
-    ["Edge 30",144],
     ["Edge 40",144],
     ["Edge 50",120]
   ],
 
-  Xiaomi: [
+  Xiaomi:[
+    ["Redmi Note 10",60],
+    ["Redmi Note 11",90],
     ["Redmi Note 12",120],
     ["Redmi Note 13",120],
+    ["Xiaomi 12",120],
     ["Xiaomi 13",120],
-    ["Xiaomi 14",120],
-    ["POCO X5",120],
-    ["POCO X6",120]
+    ["Xiaomi 14",120]
   ],
 
-  Redmi: [
-    ["Redmi 12",90],
+  Redmi:[
+    ["Redmi 10",90],
+    ["Redmi Note 11",90],
     ["Redmi Note 12",120],
-    ["Redmi Note 13",120],
-    ["Redmi Note 14",120]
+    ["Redmi Note 13",120]
   ],
 
-  POCO: [
+  POCO:[
     ["POCO X3",120],
+    ["POCO X4 Pro",120],
     ["POCO X5",120],
     ["POCO X6",120],
     ["POCO F5",120],
     ["POCO F6",120]
   ],
 
-  Realme: [
+  Realme:[
     ["Realme C55",90],
+    ["Realme C67",90],
     ["Realme 11",120],
     ["Realme 12",120],
-    ["Realme GT",120]
+    ["GT Neo",120]
   ],
 
-  iPhone: [
-    ["iPhone SE",60],
+  iPhone:[
     ["iPhone 11",60],
     ["iPhone 12",60],
     ["iPhone 13",60],
@@ -1700,65 +1026,63 @@ const models = {
     ["iPhone 17",120]
   ],
 
-  ASUS: [
+  ASUS:[
     ["ROG Phone 5",144],
     ["ROG Phone 6",165],
     ["ROG Phone 7",165],
     ["ROG Phone 8",165]
   ],
 
-  Infinix: [
+  Infinix:[
     ["Hot 30",90],
     ["Hot 40",90],
     ["Note 30",120],
     ["GT 20 Pro",144]
   ],
 
-  OnePlus: [
+  OnePlus:[
     ["OnePlus 9",120],
     ["OnePlus 10",120],
     ["OnePlus 11",120],
     ["OnePlus 12",120]
   ],
 
-  Huawei: [
+  Huawei:[
     ["Nova 10",120],
     ["Nova 11",120],
-    ["P50",90],
-    ["P60",120]
+    ["P40",90],
+    ["P50",120]
   ],
 
-  Oppo: [
+  Oppo:[
     ["A78",90],
     ["Reno 8",90],
     ["Reno 10",120],
     ["Find X5",120]
   ],
 
-  Vivo: [
+  Vivo:[
+    ["V23",90],
     ["V25",90],
     ["V27",120],
-    ["V29",120],
-    ["X90",120]
+    ["V30",120]
   ],
 
-  Honor: [
+  Honor:[
+    ["HONOR X8",90],
+    ["HONOR X9",120],
     ["HONOR 90",120],
-    ["HONOR 200",120],
-    ["Magic 5",120],
-    ["Magic 6",120]
+    ["HONOR 200",120]
   ],
 
-  Nokia: [
-    ["Nokia G60",120],
-    ["Nokia X30",90],
-    ["Nokia XR21",120]
+  Nokia:[
+    ["Nokia G22",90],
+    ["Nokia G42",90],
+    ["Nokia X30",90]
   ],
 
-  Outros: [
-    ["Celular 60Hz",60],
-    ["Celular 90Hz",90],
-    ["Celular 120Hz",120]
+  Outros:[
+    ["Outro aparelho",60]
   ]
 
 };
@@ -1768,20 +1092,39 @@ const models = {
    ELEMENTOS
 ========================= */
 
-const brand =
-  document.getElementById("brand");
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const chips = document.getElementById("chips");
+const style = document.getElementById("style");
+const profile = document.getElementById("profile");
 
-const model =
-  document.getElementById("model");
+const result = document.getElementById("result");
+const stats = document.getElementById("stats");
+const preset = document.getElementById("preset");
+const dpi = document.getElementById("dpi");
+const btnSize = document.getElementById("btnSize");
 
-const chips =
-  document.getElementById("chips");
 
-const style =
-  document.getElementById("style");
+/* =========================
+   UTILITÁRIOS
+========================= */
 
-const profile =
-  document.getElementById("profile");
+function randomBetween(min,max){
+
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
+
+}
+
+function clamp(value,min,max){
+
+  return Math.max(
+    min,
+    Math.min(max,Math.round(value))
+  );
+
+}
 
 
 /* =========================
@@ -1790,17 +1133,18 @@ const profile =
 
 function loadModels(){
 
-  const list =
-    models[brand.value] || models.Outros;
+  model.innerHTML="";
 
-  model.innerHTML = "";
+  const list =
+    models[brand.value] ||
+    models.Outros;
 
   list.forEach((item,index)=>{
 
     const option =
       document.createElement("option");
 
-    option.value = index;
+    option.value=index;
 
     option.textContent =
       `${item[0]} — ${item[1]}Hz`;
@@ -1809,24 +1153,19 @@ function loadModels(){
 
   });
 
-
   chips.innerHTML =
-    list
-      .map(item =>
-        `<span class="chip">
-          ${item[0]} • ${item[1]}Hz
-        </span>`
-      )
-      .join("");
+    list.slice(0,8)
+    .map(item =>
+      `<span class="chip">${item[0]} • ${item[1]}Hz</span>`
+    )
+    .join("");
 
 
-  /* =========================
-     IPHONE
-  ========================= */
+  /* SOMENTE IPHONE */
 
   if(brand.value === "iPhone"){
 
-    style.innerHTML = `
+    style.innerHTML=`
 
       <option value="baixo">
         Baixo
@@ -1844,7 +1183,7 @@ function loadModels(){
 
   }else{
 
-    style.innerHTML = `
+    style.innerHTML=`
 
       <option value="capa">
         🔥 Capa / Headshot
@@ -1868,495 +1207,137 @@ function loadModels(){
 
 }
 
-
-/* =========================
-   TROCA DE MARCA
-========================= */
-
 brand.addEventListener(
   "change",
   loadModels
 );
 
-
-/* =========================
-   INICIALIZAR
-========================= */
-
 loadModels();
 
 
 /* =========================
-   UTILITÁRIOS
+   GERADOR
 ========================= */
 
-function clamp(value,min,max){
+function generate(){
 
-  return Math.max(
-    min,
-    Math.min(
-      max,
-      Math.round(value)
-    )
-  );
+  const isIphone =
+    brand.value === "iPhone";
 
-}
+  let min=100;
+  let max=200;
 
+  /*
+    TODAS AS MARCAS:
+    100 ATÉ 200
 
-function randomBetween(min,max){
+    IPHONE:
+    Baixo 100-135
+    Médio 135-170
+    Alto 170-200
+  */
 
-  return Math.floor(
-    Math.random() *
-    (max - min + 1)
-  ) + min;
+  if(isIphone){
 
-}
+    if(style.value==="baixo"){
 
+      min=100;
+      max=135;
 
-/* =========================
-   SENSI IPHONE
-========================= */
+    }else if(style.value==="medio"){
 
-function generateIphoneSensi(level){
+      min=135;
+      max=170;
 
-  let min;
-  let max;
+    }else{
 
-  if(level === "baixo"){
+      min=170;
+      max=200;
 
-    min = 100;
-    max = 135;
-
-  }else if(level === "medio"){
-
-    min = 135;
-    max = 170;
-
-  }else{
-
-    min = 170;
-    max = 200;
+    }
 
   }
 
-
-  const geral =
+  let base =
     randomBetween(min,max);
 
 
-  return {
+  /*
+    PERFIL
+  */
 
-    geral: geral,
+  if(profile.value==="agressiva"){
 
-    redDot:
-      clamp(
-        geral + randomBetween(-3,3),
-        min,
-        max
-      ),
+    base += randomBetween(5,12);
 
-    mira2x:
-      clamp(
-        geral + randomBetween(-5,5),
-        min,
-        max
-      ),
+  }
 
-    mira4x:
-      clamp(
-        geral + randomBetween(-7,7),
-        min,
-        max
-      ),
+  if(profile.value==="controlada"){
 
-    miraSniper:
-      clamp(
-        geral + randomBetween(-9,9),
-        min,
-        max
-      ),
+    base -= randomBetween(5,12);
 
-    olhadinha:
-      clamp(
-        geral + randomBetween(-4,4),
-        min,
-        max
-      )
-
-  };
-
-}
+  }
 
 
-/* =========================
-   SENSI ANDROID
-========================= */
+  base =
+    clamp(base,min,max);
 
-function generateAndroidSensi(type){
 
-  let base;
+  const geral = base;
 
-  if(type === "capa"){
+  const redDot =
+    clamp(
+      base + randomBetween(-6,6),
+      100,
+      200
+    );
 
-    base =
-      randomBetween(85,100);
+  const mira2x =
+    clamp(
+      base + randomBetween(-8,8),
+      100,
+      200
+    );
 
-  }else if(type === "rush"){
+  const mira4x =
+    clamp(
+      base + randomBetween(-10,10),
+      100,
+      200
+    );
 
-    base =
-      randomBetween(80,95);
+  const sniper =
+    clamp(
+      base + randomBetween(-12,12),
+      100,
+      200
+    );
 
-  }else if(type === "precisao"){
+  const olhadinha =
+    clamp(
+      base + randomBetween(-7,7),
+      100,
+      200
+    );
 
-    base =
-      randomBetween(70,88);
+
+  /* =========================
+     DPI
+  ========================= */
+
+  let dpiValue;
+
+  if(isIphone){
+
+    dpiValue =
+      randomBetween(100,200);
 
   }else{
 
-    base =
-      randomBetween(75,92);
+    dpiValue =
+      randomBetween(400,650);
 
   }
 
 
-  return {
-
-    geral:
-      clamp(
-        base,
-        1,
-        200
-      ),
-
-    redDot:
-      clamp(
-        base + randomBetween(-4,4),
-        1,
-        200
-      ),
-
-    mira2x:
-      clamp(
-        base + randomBetween(-6,6),
-        1,
-        200
-      ),
-
-    mira4x:
-      clamp(
-        base + randomBetween(-8,8),
-        1,
-        200
-      ),
-
-    miraSniper:
-      clamp(
-        base + randomBetween(-12,8),
-        1,
-        200
-      ),
-
-    olhadinha:
-      clamp(
-        base + randomBetween(-5,5),
-        1,
-        200
-      )
-
-  };
-
-}
-
-<script>
-
-/* =========================
-   INICIALIZAÇÃO FINAL
-========================= */
-
-loadModels();
-
-
-// =========================
-// FEEDBACK
-// =========================
-
-let selectedRating = 0;
-
-const stars = document.querySelectorAll(".feedback-star");
-
-stars.forEach(star => {
-
-  star.addEventListener("click", () => {
-
-    selectedRating = Number(star.dataset.star);
-
-    stars.forEach(item => {
-
-      item.classList.toggle(
-        "active",
-        Number(item.dataset.star) <= selectedRating
-      );
-
-    });
-
-  });
-
-});
-
-
-// =========================
-// ENVIAR FEEDBACK
-// =========================
-
-function sendFeedback(){
-
-  const text =
-    document.getElementById("feedbackText").value.trim();
-
-  const message =
-    document.getElementById("feedbackMessage");
-
-  if(selectedRating === 0){
-
-    message.textContent =
-      "⭐ Escolha uma nota de 1 a 5.";
-
-    message.style.color = "#ff7a18";
-
-    return;
-
-  }
-
-  if(!text){
-
-    message.textContent =
-      "✍️ Escreva uma opinião antes de enviar.";
-
-    message.style.color = "#ff7a18";
-
-    return;
-
-  }
-
-  const feedbacks =
-    JSON.parse(
-      localStorage.getItem("sensix_feedbacks") || "[]"
-    );
-
-  feedbacks.push({
-
-    rating:selectedRating,
-
-    text:text,
-
-    date:new Date().toLocaleDateString("pt-BR")
-
-  });
-
-  localStorage.setItem(
-    "sensix_feedbacks",
-    JSON.stringify(feedbacks)
-  );
-
-  document.getElementById("feedbackText").value = "";
-
-  selectedRating = 0;
-
-  stars.forEach(star => {
-    star.classList.remove("active");
-  });
-
-  message.textContent =
-    "✅ Avaliação enviada! Obrigado.";
-
-  message.style.color = "#35e58b";
-
-  renderFeedbacks();
-
-  updateAverage();
-
-}
-
-
-// =========================
-// MOSTRAR FEEDBACKS
-// =========================
-
-function renderFeedbacks(){
-
-  const container =
-    document.getElementById("feedbackList");
-
-  const feedbacks =
-    JSON.parse(
-      localStorage.getItem("sensix_feedbacks") || "[]"
-    );
-
-  if(feedbacks.length === 0){
-
-    container.innerHTML = `
-      <div class="empty-feedback">
-        Nenhuma avaliação ainda.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  container.innerHTML =
-    feedbacks
-      .slice()
-      .reverse()
-      .map(feedback => {
-
-        const stars =
-          "★".repeat(feedback.rating) +
-          "☆".repeat(5 - feedback.rating);
-
-        return `
-
-          <div class="feedback-item">
-
-            <div class="feedback-item-top">
-
-              <div class="feedback-item-stars">
-                ${stars}
-              </div>
-
-              <div class="feedback-date">
-                ${feedback.date}
-              </div>
-
-            </div>
-
-            <div class="feedback-comment">
-              ${escapeHTML(feedback.text)}
-            </div>
-
-          </div>
-
-        `;
-
-      })
-      .join("");
-
-}
-
-
-// =========================
-// ESCAPAR TEXTO
-// =========================
-
-function escapeHTML(text){
-
-  const div =
-    document.createElement("div");
-
-  div.textContent = text;
-
-  return div.innerHTML;
-
-}
-
-
-// =========================
-// MÉDIA DAS AVALIAÇÕES
-// =========================
-
-function updateAverage(){
-
-  const feedbacks =
-    JSON.parse(
-      localStorage.getItem("sensix_feedbacks") || "[]"
-    );
-
-  const averageElement =
-    document.getElementById("averageRating");
-
-  const starsElement =
-    document.getElementById("averageStars");
-
-  if(feedbacks.length === 0){
-
-    averageElement.textContent = "0.0";
-
-    starsElement.textContent = "☆☆☆☆☆";
-
-    return;
-
-  }
-
-  const total =
-    feedbacks.reduce(
-      (sum,item) => sum + Number(item.rating),
-      0
-    );
-
-  const average =
-    total / feedbacks.length;
-
-  averageElement.textContent =
-    average.toFixed(1);
-
-  const rounded =
-    Math.round(average);
-
-  starsElement.textContent =
-    "★".repeat(rounded) +
-    "☆".repeat(5 - rounded);
-
-}
-
-
-// =========================
-// LIMPAR AVALIAÇÕES
-// =========================
-
-function clearFeedbacks(){
-
-  const feedbacks =
-    JSON.parse(
-      localStorage.getItem("sensix_feedbacks") || "[]"
-    );
-
-  if(feedbacks.length === 0){
-
-    return;
-
-  }
-
-  const confirmDelete =
-    confirm(
-      "Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
-    );
-
-  if(!confirmDelete){
-
-    return;
-
-  }
-
-  localStorage.removeItem(
-    "sensix_feedbacks"
-  );
-
-  renderFeedbacks();
-
-  updateAverage();
-
-}
-
-
-/* =========================
-   INICIALIZAÇÃO
-========================= */
-
-renderFeedbacks();
-
-updateAverage();
-
-</script>
-
-</body>
-</html>
+  /* ======
