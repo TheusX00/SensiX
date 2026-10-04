@@ -751,3 +751,243 @@ onclick="clearFeedbacks()">
 SensiX © 2026 • Ferramenta independente para configurações de Free Fire.
 
 </footer>
+
+<script>
+
+/* =========================
+   MODELOS DOS CELULARES
+========================= */
+
+const models = {
+
+Samsung:[
+["Galaxy A15 5G",90,890],
+["Galaxy A16 5G",90,850],
+["Galaxy A25 5G",120,900],
+["Galaxy A26 5G",120,900],
+["Galaxy A35 5G",120,950],
+["Galaxy A36 5G",120,950],
+["Galaxy A55 5G",120,960],
+["Galaxy A56 5G",120,1000],
+["Galaxy S23",120,1100],
+["Galaxy S23 FE",120,1050],
+["Galaxy S24",120,1100],
+["Galaxy S24 FE",120,1050],
+["Galaxy S25",120,1150],
+["Galaxy S25 FE",120,1100],
+["Galaxy S25 Ultra",120,1200],
+["Galaxy Z Flip 6",120,1050]
+],
+
+Motorola:[
+["Moto G23",90,850],
+["Moto G54 5G",120,900],
+["Moto G55 5G",120,900],
+["Moto G64 5G",120,950],
+["Moto G75 5G",120,950],
+["Moto G85 5G",120,1000],
+["Moto G86 5G",120,1000],
+["Moto G67 5G",120,1000],
+["Moto G77 5G",120,1000],
+["Edge 40",144,1050],
+["Edge 40 Neo",144,1050],
+["Edge 50 Fusion",120,1050],
+["Edge 50 Pro",144,1100],
+["Edge 50 Ultra",144,1150],
+["Edge 60 Fusion",120,1100]
+],
+
+Xiaomi:[
+["Xiaomi 13",120,1050],
+["Xiaomi 13T",144,1100],
+["Xiaomi 13T Pro",144,1150],
+["Xiaomi 14",120,1100],
+["Xiaomi 14T",144,1150],
+["Xiaomi 14T Pro",144,1200],
+["Xiaomi 15",120,1200],
+["Xiaomi 15 Pro",120,1200]
+],
+
+Redmi:[
+["Redmi Note 13",120,900],
+["Redmi Note 13 5G",120,950],
+["Redmi Note 13 Pro",120,1000],
+["Redmi Note 13 Pro+",120,1050],
+["Redmi Note 14",120,950],
+["Redmi Note 14 5G",120,1000],
+["Redmi Note 14 Pro 5G",120,1050],
+["Redmi Note 14 Pro+ 5G",120,1100]
+],
+
+POCO:[
+["POCO X5 Pro 5G",120,1000],
+["POCO X6",120,1050],
+["POCO X6 Pro",120,1100],
+["POCO X7",120,1100],
+["POCO X7 Pro",120,1150],
+["POCO F5",120,1100],
+["POCO F5 Pro",120,1150],
+["POCO F6",120,1200],
+["POCO F6 Pro",120,1250]
+],
+
+Realme:[
+["Realme 11 5G",120,900],
+["Realme 12 5G",120,950],
+["Realme 12 Pro+",120,1050],
+["Realme 13 5G",120,1000],
+["Realme 13 Pro+",120,1100],
+["Realme GT 5",144,1150],
+["Realme GT 6",120,1200],
+["Realme GT 7",120,1200]
+],
+
+iPhone:[
+["iPhone 11",60,0],
+["iPhone 12",60,0],
+["iPhone 13",60,0],
+["iPhone 14",60,0],
+["iPhone 15",60,0],
+["iPhone 16",60,0],
+["iPhone 16e",60,0],
+["iPhone 13 Pro",120,0],
+["iPhone 14 Pro",120,0],
+["iPhone 15 Pro",120,0],
+["iPhone 16 Pro",120,0]
+],
+
+ASUS:[
+["ROG Phone 6",165,1200],
+["ROG Phone 7",165,1250],
+["ROG Phone 8",165,1300],
+["ROG Phone 9",185,1350],
+["Zenfone 10",144,1150],
+["Zenfone 11 Ultra",144,1200]
+],
+
+Infinix:[
+["Infinix Note 30",120,900],
+["Infinix Note 40",120,950],
+["Infinix Note 50",144,1050],
+["Infinix GT 20 Pro",144,1150],
+["Infinix GT 30 Pro",144,1200]
+],
+
+OnePlus:[
+["OnePlus 11",120,1150],
+["OnePlus 12",120,1200],
+["OnePlus 12R",120,1150],
+["OnePlus 13",120,1250],
+["OnePlus Nord 3",120,1050],
+["OnePlus Nord 4",120,1100]
+],
+
+Huawei:[
+["Huawei P60 Pro",120,1000],
+["Huawei Mate 60 Pro",120,1050],
+["Huawei Nova 12",120,950]
+],
+
+Oppo:[
+["OPPO A79 5G",90,850],
+["OPPO Reno 10",120,1000],
+["OPPO Reno 11",120,1050],
+["OPPO Reno 12",120,1050],
+["OPPO Reno 13",120,1100]
+],
+
+Vivo:[
+["Vivo V25",90,900],
+["Vivo V27",120,1000],
+["Vivo V29",120,1050],
+["Vivo V30",120,1100],
+["Vivo V40",120,1100],
+["Vivo V50",120,1150]
+],
+
+Honor:[
+["HONOR X7b",90,850],
+["HONOR X8b",90,900],
+["HONOR X8c",120,950],
+["HONOR 90",120,1050],
+["HONOR 200",120,1100],
+["HONOR 400",120,1150]
+],
+
+Nokia:[
+["Nokia G60 5G",120,900],
+["Nokia XR21",120,950]
+],
+
+Outros:[
+["Android 60Hz",60,800],
+["Android 90Hz",90,850],
+["Android 120Hz",120,950]
+]
+
+};
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const chips = document.getElementById("chips");
+
+
+/* =========================
+   CARREGAR MODELOS
+========================= */
+
+function loadModels(){
+
+model.innerHTML="";
+
+const list=models[brand.value] || models.Outros;
+
+list.forEach((item,index)=>{
+
+const name=item[0];
+const hz=item[1];
+
+const option=document.createElement("option");
+
+option.value=index;
+
+option.textContent=
+hz
+? `${name} — ${hz}Hz`
+: name;
+
+model.appendChild(option);
+
+});
+
+chips.innerHTML=list
+.slice(0,7)
+.map(item =>
+`<span class="chip">${item[0]} • ${item[1]}Hz</span>`
+)
+.join("");
+
+}
+
+brand.addEventListener("change",loadModels);
+
+loadModels();
+
+
+/* =========================
+   UTILITÁRIO
+========================= */
+
+function clamp(value,min,max){
+
+return Math.max(
+min,
+Math.min(max,Math.round(value))
+);
+
+}
