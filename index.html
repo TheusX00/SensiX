@@ -2678,3 +2678,903 @@ function copySensi(){
 }
 
 </script>
+<script>
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const chips = document.getElementById("chips");
+
+const style = document.getElementById("style");
+const profile = document.getElementById("profile");
+
+const result = document.getElementById("result");
+const stats = document.getElementById("stats");
+const preset = document.getElementById("preset");
+
+const dpi = document.getElementById("dpi");
+const btnSize = document.getElementById("btnSize");
+
+
+/* =========================
+   MODELOS
+========================= */
+
+const models = {
+
+  Samsung:[
+    ["Galaxy A15",90],
+    ["Galaxy A24",90],
+    ["Galaxy A34",120],
+    ["Galaxy A54",120],
+    ["Galaxy S23",120],
+    ["Galaxy S24",120]
+  ],
+
+  Motorola:[
+    ["Moto G23",90],
+    ["Moto G53",120],
+    ["Moto G54",120],
+    ["Moto G84",120],
+    ["Edge 40",144]
+  ],
+
+  Xiaomi:[
+    ["Redmi Note 12",120],
+    ["Redmi Note 13",120],
+    ["Xiaomi 13",120],
+    ["Xiaomi 14",120]
+  ],
+
+  Redmi:[
+    ["Redmi 10",90],
+    ["Redmi 12",90],
+    ["Redmi Note 11",90],
+    ["Redmi Note 13",120]
+  ],
+
+  POCO:[
+    ["POCO X3 Pro",120],
+    ["POCO X5 Pro",120],
+    ["POCO X6",120],
+    ["POCO F5",120]
+  ],
+
+  Realme:[
+    ["Realme C55",90],
+    ["Realme 10",90],
+    ["Realme 11",120],
+    ["Realme GT Neo 5",144]
+  ],
+
+  iPhone:[
+    ["iPhone 11",60],
+    ["iPhone 12",60],
+    ["iPhone 13",60],
+    ["iPhone 14",60],
+    ["iPhone 15",60],
+    ["iPhone 16",60]
+  ],
+
+  ASUS:[
+    ["ROG Phone 6",165],
+    ["ROG Phone 7",165],
+    ["ROG Phone 8",165]
+  ],
+
+  Infinix:[
+    ["Hot 30",90],
+    ["Hot 40",90],
+    ["Note 30",120],
+    ["GT 20 Pro",144]
+  ],
+
+  OnePlus:[
+    ["OnePlus 10 Pro",120],
+    ["OnePlus 11",120],
+    ["OnePlus 12",120]
+  ],
+
+  Huawei:[
+    ["Nova 10",120],
+    ["Nova 11",120],
+    ["P60 Pro",120]
+  ],
+
+  Oppo:[
+    ["Reno 8",90],
+    ["Reno 10",120],
+    ["Reno 11",120]
+  ],
+
+  Vivo:[
+    ["Vivo V25",90],
+    ["Vivo V27",120],
+    ["Vivo V30",120]
+  ],
+
+  Honor:[
+    ["HONOR X8",90],
+    ["HONOR X9",90],
+    ["HONOR 90",120]
+  ],
+
+  Nokia:[
+    ["Nokia G21",90],
+    ["Nokia G60",120],
+    ["Nokia X30",90]
+  ],
+
+  Outros:[
+    ["Celular 60Hz",60],
+    ["Celular 90Hz",90],
+    ["Celular 120Hz",120]
+  ]
+
+};
+
+
+/* =========================
+   CARREGAR MODELOS
+========================= */
+
+function loadModels(){
+
+  model.innerHTML = "";
+
+  const list =
+    models[brand.value] ||
+    models.Outros;
+
+  list.forEach((item,index)=>{
+
+    const option =
+      document.createElement("option");
+
+    option.value = index;
+
+    option.textContent =
+      `${item[0]} — ${item[1]}Hz`;
+
+    model.appendChild(option);
+
+  });
+
+
+  chips.innerHTML = list
+    .slice(0,7)
+    .map(item =>
+      `<span class="chip">
+        ${item[0]} • ${item[1]}Hz
+      </span>`
+    )
+    .join("");
+
+
+  /* IPHONE */
+
+  if(brand.value === "iPhone"){
+
+    style.innerHTML = `
+
+      <option value="baixo">
+        Baixo
+      </option>
+
+      <option value="medio">
+        Médio
+      </option>
+
+      <option value="alto">
+        Alto
+      </option>
+
+    `;
+
+  }else{
+
+    style.innerHTML = `
+
+      <option value="capa">
+        🔥 Capa / Headshot
+      </option>
+
+      <option value="rush">
+        ⚡ Rush
+      </option>
+
+      <option value="precisao">
+        🎯 Precisão
+      </option>
+
+      <option value="equilibrada">
+        ⚖️ Equilibrada
+      </option>
+
+    `;
+
+  }
+
+}
+
+
+brand.addEventListener(
+  "change",
+  loadModels
+);
+
+loadModels();
+
+
+/* =========================
+   ALEATÓRIO
+========================= */
+
+function randomBetween(min,max){
+
+  return Math.floor(
+    Math.random() *
+    (max - min + 1)
+  ) + min;
+
+}
+
+
+/* =========================
+   CLAMP
+========================= */
+
+function clamp(value,min,max){
+
+  return Math.max(
+    min,
+    Math.min(
+      max,
+      Math.round(value)
+    )
+  );
+
+}
+
+
+/* =========================
+   IPHONE
+========================= */
+
+function generateIphoneSensi(level){
+
+  let min;
+  let max;
+
+  if(level === "baixo"){
+
+    min = 100;
+    max = 135;
+
+  }else if(level === "medio"){
+
+    min = 135;
+    max = 170;
+
+  }else{
+
+    min = 170;
+    max = 200;
+
+  }
+
+
+  const geral =
+    randomBetween(min,max);
+
+
+  return {
+
+    geral:geral,
+
+    redDot:clamp(
+      geral + randomBetween(-5,5),
+      min,
+      max
+    ),
+
+    mira2x:clamp(
+      geral + randomBetween(-7,7),
+      min,
+      max
+    ),
+
+    mira4x:clamp(
+      geral + randomBetween(-9,9),
+      min,
+      max
+    ),
+
+    miraSniper:clamp(
+      geral + randomBetween(-12,12),
+      min,
+      max
+    ),
+
+    olhadinha:clamp(
+      geral + randomBetween(-6,6),
+      min,
+      max
+    )
+
+  };
+
+}
+
+
+/* =========================
+   ANDROID
+========================= */
+
+function generateAndroidSensi(){
+
+  let base;
+
+  if(style.value === "capa"){
+
+    base = randomBetween(85,130);
+
+  }else if(style.value === "rush"){
+
+    base = randomBetween(100,145);
+
+  }else if(style.value === "precisao"){
+
+    base = randomBetween(75,115);
+
+  }else{
+
+    base = randomBetween(85,125);
+
+  }
+
+
+  if(profile.value === "agressiva"){
+
+    base += 8;
+
+  }
+
+  if(profile.value === "controlada"){
+
+    base -= 5;
+
+  }
+
+
+  base = clamp(base,50,200);
+
+
+  return {
+
+    geral:base,
+
+    redDot:clamp(
+      base + randomBetween(-5,5),
+      50,
+      200
+    ),
+
+    mira2x:clamp(
+      base + randomBetween(-8,8),
+      50,
+      200
+    ),
+
+    mira4x:clamp(
+      base + randomBetween(-10,10),
+      50,
+      200
+    ),
+
+    miraSniper:clamp(
+      base + randomBetween(-15,5),
+      50,
+      200
+    ),
+
+    olhadinha:clamp(
+      base + randomBetween(-6,6),
+      50,
+      200
+    )
+
+  };
+
+}
+
+
+/* =========================
+   GERAR
+========================= */
+
+function generate(){
+
+  let sensi;
+
+
+  if(brand.value === "iPhone"){
+
+    sensi =
+      generateIphoneSensi(
+        style.value
+      );
+
+  }else{
+
+    sensi =
+      generateAndroidSensi();
+
+  }
+
+
+  /* DPI */
+
+  let dpiValue;
+
+  if(brand.value === "iPhone"){
+
+    dpiValue = "Nativo";
+
+  }else{
+
+    dpiValue =
+      randomBetween(380,620);
+
+  }
+
+
+  /* BOTÃO */
+
+  const button =
+    randomBetween(42,58);
+
+
+  /* PRESET */
+
+  if(brand.value === "iPhone"){
+
+    preset.textContent =
+      style.options[
+        style.selectedIndex
+      ].textContent.trim();
+
+  }else{
+
+    preset.textContent =
+      style.options[
+        style.selectedIndex
+      ].textContent.trim();
+
+  }
+
+
+  /* RESULTADO */
+
+  const data = [
+
+    ["Geral",sensi.geral],
+
+    ["Red Dot",sensi.redDot],
+
+    ["Mira 2x",sensi.mira2x],
+
+    ["Mira 4x",sensi.mira4x],
+
+    ["Mira Sniper",sensi.miraSniper],
+
+    ["Olhadinha",sensi.olhadinha]
+
+  ];
+
+
+  stats.innerHTML =
+    data.map(item => `
+
+      <div class="stat">
+
+        <small>
+          ${item[0]}
+        </small>
+
+        <strong>
+          ${item[1]}
+        </strong>
+
+      </div>
+
+    `).join("");
+
+
+  dpi.textContent =
+    dpiValue;
+
+  btnSize.textContent =
+    button + "%";
+
+
+  result.classList.add("show");
+
+  result.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+
+
+/* =========================
+   COPIAR
+========================= */
+
+function copySensi(){
+
+  const text = [
+
+    "🔥 SensiX — Configuração",
+
+    "Geral: " +
+      document.querySelector(
+        ".stat:nth-child(1) strong"
+      ).textContent,
+
+    "Red Dot: " +
+      document.querySelector(
+        ".stat:nth-child(2) strong"
+      ).textContent,
+
+    "Mira 2x: " +
+      document.querySelector(
+        ".stat:nth-child(3) strong"
+      ).textContent,
+
+    "Mira 4x: " +
+      document.querySelector(
+        ".stat:nth-child(4) strong"
+      ).textContent,
+
+    "Mira Sniper: " +
+      document.querySelector(
+        ".stat:nth-child(5) strong"
+      ).textContent,
+
+    "Olhadinha: " +
+      document.querySelector(
+        ".stat:nth-child(6) strong"
+      ).textContent,
+
+    "DPI: " +
+      dpi.textContent,
+
+    "Botão: " +
+      btnSize.textContent
+
+  ].join("\n");
+
+
+  navigator.clipboard.writeText(text)
+    .then(()=>{
+
+      alert(
+        "✅ Configuração copiada!"
+      );
+
+    })
+    .catch(()=>{
+
+      alert(
+        "❌ Não foi possível copiar automaticamente."
+      );
+
+    });
+
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+let selectedRating = 0;
+
+const stars =
+  document.querySelectorAll(
+    ".feedback-star"
+  );
+
+
+stars.forEach(star=>{
+
+  star.addEventListener(
+    "click",
+    ()=>{
+
+      selectedRating =
+        Number(
+          star.dataset.star
+        );
+
+
+      stars.forEach(s=>{
+
+        s.classList.toggle(
+          "active",
+          Number(s.dataset.star)
+          <= selectedRating
+        );
+
+      });
+
+    }
+  );
+
+});
+
+
+/* =========================
+   ENVIAR FEEDBACK
+========================= */
+
+function sendFeedback(){
+
+  const text =
+    document.getElementById(
+      "feedbackText"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "feedbackMessage"
+    );
+
+
+  if(selectedRating === 0){
+
+    message.textContent =
+      "⭐ Escolha uma nota.";
+
+    return;
+
+  }
+
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem(
+        "sensix_feedbacks"
+      ) || "[]"
+    );
+
+
+  feedbacks.push({
+
+    rating:selectedRating,
+
+    text:text,
+
+    date:
+      new Date().toLocaleDateString(
+        "pt-BR"
+      )
+
+  });
+
+
+  localStorage.setItem(
+    "sensix_feedbacks",
+    JSON.stringify(feedbacks)
+  );
+
+
+  message.textContent =
+    "✅ Avaliação enviada!";
+
+
+  document.getElementById(
+    "feedbackText"
+  ).value = "";
+
+
+  selectedRating = 0;
+
+
+  stars.forEach(s =>
+    s.classList.remove("active")
+  );
+
+
+  renderFeedbacks();
+
+  updateAverage();
+
+}
+
+
+/* =========================
+   RENDER FEEDBACKS
+========================= */
+
+function renderFeedbacks(){
+
+  const list =
+    document.getElementById(
+      "feedbackList"
+    );
+
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem(
+        "sensix_feedbacks"
+      ) || "[]"
+    );
+
+
+  if(feedbacks.length === 0){
+
+    list.innerHTML = `
+
+      <div class="empty-feedback">
+
+        Ainda não existem avaliações.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    feedbacks
+      .slice()
+      .reverse()
+      .map(item => `
+
+        <div class="feedback-item">
+
+          <div class="feedback-item-top">
+
+            <span class="feedback-item-stars">
+
+              ${"★".repeat(item.rating)}
+              ${"☆".repeat(5-item.rating)}
+
+            </span>
+
+            <span class="feedback-date">
+
+              ${item.date}
+
+            </span>
+
+          </div>
+
+          ${
+            item.text
+              ? `<div class="feedback-comment">
+                   ${item.text}
+                 </div>`
+              : ""
+          }
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+/* =========================
+   MÉDIA
+========================= */
+
+function updateAverage(){
+
+  const feedbacks =
+    JSON.parse(
+      localStorage.getItem(
+        "sensix_feedbacks"
+      ) || "[]"
+    );
+
+
+  if(feedbacks.length === 0){
+
+    document.getElementById(
+      "averageRating"
+    ).textContent = "0.0";
+
+    document.getElementById(
+      "averageStars"
+    ).textContent = "☆☆☆☆☆";
+
+    return;
+
+  }
+
+
+  const total =
+    feedbacks.reduce(
+      (sum,item)=>
+        sum + item.rating,
+      0
+    );
+
+
+  const average =
+    total / feedbacks.length;
+
+
+  document.getElementById(
+    "averageRating"
+  ).textContent =
+    average.toFixed(1);
+
+
+  const rounded =
+    Math.round(average);
+
+
+  document.getElementById(
+    "averageStars"
+  ).textContent =
+    "★".repeat(rounded) +
+    "☆".repeat(5-rounded);
+
+}
+
+
+/* =========================
+   LIMPAR FEEDBACKS
+========================= */
+
+function clearFeedbacks(){
+
+  if(
+    !confirm(
+      "Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    "sensix_feedbacks"
+  );
+
+
+  renderFeedbacks();
+
+  updateAverage();
+
+}
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+renderFeedbacks();
+
+updateAverage();
+
+</script>
+
+</body>
+</html>
