@@ -1115,4 +1115,170 @@ button:active{
 
 footer{
 
+/* =========================
+   ELEMENTOS
+========================= */
+
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const chips = document.getElementById("chips");
+
+const style = document.getElementById("style");
+const profile = document.getElementById("profile");
+
+
+/* =========================
+   CARREGAR MODELOS
+========================= */
+
+function loadModels(){
+
+  model.innerHTML = "";
+
+  const list = models[brand.value] || models.Outros;
+
+  list.forEach((item,index)=>{
+
+    const name = item[0];
+    const hz = item[1];
+
+    const option = document.createElement("option");
+
+    option.value = index;
+
+    option.textContent = hz
+      ? `${name} — ${hz}Hz`
+      : name;
+
+    model.appendChild(option);
+
+  });
+
+  chips.innerHTML = list
+    .slice(0,7)
+    .map(item =>
+      `<span class="chip">${item[0]} • ${item[1]}Hz</span>`
+    )
+    .join("");
+
+  /*
+    SOMENTE NO IPHONE:
+    troca as opções de estilo Android
+    por Baixo / Médio / Alto.
+  */
+
+  if(brand.value === "iPhone"){
+
+    style.innerHTML = `
+      <option value="baixo">Baixo</option>
+      <option value="medio">Médio</option>
+      <option value="alto">Alto</option>
+    `;
+
+  }else{
+
+    style.innerHTML = `
+      <option value="capa">🔥 Capa / Headshot</option>
+      <option value="rush">⚡ Rush</option>
+      <option value="precisao">🎯 Precisão</option>
+      <option value="equilibrada">⚖️ Equilibrada</option>
+    `;
+
+  }
+
+}
+
+
+brand.addEventListener("change",loadModels);
+
+loadModels();
+
+
+/* =========================
+   UTILITÁRIO
+========================= */
+
+function clamp(value,min,max){
+
+  return Math.max(
+    min,
+    Math.min(max,Math.round(value))
+  );
+
+}
+
+
+/* =========================
+   NÚMERO ALEATÓRIO
+========================= */
+
+function randomBetween(min,max){
+
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
+
+}
+
+
+/* =========================
+   SENSI PARA IPHONE
+========================= */
+
+function generateIphoneSensi(level){
+
+  let base;
+
+  if(level === "baixo"){
+
+    base = randomBetween(100,135);
+
+  }else if(level === "medio"){
+
+    base = randomBetween(135,170);
+
+  }else{
+
+    base = randomBetween(170,200);
+
+  }
+
+  return {
+
+    geral: clamp(base,100,200),
+
+    redDot: clamp(
+      base + randomBetween(-5,5),
+      100,
+      200
+    ),
+
+    mira2x: clamp(
+      base + randomBetween(-8,8),
+      100,
+      200
+    ),
+
+    mira4x: clamp(
+      base + randomBetween(-10,10),
+      100,
+      200
+    ),
+
+    miraSniper: clamp(
+      base + randomBetween(-12,12),
+      100,
+      200
+    ),
+
+    olhadinha: clamp(
+      base + randomBetween(-6,6),
+      100,
+      200
+    )
+
+  };
+
+}
+
  
