@@ -455,13 +455,12 @@ if(style==="equilibrada") base+=1;
 if(profile==="agressiva") base+=6;
 if(profile==="controlada") base-=6;
 
-let geral=clamp(Math.round(base+Math.random()*5),0,200);
-let red=clamp(Math.round(geral+Math.random()*4-2),0,200);
-let mira2=clamp(Math.round(geral-4+Math.random()*5),0,200);
-let mira4=clamp(Math.round(geral-8+Math.random()*5),0,200);
-let miraSniper=clamp(Math.round(geral-15+Math.random()*5),0,200);
-let olhadinha=clamp(Math.round(geral+2+Math.random()*4),0,200);
-
+let geral=200;
+let red=200;
+let mira2=200;
+let mira4=200;
+let miraSniper=200;
+let olhadinha=200;
 let dpi;
 
 if(brand==="iPhone"){
