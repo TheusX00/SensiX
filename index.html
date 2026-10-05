@@ -2,955 +2,324 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SensiX — Gerador de Sensibilidade para Free Fire</title>
-
-<meta name="description" content="SensiX — gerador de sensibilidade, DPI e botão de atirar para Free Fire.">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SensiX — Gerador de Sensibilidade</title>
 <style>
 :root{
-  --bg:#05070b;
-  --card:#0e121b;
-  --card2:#111722;
-  --line:#27303e;
-  --text:#f8fafc;
-  --muted:#9aa5b5;
-  --red:#ff304f;
-  --orange:#ff7a18;
-  --yellow:#ffc400;
-  --purple:#b85cff;
+--bg:#05070b;--card:#0e121b;--card2:#111722;--line:#27303e;
+--text:#f8fafc;--muted:#9aa5b5;--red:#ff304f;--orange:#ff7a18;
+--yellow:#ffc400;--purple:#b85cff
 }
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  min-height:100vh;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 50% -10%,rgba(255,48,79,.30),transparent 30%),
-    radial-gradient(circle at 100% 20%,rgba(255,122,24,.16),transparent 25%),
-    linear-gradient(180deg,#05070b,#080b11 55%,#05070b);
-  overflow-x:hidden;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.16;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:45px 45px;
-}
-
-header{
-  max-width:1150px;
-  margin:auto;
-  padding:22px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo{
-  font-size:27px;
-  font-weight:1000;
-  letter-spacing:-1.5px;
-  text-transform:uppercase;
-}
-
-.logo span{
-  color:var(--red);
-  text-shadow:0 0 20px rgba(255,48,79,.6);
-}
-
-.badge{
-  border:1px solid var(--line);
-  background:rgba(12,15,22,.85);
-  padding:8px 13px;
-  border-radius:999px;
-  color:#c6ceda;
-  font-size:11px;
-  font-weight:800;
-}
-
-main{
-  max-width:1150px;
-  margin:auto;
-  padding:15px 20px 70px;
-}
-
-.hero{
-  text-align:center;
-  padding:45px 0 40px;
-}
-
-.hero-tag{
-  display:inline-block;
-  padding:7px 13px;
-  border-radius:999px;
-  border:1px solid rgba(255,48,79,.35);
-  background:rgba(255,48,79,.08);
-  color:#ff7186;
-  font-size:11px;
-  font-weight:900;
-  margin-bottom:18px;
-}
-
-.hero h1{
-  font-size:clamp(43px,8vw,78px);
-  line-height:.95;
-  letter-spacing:-4px;
-  font-weight:1000;
-}
-
-.hero h1 span{
-  color:var(--red);
-  text-shadow:0 0 35px rgba(255,48,79,.35);
-}
-
-.hero p{
-  max-width:690px;
-  margin:18px auto 0;
-  color:var(--muted);
-  line-height:1.65;
-  font-size:15px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.card,
-.premium,
-.feedback-section,
-.community{
-  background:rgba(14,18,27,.94);
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:23px;
-  box-shadow:0 20px 60px rgba(0,0,0,.38);
-}
-
-.card h2{
-  font-size:19px;
-  margin-bottom:19px;
-}
-
-.form{
-  display:grid;
-  gap:14px;
-}
-
-label{
-  display:block;
-  color:#929dae;
-  font-size:10px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-}
-
-select,
-textarea{
-  width:100%;
-  margin-top:7px;
-  padding:14px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:var(--card2);
-  color:white;
-  outline:none;
-}
-
-select:focus,
-textarea:focus{
-  border-color:var(--red);
-  box-shadow:0 0 0 3px rgba(255,48,79,.08);
-}
-
-button{
-  border:0;
-  border-radius:13px;
-  padding:14px 17px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.18s ease;
-}
-
-button:hover{
-  transform:translateY(-1px);
-}
-
-button:active{
-  transform:scale(.98);
-}
-
-.primary,
-.feedback-submit{
-  width:100%;
-  color:white;
-  background:linear-gradient(135deg,var(--red),var(--orange));
-  box-shadow:0 8px 25px rgba(255,48,79,.18);
-}
-
-.secondary{
-  color:white;
-  background:#181e29;
-  border:1px solid var(--line);
-}
-
-.models{
-  margin-top:20px;
-}
-
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:9px;
-}
-
-.chip{
-  color:#b9c1ce;
-  background:#111620;
-  border:1px solid var(--line);
-  border-radius:9px;
-  padding:7px 9px;
-  font-size:10px;
-}
-
-/* RESULTADO */
-
-.result{
-  display:none;
-}
-
-.result.show{
-  display:block;
-}
-
-.resultTop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.preset{
-  padding:7px 10px;
-  border-radius:999px;
-  background:#242b37;
-  color:#fff;
-  font-size:10px;
-  font-weight:900;
-}
-
-.sensi{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:9px;
-}
-
-.stat{
-  padding:15px;
-  background:#090c12;
-  border:1px solid var(--line);
-  border-radius:14px;
-}
-
-.stat small{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-  margin-bottom:4px;
-}
-
-.stat strong{
-  font-size:27px;
-}
-
-.dpi-box{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin-top:10px;
-}
-
-.dpi{
-  padding:15px;
-  border-radius:14px;
-  background:#090c12;
-  border:1px solid var(--line);
-}
-
-.dpi span{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-  margin-bottom:4px;
-}
-
-.dpi strong{
-  font-size:19px;
-}
-
-.actions{
-  display:flex;
-  gap:9px;
-  margin-top:11px;
-}
-
-.actions button{
-  flex:1;
-}
-
-.tip{
-  margin-top:14px;
-  color:#7f8999;
-  font-size:11px;
-  line-height:1.55;
-}
-
-/* PREMIUM */
-
-.premium-wrap{
-  margin-top:20px;
-}
-
-.premium{
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(184,92,255,.45);
-  background:
-    radial-gradient(circle at 100% 0%,rgba(184,92,255,.16),transparent 35%),
-    linear-gradient(145deg,#17111f,#0e1119);
-}
-
-.premium-head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.premium h2{
-  font-size:23px;
-  margin-bottom:7px;
-}
-
-.premium h2 span{
-  color:var(--purple);
-}
-
-.premium p{
-  color:#a59caf;
-  font-size:12px;
-  line-height:1.55;
-}
-
-.premium-badge{
-  padding:8px 12px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#b85cff,#6d28d9);
-  font-size:10px;
-  font-weight:900;
-}
-
-.premium-locked{
-  margin-top:19px;
-  padding:25px 18px;
-  text-align:center;
-  border-radius:17px;
-  background:#0a090e;
-  border:1px solid #30233b;
-}
-
-.lock-icon{
-  font-size:38px;
-  margin-bottom:9px;
-}
-
-.premium-locked h3{
-  font-size:17px;
-  margin-bottom:7px;
-}
-
-.premium-locked p{
-  max-width:550px;
-  margin:auto;
-}
-
-.dev-badge{
-  display:inline-block;
-  margin-top:15px;
-  padding:9px 14px;
-  border-radius:999px;
-  background:#21182a;
-  border:1px solid #68427d;
-  color:#d29aff;
-  font-size:10px;
-  font-weight:900;
-}
-
-/* FEEDBACK */
-
-.feedback-section{
-  margin-top:20px;
-}
-
-.feedback-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:15px;
-}
-
-.feedback-section h2{
-  font-size:20px;
-}
-
-.feedback-section p{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.rating-summary{
-  text-align:right;
-}
-
-.rating-average{
-  font-size:27px;
-  font-weight:1000;
-}
-
-.rating-stars{
-  color:var(--yellow);
-  letter-spacing:1px;
-}
-
-.feedback-stars{
-  display:flex;
-  gap:3px;
-  margin:20px 0 10px;
-}
-
-.feedback-star{
-  padding:2px;
-  background:none;
-  color:#4b5260;
-  font-size:34px;
-}
-
-.feedback-star.active{
-  color:var(--yellow);
-}
-
-#feedbackText{
-  min-height:105px;
-  resize:vertical;
-  font-family:inherit;
-  font-size:13px;
-}
-
-#feedbackMessage{
-  min-height:18px;
-  margin-top:9px;
-}
-
-/* COMUNIDADE */
-
-.community{
-  margin-top:20px;
-}
-
-.community h2{
-  font-size:20px;
-}
-
-.community-sub{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.feedback-list{
-  display:grid;
-  gap:10px;
-  margin-top:17px;
-}
-
-.feedback-item{
-  background:#090c12;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-}
-
-.feedback-item-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-}
-
-.feedback-item-stars{
-  color:var(--yellow);
-  letter-spacing:1px;
-}
-
-.feedback-date{
-  color:#687181;
-  font-size:9px;
-}
-
-.feedback-comment{
-  color:#c5ccd7;
-  font-size:12px;
-  line-height:1.5;
-  margin-top:8px;
-  word-break:break-word;
-}
-
-.empty-feedback{
-  color:#737d8d;
-  padding:22px 5px;
-  text-align:center;
-  font-size:12px;
-  border:1px dashed var(--line);
-  border-radius:13px;
-}
-
-.community-actions{
-  display:flex;
-  justify-content:flex-end;
-  margin-top:12px;
-}
-
-.clear-feedback{
-  color:#8993a3;
-  background:#141923;
-  border:1px solid var(--line);
-  padding:9px 12px;
-  font-size:10px;
-}
-
-footer{
-  text-align:center;
-  color:#687181;
-  font-size:11px;
-  padding:30px 20px 40px;
-}
-
+min-height:100vh;font-family:Inter,system-ui,sans-serif;color:var(--text);
+background:radial-gradient(circle at 50% -10%,rgba(255,48,79,.3),transparent 30%),
+radial-gradient(circle at 100% 20%,rgba(255,122,24,.16),transparent 25%),
+linear-gradient(180deg,#05070b,#080b11 55%,#05070b);overflow-x:hidden
+}
+header,main{max-width:1150px;margin:auto}
+header{padding:22px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:27px;font-weight:1000}.logo span,.hero h1 span{color:var(--red)}
+.badge,.hero-tag,.preset,.premium-badge,.dev-badge{
+border-radius:999px;font-weight:900
+}
+.badge{border:1px solid var(--line);padding:8px 13px;color:#c6ceda;font-size:11px}
+main{padding:15px 20px 70px}
+.hero{text-align:center;padding:45px 0 35px}
+.hero-tag{display:inline-block;padding:7px 13px;border:1px solid rgba(255,48,79,.35);background:rgba(255,48,79,.08);color:#ff7186;font-size:11px;margin-bottom:18px}
+.hero h1{font-size:clamp(43px,8vw,78px);line-height:.95;letter-spacing:-4px}
+.hero p{max-width:690px;margin:18px auto;color:var(--muted);line-height:1.65;font-size:15px}
+.mode-screen{max-width:800px;margin:20px auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mode-card,.card,.premium,.feedback-section,.community{
+background:rgba(14,18,27,.95);border:1px solid var(--line);border-radius:22px;padding:23px;
+box-shadow:0 20px 60px rgba(0,0,0,.38)
+}
+.mode-card{text-align:center;cursor:pointer;transition:.2s}
+.mode-card:hover{transform:translateY(-4px);border-color:var(--red)}
+.mode-icon{font-size:55px;margin-bottom:12px}
+.mode-card h2{margin-bottom:8px}.mode-card p{color:var(--muted);font-size:13px;line-height:1.5}
+.app{display:none}.app.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card h2{font-size:19px;margin-bottom:19px}
+.form{display:grid;gap:14px}
+label{display:block;color:#929dae;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px}
+select,textarea{
+width:100%;margin-top:7px;padding:14px;border:1px solid var(--line);border-radius:12px;
+background:var(--card2);color:white;outline:none
+}
+select:focus,textarea:focus{border-color:var(--red)}
+button{border:0;border-radius:13px;padding:14px 17px;font-weight:900;cursor:pointer;transition:.18s}
+button:hover{transform:translateY(-1px)}
+.primary,.feedback-submit{width:100%;color:white;background:linear-gradient(135deg,var(--red),var(--orange))}
+.secondary{color:white;background:#181e29;border:1px solid var(--line)}
+.models{margin-top:20px}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.chip{color:#b9c1ce;background:#111620;border:1px solid var(--line);border-radius:9px;padding:7px 9px;font-size:10px}
+.result{display:none}.result.show{display:block}
+.resultTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.preset{padding:7px 10px;background:#242b37;font-size:10px}
+.sensi{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.stat,.dpi{padding:15px;background:#090c12;border:1px solid var(--line);border-radius:14px}
+.stat small,.dpi span{display:block;color:var(--muted);font-size:10px;margin-bottom:4px}
+.stat strong{font-size:27px}.dpi strong{font-size:19px}
+.dpi-box{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.actions{display:flex;gap:9px;margin-top:11px}.actions button{flex:1}
+.tip{margin-top:14px;color:#7f8999;font-size:11px}
+.premium-wrap,.feedback-section,.community{margin-top:20px}
+.premium{border-color:rgba(184,92,255,.45);background:linear-gradient(145deg,#17111f,#0e1119)}
+.premium-head,.feedback-header{display:flex;justify-content:space-between;gap:15px}
+.premium h2{font-size:23px}.premium h2 span{color:var(--purple)}
+.premium p,.feedback-section p{color:var(--muted);font-size:12px;margin-top:5px}
+.premium-badge{padding:8px 12px;background:linear-gradient(135deg,#b85cff,#6d28d9);font-size:10px}
+.premium-locked{margin-top:19px;padding:25px;text-align:center;border-radius:17px;background:#0a090e;border:1px solid #30233b}
+.lock-icon{font-size:38px}.premium-locked h3{margin:8px 0}
+.dev-badge{display:inline-block;margin-top:15px;padding:9px 14px;background:#21182a;border:1px solid #68427d;color:#d29aff;font-size:10px}
+.rating-summary{text-align:right}.rating-average{font-size:27px;font-weight:1000}.rating-stars,.feedback-item-stars{color:var(--yellow)}
+.feedback-stars{display:flex;gap:3px;margin:20px 0 10px}
+.feedback-star{padding:2px;background:none;color:#4b5260;font-size:34px}
+.feedback-star.active{color:var(--yellow)}
+#feedbackText{min-height:105px;resize:vertical;font-family:inherit}
+.feedback-list{display:grid;gap:10px;margin-top:17px}
+.feedback-item{background:#090c12;border:1px solid var(--line);border-radius:14px;padding:14px}
+.feedback-item-top{display:flex;justify-content:space-between}
+.feedback-date{color:#687181;font-size:9px}.feedback-comment{color:#c5ccd7;font-size:12px;margin-top:8px}
+.empty-feedback{text-align:center;color:#737d8d;padding:22px;border:1px dashed var(--line);border-radius:13px}
+.community-actions{display:flex;justify-content:flex-end;margin-top:12px}
+.clear-feedback{color:#8993a3;background:#141923;border:1px solid var(--line);font-size:10px}
+.back{margin-bottom:15px}
+footer{text-align:center;color:#687181;font-size:11px;padding:30px}
 @media(max-width:760px){
-
-  header{
-    padding:18px 15px;
-  }
-
-  .logo{
-    font-size:23px;
-  }
-
-  .badge{
-    font-size:9px;
-    padding:7px 9px;
-  }
-
-  main{
-    padding:5px 14px 50px;
-  }
-
-  .hero{
-    padding:35px 0;
-  }
-
-  .hero h1{
-    letter-spacing:-2.5px;
-  }
-
-  .hero p{
-    font-size:13px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .card,
-  .premium,
-  .feedback-section,
-  .community{
-    padding:18px;
-    border-radius:18px;
-  }
-
-  .premium-head,
-  .feedback-header{
-    flex-direction:column;
-  }
-
-  .rating-summary{
-    text-align:left;
-  }
-
-  .actions{
-    flex-direction:column;
-  }
+header{padding:18px 15px}.logo{font-size:23px}main{padding:5px 14px 50px}
+.hero{padding:35px 0}.hero h1{letter-spacing:-2.5px}.grid,.mode-screen{grid-template-columns:1fr}
+.card,.premium,.feedback-section,.community{padding:18px;border-radius:18px}
+.premium-head,.feedback-header{flex-direction:column}.rating-summary{text-align:left}.actions{flex-direction:column}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-
-  <div class="logo">
-    Sensi<span>X</span>
-  </div>
-
-  <div class="badge">
-    🔥 FREE FIRE • GERADOR
-  </div>
-
+<div class="logo">Sensi<span>X</span></div>
+<div class="badge">🔥 FREE FIRE • GERADOR</div>
 </header>
 
 <main>
 
 <section class="hero">
-
-  <div class="hero-tag">
-    ⚡ CONFIGURAÇÃO INTELIGENTE
-  </div>
-
-  <h1>
-    GERE SUA <span>SENSI</span>
-  </h1>
-
-  <p>
-    Escolha seu celular, estilo de jogo e perfil.
-    O SensiX cria uma configuração personalizada
-    de sensibilidade, DPI e botão de atirar
-    para você testar no Free Fire.
-  </p>
-
+<div class="hero-tag">⚡ CONFIGURAÇÃO INTELIGENTE</div>
+<h1>GERE SUA <span>SENSI</span></h1>
+<p>Escolha entre celular ou emulador e gere uma configuração personalizada para seu estilo de jogo.</p>
 </section>
+
+<section id="modeScreen" class="mode-screen">
+<div class="mode-card" onclick="openMode('mobile')">
+<div class="mode-icon">📱</div>
+<h2>SENSI PARA CELULAR</h2>
+<p>Android, iPhone, HyperOS e outras marcas.</p>
+</div>
+<div class="mode-card" onclick="openMode('emulator')">
+<div class="mode-icon">🖥️</div>
+<h2>SENSI PARA EMULADOR</h2>
+<p>Configure DPI do mouse, sensibilidade X/Y e mira.</p>
+</div>
+</section>
+
+<section id="mobileApp" class="app">
+
+<button class="secondary back" onclick="backHome()">← Voltar</button>
 
 <div class="grid">
 
 <section class="card">
+<h2>🎮 Personalize sua configuração</h2>
 
-  <h2>🎮 Personalize sua configuração</h2>
+<div class="form">
 
-  <div class="form">
+<div>
+<label>Marca do celular</label>
+<select id="brand"></select>
+</div>
 
-    <div>
+<div>
+<label>Modelo • taxa da tela</label>
+<select id="model"></select>
+</div>
 
-      <label>Marca do celular</label>
+<div>
+<label>Estilo de jogo</label>
+<select id="style"></select>
+</div>
 
-      <select id="brand">
+<div>
+<label>Perfil</label>
+<select id="profile">
+<option value="normal">Normal</option>
+<option value="agressiva">Agressiva</option>
+<option value="controlada">Controlada</option>
+</select>
+</div>
 
-        <option value="Samsung">Samsung</option>
-        <option value="Motorola">Motorola</option>
-        <option value="Xiaomi">Xiaomi</option>
-        <option value="Redmi">Redmi</option>
-        <option value="POCO">POCO</option>
-        <option value="Realme">Realme</option>
-        <option value="iPhone">iPhone</option>
-        <option value="ASUS">ASUS</option>
-        <option value="Infinix">Infinix</option>
-        <option value="OnePlus">OnePlus</option>
-        <option value="Huawei">Huawei</option>
-        <option value="Oppo">OPPO</option>
-        <option value="Vivo">Vivo</option>
-        <option value="Honor">HONOR</option>
-        <option value="Nokia">Nokia</option>
-        <option value="Outros">Outros</option>
+<button class="primary" onclick="generateMobile()">GERAR MINHA SENSI 🚀</button>
+</div>
 
-      </select>
-
-    </div>
-
-    <div>
-
-      <label>Modelo • taxa da tela</label>
-
-      <select id="model"></select>
-
-    </div>
-
-    <div>
-
-      <label>Estilo de jogo</label>
-
-      <select id="style"></select>
-
-    </div>
-
-    <div>
-
-      <label>Perfil</label>
-
-      <select id="profile">
-
-        <option value="normal">Normal</option>
-        <option value="agressiva">Agressiva</option>
-        <option value="controlada">Controlada</option>
-
-      </select>
-
-    </div>
-
-    <button
-      class="primary"
-      type="button"
-      onclick="generate()"
-    >
-      GERAR MINHA SENSI 🚀
-    </button>
-
-  </div>
-
-  <div class="models">
-
-    <label>Modelos disponíveis</label>
-
-    <div
-      class="chips"
-      id="chips"
-    ></div>
-
-  </div>
-
+<div class="models">
+<label>Modelos disponíveis</label>
+<div class="chips" id="chips"></div>
+</div>
 </section>
 
-<section
-  class="card result"
-  id="result"
->
-
-  <div class="resultTop">
-
-    <h2>🎯 Sua configuração</h2>
-
-    <span
-      class="preset"
-      id="preset"
-    >
-      PRESET
-    </span>
-
-  </div>
-
-  <div
-    class="sensi"
-    id="stats"
-  ></div>
-
-  <div class="dpi-box">
-
-    <div class="dpi">
-
-      <span>DPI recomendado</span>
-
-      <strong id="dpi">—</strong>
-
-    </div>
-
-    <div class="dpi">
-
-      <span>Botão de atirar</span>
-
-      <strong id="btnSize">—</strong>
-
-    </div>
-
-  </div>
-
-  <div class="actions">
-
-    <button
-      class="secondary"
-      type="button"
-      onclick="copySensi()"
-    >
-      📋 Copiar
-    </button>
-
-    <button
-      class="secondary"
-      type="button"
-      onclick="generate()"
-    >
-      🔄 Outra Sensi
-    </button>
-
-  </div>
-
-  <p class="tip">
-    💡 Os valores são sugestões iniciais.
-    Teste no campo de treinamento e faça
-    pequenos ajustes de acordo com sua jogabilidade.
-  </p>
-
+<section class="card result" id="mobileResult">
+<div class="resultTop">
+<h2>🎯 Sua configuração</h2>
+<span class="preset" id="mobilePreset">PRESET</span>
+</div>
+<div class="sensi" id="mobileStats"></div>
+<div class="dpi-box">
+<div class="dpi"><span>DPI recomendado</span><strong id="mobileDpi">—</strong></div>
+<div class="dpi"><span>Botão de atirar</span><strong id="mobileBtn">—</strong></div>
+</div>
+<div class="actions">
+<button class="secondary" onclick="copyMobile()">📋 Copiar</button>
+<button class="secondary" onclick="generateMobile()">🔄 Outra Sensi</button>
+</div>
+<p class="tip">💡 Os valores são sugestões iniciais. Teste no campo de treinamento e faça pequenos ajustes.</p>
 </section>
 
 </div>
+</section>
+
+<section id="emulatorApp" class="app">
+
+<button class="secondary back" onclick="backHome()">← Voltar</button>
+
+<div class="grid">
+
+<section class="card">
+<h2>🖥️ Configuração do Emulador</h2>
+
+<div class="form">
+
+<div>
+<label>Emulador</label>
+<select id="emulator">
+<option>BlueStacks</option>
+<option>GameLoop</option>
+<option>LDPlayer</option>
+<option>MSI App Player</option>
+<option>MEmu</option>
+<option>NoxPlayer</option>
+<option>MuMu Player</option>
+<option>Outro</option>
+</select>
+</div>
+
+<div>
+<label>DPI do mouse</label>
+<select id="mouseDpi"></select>
+</div>
+
+<div>
+<label>Estilo de jogo</label>
+<select id="emuStyle">
+<option value="capa">🔥 Capa / Headshot</option>
+<option value="rush">⚡ Rush</option>
+<option value="precisao">🎯 Precisão</option>
+<option value="equilibrada">⚖️ Equilibrada</option>
+</select>
+</div>
+
+<div>
+<label>Perfil</label>
+<select id="emuProfile">
+<option value="normal">Normal</option>
+<option value="agressiva">Agressiva</option>
+<option value="controlada">Controlada</option>
+</select>
+</div>
+
+<button class="primary" onclick="generateEmulator()">GERAR SENSI DO EMULADOR 🚀</button>
+
+</div>
+</section>
+
+<section class="card result" id="emuResult">
+<div class="resultTop">
+<h2>🎯 Configuração do Emulador</h2>
+<span class="preset" id="emuPreset">PRESET</span>
+</div>
+
+<div class="sensi" id="emuStats"></div>
+
+<div class="dpi-box">
+<div class="dpi"><span>DPI do mouse</span><strong id="resultMouseDpi">—</strong></div>
+<div class="dpi"><span>Botão de atirar</span><strong id="emuBtn">—</strong></div>
+</div>
+
+<div class="actions">
+<button class="secondary" onclick="copyEmulator()">📋 Copiar</button>
+<button class="secondary" onclick="generateEmulator()">🔄 Outra Sensi</button>
+</div>
+
+<p class="tip">💡 A sensibilidade X/Y usa valores decimais compatíveis com configurações de emuladores.</p>
+</section>
+
+</div>
+</section>
 
 <section class="premium-wrap">
-
-  <div class="premium">
-
-    <div class="premium-head">
-
-      <div>
-
-        <h2>
-          👑 SensiX <span>PREMIUM</span>
-        </h2>
-
-        <p>
-          Novos recursos avançados estão sendo
-          preparados para o SensiX.
-        </p>
-
-      </div>
-
-      <span class="premium-badge">
-        PREMIUM
-      </span>
-
-    </div>
-
-    <div class="premium-locked">
-
-      <div class="lock-icon">🚧</div>
-
-      <h3>PREMIUM EM DESENVOLVIMENTO</h3>
-
-      <p>
-        Esta área está temporariamente bloqueada.
-        Nenhuma compra ou pagamento é necessário
-        neste momento.
-      </p>
-
-      <span class="dev-badge">
-        🔒 EM DESENVOLVIMENTO
-      </span>
-
-    </div>
-
-  </div>
-
+<div class="premium">
+<div class="premium-head">
+<div>
+<h2>👑 SensiX <span>PREMIUM</span></h2>
+<p>Novos recursos avançados estão sendo preparados para o SensiX.</p>
+</div>
+<span class="premium-badge">PREMIUM</span>
+</div>
+<div class="premium-locked">
+<div class="lock-icon">🚧</div>
+<h3>PREMIUM EM DESENVOLVIMENTO</h3>
+<p>Esta área está temporariamente bloqueada. Nenhuma compra ou pagamento é necessário neste momento.</p>
+<span class="dev-badge">🔒 EM DESENVOLVIMENTO</span>
+</div>
+</div>
 </section>
 
 <section class="feedback-section">
+<div class="feedback-header">
+<div>
+<h2>⭐ Avalie o SensiX</h2>
+<p>Sua opinião ajuda a melhorar o site.</p>
+</div>
+<div class="rating-summary">
+<div class="rating-average" id="averageRating">0.0</div>
+<div class="rating-stars" id="averageStars">☆☆☆☆☆</div>
+</div>
+</div>
 
-  <div class="feedback-header">
+<div class="feedback-stars">
+<button class="feedback-star" data-star="1">★</button>
+<button class="feedback-star" data-star="2">★</button>
+<button class="feedback-star" data-star="3">★</button>
+<button class="feedback-star" data-star="4">★</button>
+<button class="feedback-star" data-star="5">★</button>
+</div>
 
-    <div>
-
-      <h2>⭐ Avalie o SensiX</h2>
-
-      <p>
-        Sua opinião ajuda a melhorar o site.
-      </p>
-
-    </div>
-
-    <div class="rating-summary">
-
-      <div
-        class="rating-average"
-        id="averageRating"
-      >
-        0.0
-      </div>
-
-      <div
-        class="rating-stars"
-        id="averageStars"
-      >
-        ☆☆☆☆☆
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="feedback-stars">
-
-    <button type="button" class="feedback-star" data-star="1">★</button>
-    <button type="button" class="feedback-star" data-star="2">★</button>
-    <button type="button" class="feedback-star" data-star="3">★</button>
-    <button type="button" class="feedback-star" data-star="4">★</button>
-    <button type="button" class="feedback-star" data-star="5">★</button>
-
-  </div>
-
-  <textarea
-    id="feedbackText"
-    maxlength="500"
-    placeholder="Escreva sua opinião sobre o SensiX..."
-  ></textarea>
-
-  <button
-    class="feedback-submit"
-    type="button"
-    onclick="sendFeedback()"
-  >
-    ENVIAR AVALIAÇÃO ⭐
-  </button>
-
-  <p id="feedbackMessage"></p>
-
+<textarea id="feedbackText" maxlength="500" placeholder="Escreva sua opinião sobre o SensiX..."></textarea>
+<button class="feedback-submit" onclick="sendFeedback()">ENVIAR AVALIAÇÃO ⭐</button>
+<p id="feedbackMessage"></p>
 </section>
 
 <section class="community">
-
-  <h2>👥 Avaliações da comunidade</h2>
-
-  <p class="community-sub">
-    Veja os feedbacks salvos neste navegador.
-  </p>
-
-  <div
-    class="feedback-list"
-    id="feedbackList"
-  ></div>
-
-  <div class="community-actions">
-
-    <button
-      class="clear-feedback"
-      type="button"
-      onclick="clearFeedbacks()"
-    >
-      🗑️ Limpar avaliações deste dispositivo
-    </button>
-
-  </div>
-
+<h2>👥 Avaliações da comunidade</h2>
+<p class="community-sub">Veja os feedbacks salvos neste navegador.</p>
+<div class="feedback-list" id="feedbackList"></div>
+<div class="community-actions">
+<button class="clear-feedback" onclick="clearFeedbacks()">🗑️ Limpar avaliações deste dispositivo</button>
+</div>
 </section>
 
 </main>
 
-<footer>
-  SensiX © 2026 • Ferramenta independente
-  para configurações de Free Fire.
-</footer>
+<footer>SensiX © 2026 • Ferramenta independente para configurações de Free Fire.</footer>
 
 <script>
 
@@ -958,846 +327,54 @@ footer{
    MODELOS
 ========================= */
 
-const models = {
-
-  Samsung:[
-    ["Galaxy A15",90],
-    ["Galaxy A25",120],
-    ["Galaxy A35",120],
-    ["Galaxy A55",120],
-    ["Galaxy S21",120],
-    ["Galaxy S22",120],
-    ["Galaxy S23",120],
-    ["Galaxy S24",120],
-    ["Galaxy S25",120]
-  ],
-
-  Motorola:[
-    ["Moto G23",90],
-    ["Moto G24",90],
-    ["Moto G34",120],
-    ["Moto G54",120],
-    ["Moto G84",120],
-    ["Edge 40",144],
-    ["Edge 50",120]
-  ],
-
-  Xiaomi:[
-    ["Redmi Note 10",60],
-    ["Redmi Note 11",90],
-    ["Redmi Note 12",120],
-    ["Redmi Note 13",120],
-    ["Xiaomi 12",120],
-    ["Xiaomi 13",120],
-    ["Xiaomi 14",120]
-  ],
-
-  Redmi:[
-    ["Redmi 10",90],
-    ["Redmi Note 11",90],
-    ["Redmi Note 12",120],
-    ["Redmi Note 13",120]
-  ],
-
-  POCO:[
-    ["POCO X3",120],
-    ["POCO X4 Pro",120],
-    ["POCO X5",120],
-    ["POCO X6",120],
-    ["POCO F5",120],
-    ["POCO F6",120]
-  ],
-
-  Realme:[
-    ["Realme C55",90],
-    ["Realme C67",90],
-    ["Realme 11",120],
-    ["Realme 12",120],
-    ["GT Neo",120]
-  ],
-
-  iPhone:[
-    ["iPhone 11",60],
-    ["iPhone 12",60],
-    ["iPhone 13",60],
-    ["iPhone 14",60],
-    ["iPhone 15",60],
-    ["iPhone 16",60],
-    ["iPhone 17",120]
-  ],
-
-  ASUS:[
-    ["ROG Phone 5",144],
-    ["ROG Phone 6",165],
-    ["ROG Phone 7",165],
-    ["ROG Phone 8",165]
-  ],
-
-  Infinix:[
-    ["Hot 30",90],
-    ["Hot 40",90],
-    ["Note 30",120],
-    ["GT 20 Pro",144]
-  ],
-
-  OnePlus:[
-    ["OnePlus 9",120],
-    ["OnePlus 10",120],
-    ["OnePlus 11",120],
-    ["OnePlus 12",120]
-  ],
-
-  Huawei:[
-    ["Nova 10",120],
-    ["Nova 11",120],
-    ["P40",90],
-    ["P50",120]
-  ],
-
-  Oppo:[
-    ["A78",90],
-    ["Reno 8",90],
-    ["Reno 10",120],
-    ["Find X5",120]
-  ],
-
-  Vivo:[
-    ["V23",90],
-    ["V25",90],
-    ["V27",120],
-    ["V30",120]
-  ],
-
-  Honor:[
-    ["HONOR X8",90],
-    ["HONOR X9",120],
-    ["HONOR 90",120],
-    ["HONOR 200",120]
-  ],
-
-  Nokia:[
-    ["Nokia G22",90],
-    ["Nokia G42",90],
-    ["Nokia X30",90]
-  ],
-
-  Outros:[
-    ["Outro aparelho",60]
-  ]
-
+const models={
+Samsung:`A03|A03 Core|A04|A04e|A04s|A05|A05s|A06|A07|A10|A10s|A11|A12|A13|A14 4G|A14 5G|A15 4G|A15 5G|A16 4G|A16 5G|A20|A20s|A21s|A22 4G|A22 5G|A23|A23 5G|A24|A25 5G|A30|A30s|A31|A32 4G|A32 5G|A33 5G|A34 5G|A35 5G|A36 5G|A40|A41|A42 5G|A50|A50s|A51|A52|A52 5G|A52s 5G|A53 5G|A54 5G|A55 5G|A56 5G|A70|A70s|A71|A72|A73 5G|A80|A90 5G|M01|M02|M02s|M04|M10|M11|M12|M13|M14 5G|M15 5G|M20|M21|M21s|M22|M23 5G|M30|M30s|M31|M31s|M32|M33 5G|M34 5G|M51|M52 5G|M53 5G|M54 5G|M55 5G|S10|S10+|S10e|S10 5G|S20|S20+|S20 Ultra|S20 FE|S21|S21+|S21 Ultra|S21 FE|S22|S22+|S22 Ultra|S23|S23+|S23 Ultra|S23 FE|S24|S24+|S24 Ultra|S24 FE|S25|S25+|S25 Ultra|S25 FE|S26|S26+|S26 Ultra|Note 10|Note 10+|Note 10 Lite|Note 20|Note 20 Ultra|Z Flip|Z Flip 3|Z Flip 4|Z Flip 5|Z Flip 6|Z Flip 7|Z Fold|Z Fold 2|Z Fold 3|Z Fold 4|Z Fold 5|Z Fold 6|Z Fold 7`,
+Motorola:`Moto E6|E6 Play|E6 Plus|E7|E7 Plus|E13|E14|E20|E22|E32|E40|G6|G6 Play|G6 Plus|G7|G7 Play|G7 Power|G7 Plus|G8|G8 Play|G8 Power|G8 Power Lite|G9 Play|G9 Power|G9 Plus|G10|G20|G22|G23|G24|G24 Power|G25|G30|G31|G32|G34 5G|G35 5G|G40 Fusion|G41|G42|G50|G51 5G|G52|G53 5G|G54 5G|G55 5G|G56 5G|G60|G60S|G62 5G|G71 5G|G72|G73 5G|G75 5G|G82 5G|G84 5G|G85 5G|G86|G100|G200 5G|Edge|Edge+|Edge 20|Edge 20 Lite|Edge 20 Fusion|Edge 20 Pro|Edge 30|Edge 30 Neo|Edge 30 Fusion|Edge 30 Pro|Edge 30 Ultra|Edge 40|Edge 40 Neo|Edge 40 Pro|Edge 50 Fusion|Edge 50 Neo|Edge 50 Pro|Edge 50 Ultra|Edge 60 Fusion|Edge 60 Neo|Edge 60 Pro|Razr 40|Razr 40 Ultra|Razr 50|Razr 50 Ultra|Razr 60|Razr 60 Ultra`,
+Xiaomi:`Mi 9|Mi 9 Lite|Mi 9T|Mi 9T Pro|Mi 10|Mi 10 Lite 5G|Mi 10 Pro|Mi 10T|Mi 10T Lite|Mi 10T Pro|Mi 11|Mi 11 Lite|Mi 11 Lite 5G|Mi 11 Pro|Mi 11 Ultra|11T|11T Pro|12|12 Lite|12 Pro|12T|12T Pro|13|13 Lite|13 Pro|13T|13T Pro|14|14 Pro|14 Ultra|14T|14T Pro|15|15 Pro|15 Ultra|15T|15T Pro|16|16 Pro|16 Ultra`,
+Redmi:`Redmi 7|7A|8|8A|9|9A|9C|9T|10|10C|10 5G|10A|11 Prime|12|12 5G|12C|13|13C|13C 5G|14C|Note 7|Note 7 Pro|Note 8|Note 8 Pro|Note 8T|Note 9|Note 9S|Note 9 Pro|Note 9 Pro Max|Note 10|Note 10S|Note 10 5G|Note 10 Pro|Note 11|Note 11S|Note 11 5G|Note 11 Pro|Note 11 Pro 5G|Note 12|Note 12 5G|Note 12 Pro 5G|Note 12 Pro+|Note 13|Note 13 4G|Note 13 5G|Note 13 Pro|Note 13 Pro 5G|Note 13 Pro+|Note 14|Note 14 5G|Note 14 Pro|Note 14 Pro 5G|Note 14 Pro+|Note 15|Note 15 5G|Note 15 Pro|Note 15 Pro 5G|Note 15 Pro+`,
+POCO:`POCO C3|C31|C40|C50|C51|C55|C61|C65|C71|M2|M2 Pro|M3|M4 5G|M4 Pro|M5|M5s|M6|M6 Pro|M6 5G|X2|X3|X3 NFC|X3 Pro|X4 Pro 5G|X4 GT|X5|X5 Pro 5G|X6|X6 Pro|X6 Neo|X7|X7 Pro|F1|F2 Pro|F3|F4|F4 GT|F5|F5 Pro|F6|F6 Pro|F7|F7 Pro|F7 Ultra`,
+realme:`realme 5|5 Pro|6|6 Pro|7|7 Pro|7 5G|8|8 5G|8 Pro|9|9 4G|9 5G|9 Pro|9 Pro+|10|10 5G|10 Pro|10 Pro+|11|11 5G|11 Pro|11 Pro+|12|12 5G|12+|12 Pro|12 Pro+|13|13 5G|13+|13 Pro|13 Pro+|14|14 5G|14 Pro|14 Pro+|15|15 5G|15 Pro|16|C11|C12|C15|C20|C21|C25|C30|C31|C33|C35|C51|C53|C55|C61|C63|C65|C67|C71|C75|C85|GT|GT 2|GT 2 Pro|GT 3|GT 5|GT 5 Pro|GT 6|GT 6T|GT 7|GT 7 Pro`,
+iPhone:`iPhone 6s|iPhone 6s Plus|iPhone SE|iPhone 7|iPhone 7 Plus|iPhone 8|iPhone 8 Plus|iPhone X|iPhone XR|iPhone XS|iPhone XS Max|iPhone 11|iPhone 11 Pro|iPhone 11 Pro Max|iPhone SE 2|iPhone 12 mini|iPhone 12|iPhone 12 Pro|iPhone 12 Pro Max|iPhone SE 3|iPhone 13 mini|iPhone 13|iPhone 13 Pro|iPhone 13 Pro Max|iPhone 14|iPhone 14 Plus|iPhone 14 Pro|iPhone 14 Pro Max|iPhone 15|iPhone 15 Plus|iPhone 15 Pro|iPhone 15 Pro Max|iPhone 16e|iPhone 16|iPhone 16 Plus|iPhone 16 Pro|iPhone 16 Pro Max|iPhone 17|iPhone 17 Air|iPhone 17 Pro|iPhone 17 Pro Max|iPhone 17e`,
+ASUS:`ZenFone 4|ZenFone 4 Max|ZenFone 4 Selfie|ZenFone 5|ZenFone 5Z|ZenFone 6|ZenFone 7|ZenFone 7 Pro|ZenFone 8|ZenFone 8 Flip|ZenFone 9|ZenFone 10|ZenFone 11 Ultra|ZenFone 12 Ultra|ROG Phone|ROG Phone II|ROG Phone 3|ROG Phone 5|ROG Phone 5s|ROG Phone 6|ROG Phone 6D|ROG Phone 7|ROG Phone 8|ROG Phone 8 Pro|ROG Phone 9|ROG Phone 9 Pro`,
+Infinix:`Hot 9|Hot 10|Hot 10 Play|Hot 11|Hot 11 Play|Hot 12|Hot 12 Play|Hot 20|Hot 20 5G|Hot 30|Hot 30 5G|Hot 40|Hot 40 Pro|Hot 50|Hot 50 Pro|Hot 50 5G|Hot 60|Hot 60 Pro|Note 10|Note 10 Pro|Note 11|Note 11 Pro|Note 12|Note 12 Pro|Note 30|Note 30 Pro|Note 30 VIP|Note 40|Note 40 Pro|Note 40 Pro+|Note 50|Note 50 Pro|Note 50 Pro+|Note 60|Zero 20|Zero 30|Zero 30 5G|Zero 40|Zero 40 5G|Zero Flip|GT 10 Pro|GT 20 Pro|GT 30|GT 30 Pro|GT 50 Pro|Smart 6|Smart 7|Smart 8|Smart 9|Smart 10`,
+OnePlus:`OnePlus 5|OnePlus 5T|OnePlus 6|OnePlus 6T|OnePlus 7|OnePlus 7 Pro|OnePlus 7T|OnePlus 7T Pro|OnePlus 8|OnePlus 8 Pro|OnePlus 8T|OnePlus 9|OnePlus 9 Pro|OnePlus 9R|OnePlus 9RT|OnePlus 10 Pro|OnePlus 10T|OnePlus 10R|OnePlus 11|OnePlus 11R|OnePlus 12|OnePlus 12R|OnePlus 13|OnePlus 13R|OnePlus 15|Nord|Nord N10 5G|Nord N20|Nord N20 SE|Nord N30 5G|Nord 2|Nord 2T|Nord 3|Nord 4|Nord 5|Nord CE|Nord CE 2|Nord CE 2 Lite|Nord CE 3|Nord CE 3 Lite|Nord CE 4|Nord CE 4 Lite|Nord CE 5`,
+Huawei:`P20|P20 Pro|P30|P30 Pro|P40|P40 Pro|P40 Pro+|P50|P50 Pro|P60|P60 Pro|P70|P70 Pro|Pura 70|Pura 70 Pro|Pura 70 Ultra|Pura 80|Mate 10|Mate 10 Pro|Mate 20|Mate 20 Pro|Mate 20 X|Mate 30|Mate 30 Pro|Mate 40|Mate 40 Pro|Mate 50|Mate 50 Pro|Mate 60|Mate 60 Pro|Mate 70|Mate 70 Pro|Mate 90|Mate 90 Pro|Nova 5|Nova 7|Nova 8|Nova 9|Nova 10|Nova 11|Nova 12|Nova 13|Nova Y70|Nova Y90|Y6|Y7|Y8|Y9|Mate X|Mate X2|Mate X3|Mate X5`,
+OPPO:`A3|A5|A9|A15|A16|A17|A18|A31|A38|A53|A54|A57|A58|A59|A74|A76|A77|A78|A79|A96|A98|Reno 2|Reno 3|Reno 4|Reno 5|Reno 6|Reno 7|Reno 8|Reno 9|Reno 10|Reno 11|Reno 12|Reno 13|Reno 14|Find X2|Find X2 Pro|Find X3|Find X3 Pro|Find X5|Find X5 Pro|Find X6|Find X6 Pro|Find X7|Find X7 Ultra|Find X8|Find X8 Pro|Find X9|Find X9 Pro|Find N|Find N2|Find N3|Find N5`,
+vivo:`Y12|Y15|Y17|Y19|Y20|Y21|Y22|Y27|Y28|Y30|Y31|Y33|Y35|Y36|Y38|Y50|Y51|Y52|Y53|Y55|Y72|Y73|V17|V19|V20|V21|V23|V25|V27|V29|V30|V40|V50|V60|X50|X60|X60 Pro|X70|X70 Pro|X80|X80 Pro|X90|X90 Pro|X100|X100 Pro|X200|X200 Pro|X300|X Fold|X Fold2|X Fold3|X Fold5|iQOO 7|iQOO 8|iQOO 9|iQOO 10|iQOO 11|iQOO 12|iQOO 13|iQOO 15|iQOO 16`,
+HONOR:`HONOR 8|HONOR 9|HONOR 10|HONOR 20|HONOR 20 Pro|HONOR 30|HONOR 50|HONOR 60|HONOR 70|HONOR 80|HONOR 90|HONOR 100|HONOR 200|HONOR 400|HONOR X7|HONOR X7a|HONOR X8|HONOR X8a|HONOR X9|HONOR X9a|HONOR X9b|HONOR X10|HONOR X20|HONOR X30|HONOR X40|HONOR X50|HONOR X60|HONOR X70|Magic 3|Magic 4|Magic 5|Magic 6|Magic 7|Magic 8|Magic V|Magic V2|Magic V3|Magic V5|Magic6 Pro|Magic7 Pro|Magic8 Pro`,
+Nokia:`Nokia 1|Nokia 1 Plus|Nokia 1.3|Nokia 2|Nokia 2.1|Nokia 2.2|Nokia 2.3|Nokia 2.4|Nokia 3|Nokia 3.1|Nokia 3.2|Nokia 3.4|Nokia 4.2|Nokia 5|Nokia 5.1|Nokia 5.1 Plus|Nokia 5.3|Nokia 5.4|Nokia 6|Nokia 6.1|Nokia 6.1 Plus|Nokia 6.2|Nokia 7|Nokia 7 Plus|Nokia 7.1|Nokia 7.2|Nokia 8|Nokia 8 Sirocco|Nokia 8.1|Nokia 8.3 5G|Nokia 9 PureView|Nokia C10|Nokia C20|Nokia C21|Nokia C22|Nokia C30|Nokia C31|Nokia C32|Nokia G10|Nokia G11|Nokia G20|Nokia G21|Nokia G22|Nokia G42 5G|Nokia G50 5G|Nokia X10|Nokia X20|Nokia X30 5G|Nokia XR20|Nokia XR21`
 };
 
+const brands=Object.keys(models);
+const brandEl=document.getElementById("brand");
+brands.forEach(b=>brandEl.add(new Option(b,b)));
 
-/* =========================
-   ELEMENTOS
-========================= */
+const modelEl=document.getElementById("model");
+const styleEl=document.getElementById("style");
+const chipsEl=document.getElementById("chips");
 
-const brand = document.getElementById("brand");
-const model = document.getElementById("model");
-const chips = document.getElementById("chips");
-const style = document.getElementById("style");
-const profile = document.getElementById("profile");
-
-const result = document.getElementById("result");
-const stats = document.getElementById("stats");
-const preset = document.getElementById("preset");
-const dpi = document.getElementById("dpi");
-const btnSize = document.getElementById("btnSize");
-
-
-/* =========================
-   UTILITÁRIOS
-========================= */
-
-function randomBetween(min,max){
-
-  return Math.floor(
-    Math.random() * (max - min + 1)
-  ) + min;
-
+function phoneHz(name){
+let n=name.toLowerCase();
+if(n.includes("iphone"))return 60;
+if(/rog|gt |ultra|pro|s23|s24|s25|s26|edge 60|edge 50/.test(n))return 120;
+return 90;
 }
-
-function clamp(value,min,max){
-
-  return Math.max(
-    min,
-    Math.min(max,Math.round(value))
-  );
-
-}
-
-
-/* =========================
-   CARREGAR MODELOS
-========================= */
 
 function loadModels(){
-
-  model.innerHTML="";
-
-  const list =
-    models[brand.value] ||
-    models.Outros;
-
-  list.forEach((item,index)=>{
-
-    const option =
-      document.createElement("option");
-
-    option.value=index;
-
-    option.textContent =
-      `${item[0]} — ${item[1]}Hz`;
-
-    model.appendChild(option);
-
-  });
-
-  chips.innerHTML =
-    list.slice(0,8)
-    .map(item =>
-      `<span class="chip">${item[0]} • ${item[1]}Hz</span>`
-    )
-    .join("");
-
-
-  /* SOMENTE IPHONE */
-
-  if(brand.value === "iPhone"){
-
-    style.innerHTML=`
-
-      <option value="baixo">
-        Baixo
-      </option>
-
-      <option value="medio">
-        Médio
-      </option>
-
-      <option value="alto">
-        Alto
-      </option>
-
-    `;
-
-  }else{
-
-    style.innerHTML=`
-
-      <option value="capa">
-        🔥 Capa / Headshot
-      </option>
-
-      <option value="rush">
-        ⚡ Rush
-      </option>
-
-      <option value="precisao">
-        🎯 Precisão
-      </option>
-
-      <option value="equilibrada">
-        ⚖️ Equilibrada
-      </option>
-
-    `;
-
-  }
-
-}
-
-brand.addEventListener(
-  "change",
-  loadModels
-);
-
-loadModels();
-
-
-/* =========================
-   GERADOR
-========================= */
-
-function generate(){
-
-  const isIphone =
-    brand.value === "iPhone";
-
-  let min=100;
-  let max=200;
-
-  /*
-    TODAS AS MARCAS:
-    100 ATÉ 200
-
-    IPHONE:
-    Baixo 100-135
-    Médio 135-170
-    Alto 170-200
-  */
-
-  if(isIphone){
-
-    if(style.value==="baixo"){
-
-      min=100;
-      max=135;
-
-    }else if(style.value==="medio"){
-
-      min=135;
-      max=170;
-
-    }else{
-
-      min=170;
-      max=200;
-
-    }
-
-  }
-
-  let base =
-    randomBetween(min,max);
-
-
-  /*
-    PERFIL
-  */
-
-  if(profile.value==="agressiva"){
-
-    base += randomBetween(5,12);
-
-  }
-
-  if(profile.value==="controlada"){
-
-    base -= randomBetween(5,12);
-
-  }
-
-
-  base =
-    clamp(base,min,max);
-
-
-  const geral = base;
-
-  const redDot =
-    clamp(
-      base + randomBetween(-6,6),
-      100,
-      200
-    );
-
-  const mira2x =
-    clamp(
-      base + randomBetween(-8,8),
-      100,
-      200
-    );
-
-  const mira4x =
-    clamp(
-      base + randomBetween(-10,10),
-      100,
-      200
-    );
-
-  const sniper =
-    clamp(
-      base + randomBetween(-12,12),
-      100,
-      200
-    );
-
-  const olhadinha =
-    clamp(
-      base + randomBetween(-7,7),
-      100,
-      200
-    );
-
-
-  /* =========================
-     DPI
-  ========================= */
-
-  let dpiValue;
-
-  if(isIphone){
-
-    dpiValue =
-      randomBetween(100,200);
-
-  }else{
-
-    dpiValue =
-      randomBetween(400,650);
-
-  }
-
-
-  /* ======
-    if(isIphone){
-
-      dpiValue = randomBetween(100,200);
-
-    }else{
-
-      dpiValue = randomBetween(400,650);
-
-    }
-
-
-  /* =========================
-     BOTÃO DE ATIRAR
-  ========================= */
-
-  const buttonSize =
-    randomBetween(42,58);
-
-
-  /* =========================
-     RESULTADO
-  ========================= */
-
-  const values = [
-
-    ["Geral", geral],
-    ["Red Dot", redDot],
-    ["Mira 2x", mira2x],
-    ["Mira 4x", mira4x],
-    ["Mira AWM", sniper],
-    ["Olhadinha", olhadinha]
-
-  ];
-
-
-  stats.innerHTML =
-    values.map(item => `
-
-      <div class="stat">
-
-        <small>${item[0]}</small>
-
-        <strong>${item[1]}</strong>
-
-      </div>
-
-    `).join("");
-
-
-  dpi.textContent =
-    dpiValue;
-
-
-  btnSize.textContent =
-    buttonSize + "%";
-
-
-  if(isIphone){
-
-    preset.textContent =
-      "IPHONE • " +
-      style.options[
-        style.selectedIndex
-      ].textContent.trim().toUpperCase();
-
-  }else{
-
-    preset.textContent =
-      brand.value.toUpperCase() +
-      " • " +
-      style.options[
-        style.selectedIndex
-      ].textContent.trim().toUpperCase();
-
-  }
-
-
-  result.classList.add("show");
-
-  result.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
-}
-
-
-/* =========================
-   COPIAR SENSI
-========================= */
-
-function copySensi(){
-
-  const text = `
-
-SensiX 🎯
-
-Marca: ${brand.value}
-
-Modelo:
-${model.options[model.selectedIndex].textContent}
-
-Geral: ${document.querySelectorAll(".stat strong")[0].textContent}
-
-Red Dot: ${document.querySelectorAll(".stat strong")[1].textContent}
-
-Mira 2x: ${document.querySelectorAll(".stat strong")[2].textContent}
-
-Mira 4x: ${document.querySelectorAll(".stat strong")[3].textContent}
-
-Mira AWM: ${document.querySelectorAll(".stat strong")[4].textContent}
-
-Olhadinha: ${document.querySelectorAll(".stat strong")[5].textContent}
-
-DPI: ${dpi.textContent}
-
-Botão de atirar: ${btnSize.textContent}
-
-  `.trim();
-
-
-  navigator.clipboard.writeText(text)
-    .then(()=>{
-
-      alert("✅ Sensi copiada!");
-
-    })
-    .catch(()=>{
-
-      alert("Não foi possível copiar automaticamente.");
-
-    });
-
-}
-
-
-/* =========================
-   AVALIAÇÕES
-========================= */
-
-let selectedRating = 0;
-
-const stars =
-  document.querySelectorAll(".feedback-star");
-
-stars.forEach(star => {
-
-  star.addEventListener("click",()=>{
-
-    selectedRating =
-      Number(star.dataset.star);
-
-    stars.forEach(s => {
-
-      s.classList.toggle(
-        "active",
-        Number(s.dataset.star) <= selectedRating
-      );
-
-    });
-
-  });
-
+const list=models[brandEl.value].split("|");
+modelEl.innerHTML="";
+list.forEach((m,i)=>{
+let hz=phoneHz(m);
+modelEl.add(new Option(`${m} — ${hz}Hz`,i));
 });
-
-
-/* =========================
-   SALVAR AVALIAÇÃO
-========================= */
-
-function sendFeedback(){
-
-  const text =
-    document.getElementById(
-      "feedbackText"
-    ).value.trim();
-
-  const message =
-    document.getElementById(
-      "feedbackMessage"
-    );
-
-
-  if(selectedRating === 0){
-
-    message.textContent =
-      "⭐ Escolha uma nota antes de enviar.";
-
-    message.style.color =
-      "#ff7186";
-
-    return;
-
-  }
-
-
-  if(!text){
-
-    message.textContent =
-      "✍️ Escreva uma opinião antes de enviar.";
-
-    message.style.color =
-      "#ff7186";
-
-    return;
-
-  }
-
-
-  const feedbacks =
-    JSON.parse(
-      localStorage.getItem("sensix_feedbacks") || "[]"
-    );
-
-
-  feedbacks.push({
-
-    rating:selectedRating,
-
-    comment:text,
-
-    date:new Date().toLocaleDateString(
-      "pt-BR"
-    )
-
-  });
-
-
-  localStorage.setItem(
-    "sensix_feedbacks",
-    JSON.stringify(feedbacks)
-  );
-
-
-  document.getElementById(
-    "feedbackText"
-  ).value = "";
-
-
-  selectedRating = 0;
-
-
-  stars.forEach(star => {
-
-    star.classList.remove("active");
-
-  });
-
-
-  message.textContent =
-    "✅ Avaliação enviada! Obrigado pelo feedback.";
-
-  message.style.color =
-    "#35e58b";
-
-
-  loadFeedbacks();
-
-}
-
-
-/* =========================
-   CARREGAR AVALIAÇÕES
-========================= */
-
-function loadFeedbacks(){
-
-  const list =
-    document.getElementById(
-      "feedbackList"
-    );
-
-
-  const feedbacks =
-    JSON.parse(
-      localStorage.getItem("sensix_feedbacks") || "[]"
-    );
-
-
-  if(feedbacks.length === 0){
-
-    list.innerHTML = `
-
-      <div class="empty-feedback">
-
-        Ainda não existem avaliações.
-        Seja o primeiro a avaliar! ⭐
-
-      </div>
-
-    `;
-
-    updateAverage([]);
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-    feedbacks
-      .slice()
-      .reverse()
-      .map(item => `
-
-        <div class="feedback-item">
-
-          <div class="feedback-item-top">
-
-            <div class="feedback-item-stars">
-
-              ${"★".repeat(item.rating)}
-              ${"☆".repeat(5-item.rating)}
-
-            </div>
-
-            <div class="feedback-date">
-
-              ${item.date}
-
-            </div>
-
-          </div>
-
-          <div class="feedback-comment">
-
-            ${escapeHTML(item.comment)}
-
-          </div>
-
-        </div>
-
-      `)
-      .join("");
-
-
-  updateAverage(feedbacks);
-
-}
-
-
-/* =========================
-   MÉDIA DAS AVALIAÇÕES
-========================= */
-
-function updateAverage(feedbacks){
-
-  const average =
-    document.getElementById(
-      "averageRating"
-    );
-
-  const averageStars =
-    document.getElementById(
-      "averageStars"
-    );
-
-
-  if(feedbacks.length === 0){
-
-    average.textContent =
-      "0.0";
-
-    averageStars.textContent =
-      "☆☆☆☆☆";
-
-    return;
-
-  }
-
-
-  const total =
-    feedbacks.reduce(
-      (sum,item) =>
-        sum + Number(item.rating),
-      0
-    );
-
-
-  const value =
-    total / feedbacks.length;
-
-
-  average.textContent =
-    value.toFixed(1);
-
-
-  const rounded =
-    Math.round(value);
-
-
-  averageStars.textContent =
-    "★".repeat(rounded) +
-    "☆".repeat(5-rounded);
-
-}
-
-
-/* =========================
-   PROTEÇÃO DO TEXTO
-========================= */
-
-function escapeHTML(text){
-
-  const div =
-    document.createElement("div");
-
-  div.textContent =
-    text;
-
-  return div.innerHTML;
-
-}
-
-
-/* =========================
-   LIMPAR AVALIAÇÕES
-========================= */
-
-function clearFeedbacks(){
-
-  const confirmClear =
-    confirm(
-      "Tem certeza que deseja apagar todas as avaliações deste dispositivo?"
-    );
-
-
-  if(!confirmClear){
-
-    return;
-
-  }
-
-
-  localStorage.removeItem(
-    "sensix_feedbacks"
-  );
-
-
-  loadFeedbacks();
-
-
-  document.getElementById(
-    "feedbackMessage"
-  ).textContent =
-    "🗑️ Avaliações apagadas deste dispositivo.";
-
-}
-
-
-/* =========================
-   INICIALIZAÇÃO
-========================= */
-
-loadFeedbacks();
-
-</script>
-
-</body>
-</html>
+chipsEl.innerHTML=list.slice(0,12).map(m=>`<span class="chip">${m}</span>`).join("");
+
+if(brandEl.value==="iPhone"){
+styleEl.innerHTML=`
+<option value="baixo">Baixo</option>
+<option value="medio">Médio</option>
+<option value="alto">Alto</option>`;
+}else{
+styleEl.innerHTML=`
+<option value="capa">🔥 Capa / Headshot</option>
+<o
