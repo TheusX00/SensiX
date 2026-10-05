@@ -377,4 +377,410 @@ styleEl.innerHTML=`
 }else{
 styleEl.innerHTML=`
 <option value="capa">🔥 Capa / Headshot</option>
-<o
+<option value="rush">⚡ Rush</option>
+<option value="precisao">🎯 Precisão</option>
+<option value="equilibrada">⚖️ Equilibrada</option>`;
+}
+}
+
+brandEl.addEventListener("change",loadModels);
+loadModels();
+
+/* =========================
+   NAVEGAÇÃO
+========================= */
+
+function openMode(mode){
+document.getElementById("modeScreen").style.display="none";
+document.getElementById("mobileApp").classList.remove("active");
+document.getElementById("emulatorApp").classList.remove("active");
+
+if(mode==="mobile"){
+document.getElementById("mobileApp").classList.add("active");
+}else{
+document.getElementById("emulatorApp").classList.add("active");
+}
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backHome(){
+document.getElementById("modeScreen").style.display="grid";
+document.getElementById("mobileApp").classList.remove("active");
+document.getElementById("emulatorApp").classList.remove("active");
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* =========================
+   DPI DO MOUSE
+========================= */
+
+const mouseDpi=document.getElementById("mouseDpi");
+
+for(let dpi=400;dpi<=1900;dpi+=100){
+mouseDpi.add(new Option(`${dpi} DPI`,dpi));
+}
+
+/* =========================
+   GERADOR CELULAR
+========================= */
+
+function clamp(v,min,max){
+return Math.max(min,Math.min(max,v));
+}
+
+function generateMobile(){
+
+const brand=brandEl.value;
+const model=modelEl.options[modelEl.selectedIndex]?.text || "";
+const style=styleEl.value;
+const profile=document.getElementById("profile").value;
+
+let hz=phoneHz(model);
+let base=88;
+
+if(hz>=120) base+=3;
+if(brand==="iPhone") base-=4;
+
+if(style==="capa") base+=5;
+if(style==="rush") base+=7;
+if(style==="precisao") base-=5;
+if(style==="equilibrada") base+=1;
+
+if(profile==="agressiva") base+=6;
+if(profile==="controlada") base-=6;
+
+let geral=clamp(Math.round(base+Math.random()*5),60,100);
+let red=clamp(Math.round(geral+Math.random()*4-2),60,100);
+let mira2=clamp(Math.round(geral-4+Math.random()*5),55,100);
+let mira4=clamp(Math.round(geral-8+Math.random()*5),50,100);
+let miraSniper=clamp(Math.round(geral-15+Math.random()*5),40,100);
+let olhadinha=clamp(Math.round(geral+2+Math.random()*4),60,100);
+
+let dpi;
+
+if(brand==="iPhone"){
+dpi="Padrão do iPhone";
+}else{
+dpi=clamp(Math.round(390+(geral-70)*5),300,800);
+}
+
+let btn=clamp(Math.round(48+(geral-70)*0.35),42,60);
+
+document.getElementById("mobilePreset").textContent=
+brand==="iPhone" ? "IPHONE • "+style.toUpperCase() : brand.toUpperCase();
+
+document.getElementById("mobileStats").innerHTML=`
+<div class="stat"><small>Geral</small><strong>${geral}</strong></div>
+<div class="stat"><small>Ponto Vermelho</small><strong>${red}</strong></div>
+<div class="stat"><small>Mira 2x</small><strong>${mira2}</strong></div>
+<div class="stat"><small>Mira 4x</small><strong>${mira4}</strong></div>
+<div class="stat"><small>Mira AWM</small><strong>${miraSniper}</strong></div>
+<div class="stat"><small>Olhadinha</small><strong>${olhadinha}</strong></div>
+`;
+
+document.getElementById("mobileDpi").textContent=dpi;
+document.getElementById("mobileBtn").textContent=btn+"%";
+
+document.getElementById("mobileResult").classList.add("show");
+document.getElementById("mobileResult").scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+}
+
+function copyMobile(){
+
+const text=`
+SensiX — Configuração Celular
+
+Marca: ${brandEl.value}
+Modelo: ${modelEl.options[modelEl.selectedIndex]?.text || ""}
+Estilo: ${styleEl.options[styleEl.selectedIndex]?.text || ""}
+
+${document.getElementById("mobileStats").innerText}
+
+DPI: ${document.getElementById("mobileDpi").innerText}
+Botão de atirar: ${document.getElementById("mobileBtn").innerText}
+`;
+
+navigator.clipboard.writeText(text)
+.then(()=>alert("Sensi copiada!"))
+.catch(()=>alert("Não foi possível copiar automaticamente."));
+}
+
+/* =========================
+   GERADOR EMULADOR
+========================= */
+
+function generateEmulator(){
+
+const dpi=parseInt(mouseDpi.value);
+const style=document.getElementById("emuStyle").value;
+const profile=document.getElementById("emuProfile").value;
+const emulator=document.getElementById("emulator").value;
+
+if(!dpi){
+alert("Selecione o DPI do mouse.");
+return;
+}
+
+let x=0.45;
+let y=0.65;
+
+if(dpi<=600){
+x=0.85;
+y=0.95;
+}else if(dpi<=800){
+x=0.70;
+y=0.85;
+}else if(dpi<=1000){
+x=0.55;
+y=0.75;
+}else if(dpi<=1200){
+x=0.45;
+y=0.65;
+}else if(dpi<=1400){
+x=0.35;
+y=0.55;
+}else if(dpi<=1600){
+x=0.28;
+y=0.45;
+}else if(dpi<=1800){
+x=0.20;
+y=0.35;
+}else{
+x=0.15;
+y=0.25;
+}
+
+if(style==="capa"){
+x+=0.05;
+y+=0.05;
+}
+
+if(style==="rush"){
+x+=0.10;
+y+=0.08;
+}
+
+if(style==="precisao"){
+x-=0.05;
+y-=0.05;
+}
+
+if(profile==="agressiva"){
+x+=0.08;
+y+=0.08;
+}
+
+if(profile==="controlada"){
+x-=0.06;
+y-=0.06;
+}
+
+x=clamp(x,0.10,0.99);
+y=clamp(y,0.10,0.99);
+
+x=x.toFixed(2);
+y=y.toFixed(2);
+
+let geral=clamp(Math.round(82+(1000-dpi)/40),60,100);
+
+if(style==="capa") geral+=4;
+if(style==="rush") geral+=6;
+if(style==="precisao") geral-=4;
+if(profile==="agressiva") geral+=4;
+if(profile==="controlada") geral-=4;
+
+geral=clamp(geral,60,100);
+
+let red=clamp(geral+2,60,100);
+let mira2=clamp(geral-4,50,100);
+let mira4=clamp(geral-8,45,100);
+let awm=clamp(geral-14,40,100);
+let olhadinha=clamp(geral+3,60,100);
+
+let btn=clamp(Math.round(48+(geral-70)*0.3),42,60);
+
+document.getElementById("emuPreset").textContent=
+emulator.toUpperCase()+" • "+style.toUpperCase();
+
+document.getElementById("emuStats").innerHTML=`
+<div class="stat"><small>Geral</small><strong>${geral}</strong></div>
+<div class="stat"><small>Ponto Vermelho</small><strong>${red}</strong></div>
+<div class="stat"><small>Mira 2x</small><strong>${mira2}</strong></div>
+<div class="stat"><small>Mira 4x</small><strong>${mira4}</strong></div>
+<div class="stat"><small>Mira AWM</small><strong>${awm}</strong></div>
+<div class="stat"><small>Olhadinha</small><strong>${olhadinha}</strong></div>
+<div class="stat"><small>Sensibilidade X</small><strong>${x}</strong></div>
+<div class="stat"><small>Sensibilidade Y</small><strong>${y}</strong></div>
+`;
+
+document.getElementById("resultMouseDpi").textContent=dpi+" DPI";
+document.getElementById("emuBtn").textContent=btn+"%";
+
+document.getElementById("emuResult").classList.add("show");
+
+document.getElementById("emuResult").scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+}
+
+function copyEmulator(){
+
+const text=`
+SensiX — Configuração de Emulador
+
+Emulador: ${document.getElementById("emulator").value}
+DPI do mouse: ${document.getElementById("resultMouseDpi").innerText}
+
+${document.getElementById("emuStats").innerText}
+
+Botão de atirar: ${document.getElementById("emuBtn").innerText}
+`;
+
+navigator.clipboard.writeText(text)
+.then(()=>alert("Configuração copiada!"))
+.catch(()=>alert("Não foi possível copiar automaticamente."));
+}
+
+/* =========================
+   AVALIAÇÕES
+========================= */
+
+let selectedRating=0;
+
+document.querySelectorAll(".feedback-star").forEach(star=>{
+star.addEventListener("click",()=>{
+selectedRating=parseInt(star.dataset.star);
+
+document.querySelectorAll(".feedback-star").forEach(s=>{
+s.classList.toggle(
+"active",
+parseInt(s.dataset.star)<=selectedRating
+);
+});
+});
+});
+
+function getFeedbacks(){
+try{
+return JSON.parse(localStorage.getItem("sensix_feedbacks")||"[]");
+}catch(e){
+return [];
+}
+}
+
+function saveFeedbacks(list){
+localStorage.setItem("sensix_feedbacks",JSON.stringify(list));
+}
+
+function sendFeedback(){
+
+const text=document.getElementById("feedbackText").value.trim();
+const msg=document.getElementById("feedbackMessage");
+
+if(selectedRating===0){
+msg.textContent="⭐ Escolha uma nota de 1 a 5 estrelas.";
+msg.style.color="#ff7186";
+return;
+}
+
+if(!text){
+msg.textContent="✍️ Escreva uma avaliação.";
+msg.style.color="#ff7186";
+return;
+}
+
+const feedbacks=getFeedbacks();
+
+feedbacks.unshift({
+rating:selectedRating,
+comment:text,
+date:new Date().toLocaleDateString("pt-BR")
+});
+
+saveFeedbacks(feedbacks);
+
+document.getElementById("feedbackText").value="";
+selectedRating=0;
+
+document.querySelectorAll(".feedback-star").forEach(s=>{
+s.classList.remove("active");
+});
+
+msg.textContent="✅ Avaliação enviada!";
+msg.style.color="#65e6a2";
+
+renderFeedbacks();
+}
+
+function renderFeedbacks(){
+
+const list=getFeedbacks();
+const container=document.getElementById("feedbackList");
+
+if(!list.length){
+container.innerHTML=
+`<div class="empty-feedback">Nenhuma avaliação ainda. Seja o primeiro! ⭐</div>`;
+
+document.getElementById("averageRating").textContent="0.0";
+document.getElementById("averageStars").textContent="☆☆☆☆☆";
+return;
+}
+
+let total=list.reduce((sum,item)=>sum+item.rating,0);
+let average=total/list.length;
+
+document.getElementById("averageRating").textContent=
+average.toFixed(1);
+
+document.getElementById("averageStars").textContent=
+"★".repeat(Math.round(average))+
+"☆".repeat(5-Math.round(average));
+
+container.innerHTML=list.map(item=>`
+<div class="feedback-item">
+<div class="feedback-item-top">
+<div class="feedback-item-stars">
+${"★".repeat(item.rating)}${"☆".repeat(5-item.rating)}
+</div>
+<div class="feedback-date">${item.date}</div>
+</div>
+<div class="feedback-comment">${escapeHTML(item.comment)}</div>
+</div>
+`).join("");
+}
+
+function escapeHTML(text){
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+function clearFeedbacks(){
+
+if(!confirm("Deseja apagar todas as avaliações deste dispositivo?")){
+return;
+}
+
+localStorage.removeItem("sensix_feedbacks");
+renderFeedbacks();
+}
+
+renderFeedbacks();
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+document.getElementById("modeScreen").style.display="grid";
+
+</script>
+
+</body>
+</html>
