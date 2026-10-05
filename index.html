@@ -436,25 +436,31 @@ const style=styleEl.value;
 const profile=document.getElementById("profile").value;
 
 let hz=phoneHz(model);
-let base=88;
+let base=165;
 
 if(hz>=120) base+=3;
 if(brand==="iPhone") base-=4;
 
+if(brand==="iPhone"){
+if(style==="baixo") base-=25;
+if(style==="medio") base+=0;
+if(style==="alto") base+=20;
+}else{
 if(style==="capa") base+=5;
 if(style==="rush") base+=7;
 if(style==="precisao") base-=5;
 if(style==="equilibrada") base+=1;
+}
 
 if(profile==="agressiva") base+=6;
 if(profile==="controlada") base-=6;
 
-let geral=clamp(Math.round(base+Math.random()*5),60,100);
-let red=clamp(Math.round(geral+Math.random()*4-2),60,100);
-let mira2=clamp(Math.round(geral-4+Math.random()*5),55,100);
-let mira4=clamp(Math.round(geral-8+Math.random()*5),50,100);
-let miraSniper=clamp(Math.round(geral-15+Math.random()*5),40,100);
-let olhadinha=clamp(Math.round(geral+2+Math.random()*4),60,100);
+let geral=clamp(Math.round(base+Math.random()*5),0,200);
+let red=clamp(Math.round(geral+Math.random()*4-2),0,200);
+let mira2=clamp(Math.round(geral-4+Math.random()*5),0,200);
+let mira4=clamp(Math.round(geral-8+Math.random()*5),0,200);
+let miraSniper=clamp(Math.round(geral-15+Math.random()*5),0,200);
+let olhadinha=clamp(Math.round(geral+2+Math.random()*4),0,200);
 
 let dpi;
 
